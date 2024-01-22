@@ -1,0 +1,65 @@
+
+import { defineConfig } from 'windicss/helpers'
+
+export default defineConfig({
+    daisyui: {
+        styled: true,
+        themes: [
+            { "default":{
+                    ...require("daisyui/src/theming/themes")["[data-theme=light]"],
+                    "primary": "#082C64",
+                    "secondary": "#082C64",
+                    "accent": "#37cdbe",
+                    "neutral": "#3d4451",
+                    "base-100": "#ffffff",
+
+                }},
+            "light",
+            "dark",
+            "cupcake",
+            "bumblebee",
+            "emerald",
+            "corporate",
+            "synthwave",
+            "retro",
+            "cyberpunk",
+            "valentine",
+            "halloween",
+            "garden",
+            "forest",
+            "aqua",
+            "lofi",
+            "pastel",
+            "fantasy",
+            "wireframe",
+            "black",
+            "luxury",
+            "dracula",
+            "cmyk",
+            "autumn",
+            "business",
+            "acid",
+            "lemonade",
+            "night",
+            "coffee",
+            "winter",
+        ],
+        base: true,
+        utils: true,
+        logs: true,
+        rtl: false,
+        prefix: "",
+        darkTheme: "dark",
+        themeRoot: ":root",
+    },
+    extract: {
+        include: ['./node_modules/primevue/**/*.{vue,js,ts,jsx,tsx}',  '**/*.{vue,html,jsx,tsx,ts}'],
+        exclude: ['node_modules', '.git', 'excluded', 'dist', 'windi.config.{ts,js}', 'tailwind.config.{ts,js}'],
+    },
+    darkMode: 'class',
+    safelist: 'select-none',
+    shortcuts: {
+       // btn: 'rounded border border-gray-300 text-gray-600 px-4 py-2 m-2 inline-block hover:shadow',
+    },
+
+})

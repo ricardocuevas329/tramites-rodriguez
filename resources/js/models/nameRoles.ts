@@ -1,0 +1,1 @@
+export type NameRoles = "superadmin" | "administrador" | "operador" | "consultas" 

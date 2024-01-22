@@ -1,0 +1,1 @@
+export type TextSize = 'text-xl' | 'text-md' | 'text-sm' | 'text-lg'  
