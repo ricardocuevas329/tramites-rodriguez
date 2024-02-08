@@ -50,11 +50,11 @@ class ClientExternal extends Model
     {
         $dateSignature = $this->detalle_kardex?->participantes_firmados?->where(function ($query) {
             return $query->whereDate('d_fechfirma', '>=', now());
-        })->pluck('d_fechfirma')[0];
-
+        })->pluck('d_fechfirma');
+ 
         if ($dateSignature) {
-            $fechaFormateada = Carbon::parse($dateSignature)->format('d/m/Y');
-            return $fechaFormateada;
+            //$fechaFormateada = Carbon::parse($dateSignature)->format('d/m/Y');
+            //return $fechaFormateada;
         }
     }
 
