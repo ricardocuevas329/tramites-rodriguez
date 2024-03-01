@@ -13,18 +13,21 @@ use Illuminate\Support\Facades\Mail;
 
 class KardexService extends Controller
 {
-
-
     public function __construct()
     {
     }
-
 
     public function getKardex(SearchKardexRequest $request)
     {
         $number_kardex = $request->number_kardex;
         $kardex_cod = str_pad($number_kardex, 10, '0', STR_PAD_LEFT);
-        $data = Kardex::where('s_kardex', $kardex_cod)->with(['cliente','empresa'])->limit(10)->get();
+        $data = Kardex::where('s_kardex', $kardex_cod)->with(['cliente', 'empresa'])->limit(10)->get();
+        return CollectionResource::collection($data);
+    }
+
+    public function getCodigo(SearchKardexRequest $request)
+    {
+        $data = Kardex::where('s_codigo', $request->codigo)->limit(10)->get();
         return CollectionResource::collection($data);
     }
 
@@ -33,7 +36,6 @@ class KardexService extends Controller
         $kardex = Kardex::where('s_codigo', $kardex)->first();
 
         return CollectionResource::collection($kardex->participantes);
-
     }
 
     public function existsKardex(StoreKardexAsignationRequest $request): bool
@@ -45,7 +47,6 @@ class KardexService extends Controller
         return Kardex::where('s_tipokardex', $cod)
             ->where('s_kardex', $kardex_cod)
             ->exists();
-
     }
 
     public function saveAsignation(StoreKardexAsignationRequest $request)
@@ -64,8 +65,4 @@ class KardexService extends Controller
 
         return $client;
     }
-
-
-
-
 }

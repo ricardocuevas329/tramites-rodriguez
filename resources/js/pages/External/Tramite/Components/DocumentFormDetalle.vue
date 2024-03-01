@@ -14,10 +14,9 @@
           <th>
             Documento
           </th>
-          <!--
-        <th>
-          Archivo
-        </th>-->
+          <th>
+            Archivo
+          </th>
           <th>
             Fecha Digitalizacion
           </th>
@@ -33,24 +32,28 @@
         <td>
           <p class="text-xs truncate stat-title ">{{ file.name }}</p>
         </td>
-        <!--
         <td>
 
-            <div v-if="file.type.includes('image/')" class="avatar">
-              <div class="w-24 rounded-xl">
-                <img v-if="file?.file" :src="file?.file"/>
-                <img v-else :src="file.base64"/>
+          <div v-if="file.type.includes('image/')" class="avatar">
+            <div class="w-24 rounded-xl">
+              <img v-if="file?.file" :src="file?.file" />
+              <img v-else :src="file.base64" />
 
-              </div>
             </div>
-            <div v-else class=" ">
-              <div class="w-24 rounded-lg ">
-                <a target="_blank" class="btn btn-success btn-outline btn-md" :href="file?.file">VER <i class=" text-error text-lg pi pi-file-pdf"></i></a>
-              </div>
+          </div>
+          <div v-else class=" ">
+            <div class="w-24 rounded-lg">
+              <span v-if="file?.estado_clic">
+                <i class="pi pi-eye mr-1 custom-hover"></i>
+              </span>
+              <span v-else>
+                <i class="pi pi-eye-slash  mr-1 custom-hover"></i>
+              </span>
+              <a @click="showFileViewed(file)" target="_blank" class="btn custom-hover btn-outline btn-xs"
+                :href="file?.file">VER<i class=" pi pi-file"></i></a>
             </div>
-
+          </div>
         </td>
-        -->
         <td>
           <p class="text-xs truncate stat-title ">{{ file?.created_at ?? '' }}</p>
         </td>
@@ -79,11 +82,13 @@
 </template>
 
 <script setup lang="ts">
+import axios from "axios";
 import { onMounted, ref, toRefs, watch } from 'vue';
 import { createBase64ImageFromFile } from "@/utils/functions.js"
 import { Table, THead, VirtualScrollForm } from "@/components";
 import type { IUploadFile } from "@/models/components/upload-file.interface";
 import { type PropType } from "vue";
+import { useRouter } from "vue-router";
 
 const props = defineProps({
   documents: {
@@ -100,6 +105,8 @@ const props = defineProps({
 const { documents } = toRefs(props)
 const fileInput = ref<any>(null);
 const files = ref<IUploadFile[]>([]);
+const apiResource = "/api/external/client";
+const router = useRouter()
 
 const deleteFile = async (file, index) => {
   if (file.id) {
@@ -112,6 +119,16 @@ const deleteFile = async (file, index) => {
   files.value.splice(index, 1)
 }
 
+const showFileViewed = (file) => {
+  try {
+    axios.post(`${apiResource}/get/estado-clic`, {
+      id: file.id
+    });
+    router.go(0);
+  } catch (error) {
+    // 
+  }
+};
 
 const handleFileChange = async () => {
   const newFiles = Array.from(fileInput.value.files);
@@ -183,5 +200,15 @@ defineExpose({
   cursor: pointer;
   display: block;
   margin-bottom: 10px;
+}
+
+.custom-hover:hover {
+  background-color: #006aa6 !important;
+  color: white !important;
+}
+
+.custom-hover {
+  border-color: #66a3d2;
+  color: #66a3d2;
 }
 </style>

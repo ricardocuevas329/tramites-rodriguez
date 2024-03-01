@@ -5,7 +5,9 @@ use App\Http\Controllers\External\Auth\AuthController;
 use App\Http\Controllers\External\Protocolar\KardexController;
 
 Route::post('/kardex-consulta/get/searchKardex', [KardexController::class, 'searchKardex']);
-Route::post('/kardex-consulta/get/participants', [ KardexController::class, 'listParticipants']);
+Route::post('/kardex-consulta/get/searchCodigo', [KardexController::class, 'searchCodigo']);
+
+Route::post('/kardex-consulta/get/participants', [KardexController::class, 'listParticipants']);
 
 Route::get('/tipo-documento-activos', [DocumentTypeController::class, 'actives']);
 

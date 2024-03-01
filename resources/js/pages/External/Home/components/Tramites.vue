@@ -5,34 +5,31 @@
                 <a role="button" class="btn btn-sm">Mis Trámites</a>
             </div>
             <div>
-                <router-link to="tramite" class="btn btn-outline btn-primary btn-sm">NUEVO TRÁMITE</router-link>
+                <button class="bg-custom-color text-white p-2 rounded">Mi Botón</button>
+                <router-link to="tramite" class="btn btn-outline btn-sm custom-hover">NUEVO TRÁMITE</router-link>
             </div>
         </div>
-        
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  gap-2 my-4">
-                    <div class="col-span-3 md:col-span-2 lg:col-span-2 xlg:col-span-2">
-                        <TextInputSearch @input="filter()" @keyup="filter()" v-model="search" placeholder="Buscar..." />
-                    </div>
-                    <div class="col-span-1">
-                        <Options text="Opciones">
-                            <ul tabindex="0"
-                                class="static  dropdown-content z-60 menu p-2 shadow bg-base-100 rounded-box w-52">
-                                <li>
-                                    <a @click="filter()">
-                                        <RefreshIcon />
-                                        Refrescar
-                                    </a>
-
-                                </li>
-                            </ul>
-                        </Options>
-                    </div>
-
-                </div>
+            <div class="col-span-3 md:col-span-2 lg:col-span-2 xlg:col-span-2">
+                <TextInputSearch @input="filter()" @keyup="filter()" v-model="search" placeholder="Buscar..." />
+            </div>
+            <div class="col-span-1">
+                <Options text="Opciones">
+                    <ul tabindex="0" class="static  dropdown-content z-60 menu p-2 shadow bg-base-100 rounded-box w-52">
+                        <li>
+                            <a @click="filter()">
+                                <RefreshIcon />
+                                Refrescar
+                            </a>
+                        </li>
+                    </ul>
+                </Options>
+            </div>
+        </div>
         <Table v-if="!isLoading">
             <THead>
-                <tr>
-                    <th>Accion</th>
+                <tr class="bg-blue">
+                    <!--<th>Accion</th>-->
                     <th>CODIGO</th>
                     <th>F. INGRESO</th>
                     <th>SOLICITANTE</th>
@@ -40,18 +37,20 @@
                     <th>ACTO NOTARIAL</th>
                     <th>KARDEX</th>
                     <th>F. APERTURA</th>
-                    <th>COT. NOTARIAL</th>
-                    <th>COT. REGISTRAL</th>
+                    <th>KARDEX CONEXO</th>
+                    <!--<th>COT. NOTARIAL</th>
+                    <th>COT. REGISTRAL</th>-->
                     <th>F. ESCRITURACION</th>
                     <th>F. ULTIMA FIRMA</th>
-                    <th>OBSERVACION</th>
+                    <!--<th>OBSERVACION</th>-->
                     <th>ESTATUS</th>
                 </tr>
             </THead>
             <tbody>
-                <tr class="cursor-pointer hover:bg-gray-200"  
-                    v-for="(item, key) in recordsClients" :key="key" >
-                    <td @click.stop class="flex actions">
+                <tr class="cursor-pointer hover:bg-gray-200" v-for="(item, key) in recordsClients" :key="key"
+                    @click="rowClickHandler(item)">
+                    <!--@click="rowClick(item)">-->
+                    <!--<td @click.stop class="flex actions">
 
                         <ToolTip v-if="item?.kardex" text="Ver Participantes" position="right">
                             <button @click="onViewParticipant(item)" class="btn btn-circle btn-xs btn-ghost text-primary ">
@@ -72,12 +71,12 @@
                         </ToolTip>
 
                         <ToolTip text="Ver Estado Registral" position="right">
-                            <button @click="onSelectedRowEstadoRegistral(item.id)" class="btn btn-circle btn-xs btn-ghost text-primary ">
+                            <button @click="onSelectedRowEstadoRegistral(item.id)"
+                                class="btn btn-circle btn-xs btn-ghost text-primary ">
                                 <i class="pi pi-file text-lg text-primary cursor-pointer"></i>
                             </button>
                         </ToolTip>
-                        
-                    </td>
+                    </td>-->
                     <td class="text-center">{{ item.id }}</td>
                     <td>{{ item.created_at }}</td>
                     <td>{{ item.nombre_compuesto }}</td>
@@ -85,18 +84,22 @@
                     <td> {{ item?.detalle_kardex?.s_obstitulo }}</td>
                     <td> {{ item?.detalle_kardex?.s_tipokardex }} - {{ item?.detalle_kardex?.num_kardex }}</td>
                     <td>{{ item?.detalle_kardex?.d_feching }}</td>
+                    <td v-if="item?.detalle_kardex_conex">{{ item.detalle_kardex_conex.s_tipokardex + ' - ' +
+                        item.detalle_kardex_conex.s_kardex }}</td>
+                    <td v-else></td>
+                    <!--
                     <td class="text-end">
-                        <button @click="onSelectedRowNotarial(item.id)"
-                            class="btn btn-xs btn-outline btn-success">VER
+                        <button @click="onSelectedRowNotarial(item.id)" class="btn btn-xs btn-outline btn-success">VER
                         </button>
                     </td>
                     <td class="text-end">
-                        <button @click="onSelectedRowRegistral(item.id)" class="btn btn-xs btn-outline btn-success">VER</button>
+                        <button @click="onSelectedRowRegistral(item.id)"
+                            class="btn btn-xs btn-outline btn-success">VER</button>
                     </td>
+                    -->
                     <td>{{ item?.detalle_kardex?.d_fechescritura }}</td>
                     <td> {{ item?.is_date_mayor }}</td>
-                    <td class="actions  ">
-
+                    <!--<td class="actions  ">
                         <div v-if="item?.kardex">
                             <ToolTip text="Agregar Mensaje">
                                 <button @click="onOpenObservation(item.kardex)" class="btn btn-xs btn-circle btn-ghost"><i
@@ -110,7 +113,7 @@
                             </ToolTip>
 
                         </div>
-                    </td>
+                    </td>-->
                     <td> <span v-if="item?.detalle_kardex?.i_estadonota" class="btn btn-outline btn-xs btn-success">{{
                         getStatus(item?.detalle_kardex?.i_estadonota) }}</span> </td>
                 </tr>
@@ -121,14 +124,15 @@
         </div>
         <Skeleton v-if="isLoading" :tipo="2" />
 
+
         <Modal :id="idModalDocumentTestimonio">
             <button class="btn btn-xs  btn-circle" @click="$router.back()">
                 <i class="pi pi-arrow-left" />
             </button>
             Testimonio Digital
-            <UploaderFiles documentType="testimonio" :key="keyUploadFile" :files="files" :multiple="true"  
-                :maxFiles="4" maxFileSize="15MB" maxTotalFileSize="60MB"   
-                accept="image/* , application/pdf,.docx, .xlsx" @selectFile="onSelectedFile" label="Arrastra o Agrega tus Archivos" />
+            <UploaderFiles documentType="testimonio" :key="keyUploadFile" :files="files" :multiple="true" :maxFiles="4"
+                maxFileSize="15MB" maxTotalFileSize="60MB" accept="image/* , application/pdf,.docx, .xlsx"
+                @selectFile="onSelectedFile" label="Arrastra o Agrega tus Archivos" />
             <Center>
                 <BtnSave :loading="isSubmitAction" :disabled="isSubmitAction" @click="onSaveDocuments"
                     text="SUBIR ARCHIVO" />
@@ -140,9 +144,9 @@
                 <i class="pi pi-arrow-left" />
             </button>
             Adjuntar Documentos
-            <UploaderFiles documentType="varios" :key="keyUploadFile" :files="files" :multiple="true"  
-                :maxFiles="4" maxFileSize="15MB" maxTotalFileSize="60MB"  
-                accept="image/* , application/pdf, ,.docx, .xlsx" @selectFile="onSelectedFile" label="Arrastra o Agrega tus Archivos" />
+            <UploaderFiles documentType="varios" :key="keyUploadFile" :files="files" :multiple="true" :maxFiles="4"
+                maxFileSize="15MB" maxTotalFileSize="60MB" accept="image/* , application/pdf, ,.docx, .xlsx"
+                @selectFile="onSelectedFile" label="Arrastra o Agrega tus Archivos" />
             <Center>
                 <BtnSave :loading="isSubmitAction" :disabled="isSubmitAction" @click="onSaveDocuments"
                     text="SUBIR ARCHIVO" />
@@ -182,7 +186,6 @@
                 </table>
             </div>
         </Modal>
-
         <Modal :id="idModalServicioNotarial">
             <h3 class="card-title text-primary">
                 <button class="btn btn-xs btn-circle right-0" @click="useCloseModal()">
@@ -199,7 +202,6 @@
                             <th>Cantidad</th>
                             <th>Precio</th>
                             <th>Monto</th>
-
                         </tr>
                     </THead>
                     <tbody>
@@ -235,8 +237,6 @@
                             <th>Cantidad</th>
                             <th>Precio</th>
                             <th>Monto</th>
-
-
                         </tr>
                     </THead>
                     <tbody>
@@ -309,7 +309,7 @@
                 <DocumentForm :uploadFile="false" :documents="filesSelecteds" />
             </div>
         </Modal>
-       
+
         <Modal :id="idModalDocuments">
             <div>
                 <button class="btn btn-xs btn-circle" @click="useCloseModal()">
@@ -319,13 +319,12 @@
             </div>
         </Modal>
         <Modal :id="idModalEstadoRegistral">
-            <EstadoRegistral/>
+            <EstadoRegistral />
         </Modal>
-        
-
-        <Galery ref="galeryComponentRef" :showItemNavigators="false" :files="fileSelected" />
+        <Galery ref="galeryComponentRef" :showItemNavigators="false" />
     </div>
 </template>
+<style></style>
 <script lang="ts" setup>
 import EstadoRegistral from "./EstadoRegistral.vue"
 import { onMounted, ref, toRefs } from "vue";
@@ -362,7 +361,7 @@ import RefreshIcon from "vue-material-design-icons/Refresh.vue";
 
 const files = ref<IUploadFile[]>([])
 const { isLoading, pagination, recordsClients, recordsRegisterPublics, search } = toRefs(useClientExternalStore())
-const { listProcedure, cleanPagination} = useClientExternalStore()
+const { listProcedure, cleanPagination } = useClientExternalStore()
 const { isSubmitAction, participants } = toRefs(useKardexExternalStore())
 const { listParticipants, saveDocuments } = useKardexExternalStore()
 const { saveObservation, getAllObservationById } = useTramiteStore();
@@ -388,7 +387,52 @@ const isSaveObservation = ref<boolean>(false)
 const kardexSelected = ref<string>('')
 const emit = defineEmits(['onSelectedRow'])
 const filesSelecteds = ref<IUploadFile[]>([])
+const selectedRow = ref(null);
+/*
+const rowClick = (item) => {
+    selectedRow.value = selectedRow.value === item ? null : item;
+    onViewParticipantAccortion(item);
+    onViewDocumentsAcoordion(item);
+    onOpenViewObservationAccordion(item.kardex);
+    onSelectedRowEstadoRegistralAccordion(item.id);
+    console.log('selectedRow.value', selectedRow.value);
+    console.log('participants', participants);
+    console.log('allObservations', allObservations);
+    console.log('item', item);
+}
+*/
+const rowClickHandler = (item) => {
 
+    if (item.detalle_kardex == null) {
+        notify({
+            title: 'Aún no se ha asignado un kárdex.',
+            type: "warn",
+        })
+    }
+
+    // Actualiza el valor de selectedRow
+    selectedRow.value = selectedRow.value === item ? null : item;
+    console.log('selectedRow.value =>', selectedRow.value);
+    // Almacena el objeto en el almacenamiento local con el identificador único item.id
+    localStorage.setItem(`rowData_${item.id}`, JSON.stringify(selectedRow.value));
+    // Limpia la variable selectedRow en cada interacción
+    selectedRow.value = null;
+
+    // Devuelve una promesa que se resolverá después de un breve momento
+    const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+    // Espera un breve momento antes de abrir la nueva ventana
+    delay(0).then(() => {
+        // Obtiene el objeto del almacenamiento local después de esperar
+        const storedData = localStorage.getItem(`rowData_${item.id}`);
+        // Verifica si la ventana se abrió correctamente
+        if (storedData) {
+            // Redirige a la nueva ruta
+            window.location.href = `/detalle/${item.id}/${item.detalle_kardex.num_kardex}`;
+        } else {
+            console.error('No se encontraron datos en el almacenamiento local.');
+        }
+    });
+};
 
 const form_observacion = defineForm({
     observacion: field<string>(
@@ -400,9 +444,6 @@ const form_observacion = defineForm({
     ),
 });
 
- 
-
-
 const onViewParticipant = async (payload) => {
     idSelected.value = payload.id
     useOpenModal(idModalParticpant)
@@ -412,8 +453,6 @@ const onViewParticipant = async (payload) => {
     })
 
 }
- 
- 
 const onSelectedRowEstadoRegistral = (id: number) => {
     idSelected.value = id
     emit('onSelectedRow', id)
@@ -424,16 +463,11 @@ const onSelectedRowNotarial = (id: number) => {
     emit('onSelectedRow', id)
     useOpenModal(idModalServicioNotarial)
 }
-
 const onSelectedRowRegistral = (id: number) => {
     idSelected.value = id
     emit('onSelectedRow', id)
     useOpenModal(idModalServicioRegistral)
 }
-
-
-
-
 
 const onSaveDocuments = async () => {
     if (files.value.length) {
@@ -459,7 +493,6 @@ const onSaveDocuments = async () => {
     }
 
 }
-
 
 const onTotalNotarial = (records: ServicioNotarial[]) => {
     if (!records.length) return
@@ -526,6 +559,7 @@ const getStatus = (status: string) => {
     }
 }
 const onOpenObservation = (id: string) => {
+    console.log('id', id);
     kardexSelected.value = id
     useOpenModal(idAddObservationModal)
 }
@@ -535,7 +569,6 @@ const onOpenViewObservation = (id: string) => {
     useOpenModal(idViewObservationModal)
     onGetAllObservationByKardex()
 }
-
 
 const onSaveObservation = async () => {
     if (isValidForm(form_observacion)) {
@@ -590,8 +623,6 @@ const onViewDocuments = (paylaod) => {
     useOpenModal(idModalDocuments)
 }
 
-
-
 const cleanDataObservation = () => {
     kardexSelected.value = ''
     form_observacion.observacion.$value = ''
@@ -605,10 +636,34 @@ const filterData = async () => {
     cleanPagination()
     await listProcedure();
 }
-
-
-
 onMounted(() => {
+    console.log('recordsClients', recordsClients);
     listProcedure()
 })
 </script>
+
+<style scoped>
+.bg-blue {
+    background-color: #006aa6;
+    color: white;
+}
+
+.custom-hover:hover {
+    background-color: #006aa6 !important;
+    color: white !important;
+}
+
+.custom-hover {
+    border-color: #66a3d2;
+    color: #66a3d2;
+}
+
+/**Scroll */
+/* Agrega estas reglas de estilo */
+/* Ajusta el grosor del scrollbar horizontal */
+.scrollbar[data-v-6c2c71f9]::-webkit-scrollbar {
+    width: 10px;
+    /* Ajusta el valor según tus preferencias */
+    height: 6px;
+}
+</style>

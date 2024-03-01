@@ -35,8 +35,6 @@ class ClientExternal extends Model
         'cod_auth'
     ];
 
-
-
     protected static function boot()
     {
         parent::boot();
@@ -51,7 +49,7 @@ class ClientExternal extends Model
         $dateSignature = $this->detalle_kardex?->participantes_firmados?->where(function ($query) {
             return $query->whereDate('d_fechfirma', '>=', now());
         })->pluck('d_fechfirma');
- 
+
         if ($dateSignature) {
             //$fechaFormateada = Carbon::parse($dateSignature)->format('d/m/Y');
             //return $fechaFormateada;
@@ -65,7 +63,6 @@ class ClientExternal extends Model
         );
     }
 
-
     protected function paterno(): Attribute
     {
         return Attribute::make(
@@ -73,7 +70,6 @@ class ClientExternal extends Model
             set: fn (string $value) => strtoupper($value),
         );
     }
-
 
     protected function materno(): Attribute
     {
@@ -83,7 +79,6 @@ class ClientExternal extends Model
         );
     }
 
-
     protected function nombres(): Attribute
     {
         return Attribute::make(
@@ -92,15 +87,14 @@ class ClientExternal extends Model
         );
     }
 
-
     public function scopeFiltros($query, $value)
     {
         if ($value) {
-            return $query->Where('documento',$value)
-                 ->NombreCompuesto($value)
-                ->orWhere('kardex',$value)
-                ->orWhereHas('detalle_kardex', function($qr) use ($value){
-                   return $qr->Where('s_kardex', (int)$value);
+            return $query->Where('documento', $value)
+                ->NombreCompuesto($value)
+                ->orWhere('kardex', $value)
+                ->orWhereHas('detalle_kardex', function ($qr) use ($value) {
+                    return $qr->Where('s_kardex', (int)$value);
                 });
         }
     }
@@ -129,7 +123,6 @@ class ClientExternal extends Model
         return $query->where('cod_personal', Auth::user()?->s_codigo);
     }
 
-
     public function detalle_kardex(): HasOne
     {
         return $this->HasOne(Kardex::class, 's_codigo', 'kardex');
@@ -148,13 +141,19 @@ class ClientExternal extends Model
     public function files(): HasMany
     {
         return $this->HasMany(TramiteKardexExternalDocument::class, 'id_kardex', 'id')
-            ->where('tipo_archivo', 'varios')->orderBy('id','desc');
+            ->where('tipo_archivo', 'varios')->where('cod_personal', 'like', 'EP%')->orderBy('id', 'desc');
+    }
+
+    public function files_notaria(): HasMany
+    {
+        return $this->HasMany(TramiteKardexExternalDocument::class, 'id_kardex', 'id')
+            ->where('tipo_archivo', 'varios')->where('cod_personal', 'like', 'PE%')->orderBy('id', 'desc');
     }
 
     public function files_testimonio(): HasMany
     {
         return $this->HasMany(TramiteKardexExternalDocument::class, 'id_kardex', 'id')
-            ->where('tipo_archivo', 'testimonio')->orderBy('id','desc');
+            ->where('tipo_archivo', 'testimonio')->orderBy('id', 'desc');
     }
 
     public function registro_publico(): HasMany

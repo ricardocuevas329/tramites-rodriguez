@@ -1,5 +1,5 @@
 <template>
-  <Center>
+  <!--<Center>
     <p class="badge badge-ghost text-xs">
       {{
         'Máximo ' + maxFiles + (maxFiles == 1 ? ' Archivo ' : ' Archivos')
@@ -8,41 +8,21 @@
         infoUpload
       }}
     </p>
-  </Center>
-  <FilePond
-      v-bind:files="myFiles"
-      ref="pond"
-      class="my-pond"
-      :label-idle="label"
-      :allow-multiple="multiple"
-      :accepted-file-types="accept"
-      v-on:init="handleFilePondInit"
-      @addfilestart="handleFilePondAddFile"
-      @addfile="handleFilePondAddFileLoad"
-      v-on:activatefile="handleSelectedFile"
-      v-on:addfile="addFiles"
-      :maxFileSize="maxFileSize"
-      :maxTotalFileSize="maxTotalFileSize"
-      :maxFiles="maxFiles"
-      :allowFileSizeValidation="true"
-      labelMaxFileSize="El tamaño máximo del archivo es {filesize}"
-      labelMaxTotalFileSizeExceeded="Tamaño total máximo superado"
-      labelMaxFileSizeExceeded="Archivo es demasiado grande"
-      labelMaxTotalFileSize="El tamaño máximo permitido del archivo es {filesize}"
-      labelInvalidField="Archivo no permitido"
-      :allowFileEncode="true"
-      :server="serverConfig"
-      :allowPaste="true"
-      v-on:removefile="removeFile"
-      :beforeRemoveFile="beforeRemoveFile"
-      :dropValidation="true"
-      :processfilestart="onProcessFile"
-  />
+  </Center>-->
+  <FilePond v-bind:files="myFiles" ref="pond" class="my-pond" :label-idle="label" :allow-multiple="multiple"
+    accept="image/*, application/pdf, .docx, .xlsx" v-on:init="handleFilePondInit" @addfilestart="handleFilePondAddFile"
+    @addfile="handleFilePondAddFileLoad" v-on:activatefile="handleSelectedFile" v-on:addfile="addFiles"
+    :maxFileSize="maxFileSize" :maxTotalFileSize="maxTotalFileSize" :maxFiles="maxFiles" :allowFileSizeValidation="true"
+    labelMaxFileSize="El tamaño máximo del archivo es {filesize}"
+    labelMaxTotalFileSizeExceeded="Tamaño total máximo superado" labelMaxFileSizeExceeded="Archivo es demasiado grande"
+    labelMaxTotalFileSize="El tamaño máximo permitido del archivo es {filesize}" labelInvalidField="Archivo no permitido"
+    :allowFileEncode="true" :server="serverConfig" :allowPaste="true" v-on:removefile="removeFile"
+    :beforeRemoveFile="beforeRemoveFile" :dropValidation="true" :processfilestart="onProcessFile" />
 </template>
 
 <script setup lang="ts">
 import axios from "axios";
-import {type PropType, ref} from 'vue';
+import { type PropType, ref } from 'vue';
 import vueFilePond from 'vue-filepond';
 import FilePondPluginFileValidateType
   from 'filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.esm.js';
@@ -50,11 +30,10 @@ import FilePondPluginImagePreview from 'filepond-plugin-image-preview/dist/filep
 import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
 import 'filepond/dist/filepond.min.css';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
-import type {IUploadFile} from "@/models/components/upload-file.interface";
-import {Center} from '@/components'
-import {notify} from "@kyvg/vue3-notification";
-import {createBase64ImageFromFile} from "../utils/functions.js"
-
+import type { IUploadFile } from "@/models/components/upload-file.interface";
+import { Center } from '@/components'
+import { notify } from "@kyvg/vue3-notification";
+import { createBase64ImageFromFile } from "../utils/functions.js"
 
 defineOptions({
   name: 'UploaderFiles',
@@ -62,7 +41,7 @@ defineOptions({
   customOptions: {},
 })
 
-const {infoUpload, label, multiple, accept, maxFileSize, maxTotalFileSize, files, endPointDelete, documentType} = defineProps({
+const { infoUpload, label, multiple, accept, maxFileSize, maxTotalFileSize, files, endPointDelete, documentType } = defineProps({
   infoUpload: {
     default: '',
     required: false,
@@ -98,7 +77,7 @@ const {infoUpload, label, multiple, accept, maxFileSize, maxTotalFileSize, files
   },
   maxFiles: {
     required: false,
-    default: 4,
+    default: 10,
     type: Number,
   },
   endPointDelete: {
@@ -119,9 +98,9 @@ const emit = defineEmits(['getFiles', 'deleteFile', 'selectFile']);
 const pond = ref(null);
 
 const FilePond = vueFilePond(
-    FilePondPluginFileValidateType,
-    FilePondPluginImagePreview,
-    FilePondPluginFileValidateSize,
+  FilePondPluginFileValidateType,
+  FilePondPluginImagePreview,
+  FilePondPluginFileValidateSize,
 );
 const handleFilePondAddFile = () => {
   //myFilesSize.value = fileSelecteds.value.length
@@ -141,18 +120,18 @@ const handleFilePondAddFileLoad = () => {
   }
 
 }
-const addFiles = async(error, file) => {
-  if(error?.main) return
+const addFiles = async (error, file) => {
+  if (error?.main) return
   if (file) {
-      if(file.file?.id_primary) return
-      const dataFile = await createBase64ImageFromFile(file.file)
-        fileSelecteds.value.push({
-          name: file.file.name,
-          size: file.file.size,
-          type: file.file.type,
-          base64: dataFile,
-          documentType: documentType
-      });
+    if (file.file?.id_primary) return
+    const dataFile = await createBase64ImageFromFile(file.file)
+    fileSelecteds.value.push({
+      name: file.file.name,
+      size: file.file.size,
+      type: file.file.type,
+      base64: dataFile,
+      documentType: documentType
+    });
   }
 };
 
@@ -199,9 +178,9 @@ const promptConfirmation = async () => {
 const deleteFileFromServer = async (id_primary) => {
   try {
     if (id_primary) {
-      const {status,  data} = await axios.delete(`${endPointDelete}${id_primary}`);
+      const { status, data } = await axios.delete(`${endPointDelete}${id_primary}`);
       if (status === 200) {
-        if(data?.message){
+        if (data?.message) {
           notify({
             title: data.message,
             type: 'success'
@@ -216,7 +195,7 @@ const deleteFileFromServer = async (id_primary) => {
 };
 
 function onProcessFile(error, file) {
-  console.log('file processed', {error, file})
+  console.log('file processed', { error, file })
 }
 
 const components = {
@@ -248,5 +227,4 @@ const components = {
 .filepond--file {
   cursor: pointer;
 }
-
 </style>

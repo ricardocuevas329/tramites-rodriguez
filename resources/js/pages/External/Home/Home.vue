@@ -1,18 +1,18 @@
 <template>
-  <div class="md:mx-28">
-    <Tramites @onSelectedRow="onSelectedRow"/>
+  <div class="md:mx-5">
+    <Tramites @onSelectedRow="onSelectedRow" />
     <router-view></router-view>
   </div>
 </template>
 <script lang="ts" setup>
-import {onMounted, ref} from "vue";
+import { onMounted, ref } from "vue";
 import Tramites from "./components/Tramites.vue"
 
-import {useKardexExternalStore} from "@/store/external/kardex.external";
-import {useClientExternalStore} from "@/store/external/client.external";
+import { useKardexExternalStore } from "@/store/external/kardex.external";
+import { useClientExternalStore } from "@/store/external/client.external";
 
-const {listKardexActives} = useKardexExternalStore()
-const {listRegisterPublic} = useClientExternalStore()
+const { listKardexActives } = useKardexExternalStore()
+const { listRegisterPublic } = useClientExternalStore()
 
 const idSelectedRow = ref<number>(0)
 

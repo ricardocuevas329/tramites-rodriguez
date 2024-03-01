@@ -10,7 +10,6 @@ import type {IFilterSearchKardex} from "@/pages/External/ConsultaTramite/Interfa
 const idStore = "useKardexConsultaExternalStore";
 const apiResource = "/api/external/kardex-consulta";
 
-
 export const useKardexConsultaExternalStore = defineStore(idStore, () => {
 
     const recordsKardex = ref<IKardex[]>([]);
@@ -40,7 +39,6 @@ export const useKardexConsultaExternalStore = defineStore(idStore, () => {
 
     async function listParticipants(item: IGetParticipants) {
         try {
-
             const {
                 data: {data, meta},
             }: ResponseList<IParticipante> = await axios.post(
@@ -69,8 +67,6 @@ export const useKardexConsultaExternalStore = defineStore(idStore, () => {
             isLoading.value = false;
         }
     }
-
-
     return {
         searchKardex,
         listKardexActives,
