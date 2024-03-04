@@ -44,13 +44,15 @@
           <div v-else class=" ">
             <div class="w-24 rounded-lg">
               <span v-if="file?.estado_clic">
-                <i class="pi pi-eye mr-1 custom-hover"></i>
+                <i class="pi pi-eye custom-hover eye-icon mr-1 "></i>
               </span>
               <span v-else>
-                <i class="pi pi-eye-slash  mr-1 custom-hover"></i>
+                <i class="pi pi-eye-slash custom-hover eye-slash-icon mr-1 "></i>
               </span>
               <a @click="showFileViewed(file)" target="_blank" class="btn custom-hover btn-outline btn-xs"
-                :href="file?.file">VER<i class=" pi pi-file"></i></a>
+                :href="file?.file">
+                VER<i class="pi pi-file"></i>
+              </a>
             </div>
           </div>
         </td>
@@ -123,10 +125,15 @@ const showFileViewed = (file) => {
   try {
     axios.post(`${apiResource}/get/estado-clic`, {
       id: file.id
-    });
-    router.go(0);
+    })
+      .then(() => {
+        router.go(0);
+      })
+      .catch((error) => {
+        console.error('Error en la solicitud POST:', error);
+      });
   } catch (error) {
-    // 
+    console.error('Error fuera de la solicitud POST:', error);
   }
 };
 
@@ -165,7 +172,6 @@ const handleDrop = async (event) => {
   ];
 };
 
-
 const openFileExplorer = () => {
   fileInput.value.click();
 };
@@ -183,7 +189,6 @@ onMounted(() => {
 defineExpose({
   files: files
 })
-
 
 </script>
 
@@ -211,4 +216,12 @@ defineExpose({
   border-color: #66a3d2;
   color: #66a3d2;
 }
-</style>
+
+/**Colores en los eyes */
+.eye-icon {
+  color: #00935F
+}
+
+.eye-slash-icon {
+  color: orange;
+}</style>

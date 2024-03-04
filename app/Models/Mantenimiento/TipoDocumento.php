@@ -12,29 +12,27 @@ class TipoDocumento extends Model
     protected $table = 'tipo_docu';
     protected $primaryKey = 's_codigo';
     public $timestamps = false;
-    public $incrementing = false; 
+    public $incrementing = false;
 
     public function scopeNombre($query, $value)
     {
-          if($value){
-              return $query->where('s_nombre', 'LIKE', '%'.$value.'%');
-          }
+        if ($value) {
+            return $query->where('s_nombre', 'LIKE', '%' . $value . '%');
+        }
     }
 
-   public function scopeAbreviatura($query, $value)
+    public function scopeAbreviatura($query, $value)
     {
-          if($value){
-              return $query->orWhere('s_abrev', 'LIKE', '%'.$value.'%');
-          }
+        if ($value) {
+            return $query->orWhere('s_abrev', 'LIKE', '%' . $value . '%');
+        }
     }
 
     public function scopeActivos($query)
     {
-      return $query->where('i_estado', 1);
+        return $query->where('i_estado', 1);
     }
 
-    
-      
     protected function s_nombre(): Attribute|string
     {
         return Attribute::make(
@@ -50,8 +48,6 @@ class TipoDocumento extends Model
 
     public function getIDigitosAttribute($value)
     {
-       return (int) $value;
-    } 
-    
-
+        return (int) $value;
+    }
 }

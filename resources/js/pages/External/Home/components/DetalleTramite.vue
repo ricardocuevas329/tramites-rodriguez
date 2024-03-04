@@ -29,8 +29,13 @@
                     </thead>
                     <tbody>
                         <tr class="bg-base-200" v-if="participants && participants.length > 0"
-                            v-for="(item, key) in participants" :key="key" @click="handleRowClick(item.s_compareciente)">
-                            <td>{{ item.compareciente?.nombre_compuesto }}</td>
+                            v-for="(item, key) in participants" :key="key">
+                            <td>
+                                <span class="icon" @click="handleRowClick(item.s_compareciente)">
+                                    <i class="pi pi-info-circle color-icono"></i>
+                                </span>
+                                {{ item.compareciente?.nombre_compuesto }}
+                            </td>
                             <td>
                                 <span class="badge badge-outline badge-md"
                                     :class="item.i_firma ? 'badge-success' : 'badge-error'">{{ item.i_firma ? 'SI' : 'NO'
@@ -52,7 +57,7 @@
                         <i class="pi pi-file-import text-lg bg-blue cursor-pointer"></i>
                     </button>
                 </span>
-                <span style="vertical-align: text-bottom;">VISTA DE DOCUMENTOS - EXTERNA</span>
+                <span style="vertical-align: text-bottom;">DOCUMENTOS - COORPORATIVO</span>
             </summary>
             <div class="collapse-content">
                 <div class="flex justify-between  pt-1 pb-1 mt-1 mx-1">
@@ -72,7 +77,7 @@
                         <i class="pi pi-file-import text-lg bg-blue cursor-pointer"></i>
                     </button>
                 </span>
-                <span style="vertical-align: text-bottom;">VISTA DE DOCUMENTOS - NOTARIA</span>
+                <span style="vertical-align: text-bottom;">DOCUMENTOS - NOTARIA</span>
             </summary>
             <div class="collapse-content">
                 <div class="flex justify-between  pt-1 pb-1 mt-1 mx-1">
@@ -88,46 +93,12 @@
         <details class="collapse ">
             <summary class="text-md font-medium bg-blue">
                 <span class="margin-spam">
-                    <button class="btn btn-xs btn-circle  btn-ghost"><i class="bg-blue pi pi-comments"></i></button>
-                </span>
-                <span>VISTA DE COMENTARIOS</span>
-            </summary>
-            <div class="collapse-content">
-                <div class="flex justify-between  pt-1 pb-1 mt-1 mx-1">
-                    <button to="tramite" class="btn btn-outline custom-hover btn-sm ml-auto"
-                        @click="onOpenObservation">NUEVO
-                        COMENTARIO</button>
-                </div>
-                <Table>
-                    <THead>
-                        <tr>
-                            <th>Personal</th>
-                            <th>Observacion</th>
-                        </tr>
-                    </THead>
-                    <tbody>
-                        <tr v-if="allObservations && allObservations.length > 0" v-for="(item, k) in allObservations"
-                            :key="k">
-                            <td>{{ item.personal?.nombre_compuesto }} {{ item.cliente?.nombre_compuesto }} {{
-                                item.empresa?.nombre_compuesto }}</td>
-                            <td>{{ item.s_observacion }}</td>
-                        </tr>
-                        <tr v-else>
-                            <td colspan="2">Sin Información</td>
-                        </tr>
-                    </tbody>
-                </Table>
-            </div>
-        </details>
-        <details class="collapse ">
-            <summary class="text-md font-medium bg-blue">
-                <span class="margin-spam">
 
                     <button class="btn btn-circle btn-xs btn-ghost bg-blue ">
                         <i class="pi pi-file text-lg bg-blue cursor-pointer"></i>
                     </button>
                 </span>
-                <span style="vertical-align: text-bottom;">VISTA ESTADO REGISTRAL</span>
+                <span style="vertical-align: text-bottom;">ESTADO REGISTRAL</span>
             </summary>
             <div class="collapse-content">
                 <Table>
@@ -156,42 +127,6 @@
                 </Table>
             </div>
         </details>
-        <details class="collapse ">
-            <summary class="text-md font-medium bg-blue">
-                <span class="margin-spam">
-                    <button class="btn btn-circle btn-xs btn-ghost bg-blue ">
-                        <i class="pi pi-money-bill text-lg bg-blue cursor-pointer"></i>
-                    </button>
-                </span>
-                <span style="vertical-align: text-bottom;">COTIZACIÓN NOTARIAL</span>
-            </summary>
-            <div class="collapse-content">
-                <table class="table table-xs">
-                    <THead>
-                        <tr>
-                            <th>Descripcion</th>
-                            <th>Cantidad</th>
-                            <th>Precio</th>
-                            <th>Monto</th>
-                        </tr>
-                    </THead>
-                    <tbody>
-                        <tr v-for="(item, key) in recordsRegisterPublics?.servicio_notarial" :key="key">
-                            <td>{{ item?.servicio?.s_nombre }}</td>
-                            <td>{{ item.i_cantidad }}</td>
-                            <td class="text-right">{{ item.de_precio.toFixed(2) }}</td>
-                            <td class="text-right">{{ item.de_total.toFixed(2) }}</td>
-                        </tr>
-                        <tr>
-                            <td colspan="4">TOTAL <span class="badge badge-outline badge-success">{{
-                                sumaTotalNotarial
-                            }}</span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </details>
 
         <details class="collapse ">
             <summary class="text-md font-medium bg-blue">
@@ -200,37 +135,127 @@
                         <i class="pi pi-money-bill text-lg bg-blue cursor-pointer"></i>
                     </button>
                 </span>
-                <span style="vertical-align: text-bottom;">COTIZACIÓN REGISTRAL</span>
+                <span style="vertical-align: text-bottom;">PRESUPUESTO</span>
+            </summary>
+            <div style="margin-top: 10px;"></div>
+            <div class="collapse-content">
+
+                <!-- Contenido de COTIZACIÓN NOTARIAL -->
+                <details class="collapse ">
+                    <summary class="text-md font-medium bg-blue-claro">
+                        <span class="margin-spam">
+                            <button class="btn btn-circle btn-xs btn-ghost bg-blue-claro ">
+                                <i class="pi pi-money-bill text-lg bg-blue-claro cursor-pointer"></i>
+                            </button>
+                        </span>
+                        <span style="vertical-align: text-bottom;">COTIZACIÓN NOTARIAL</span>
+                    </summary>
+                    <div class="collapse-content">
+                        <!-- Contenido de COTIZACIÓN NOTARIAL -->
+                        <table class="table table-xs">
+                            <THead>
+                                <tr>
+                                    <th>Descripcion</th>
+                                    <th>Cantidad</th>
+                                    <th>Precio</th>
+                                    <th>Monto</th>
+                                </tr>
+                            </THead>
+                            <tbody>
+                                <tr v-for="(item, key) in recordsRegisterPublics?.servicio_notarial" :key="key">
+                                    <td>{{ item?.servicio?.s_nombre }}</td>
+                                    <td>{{ item.i_cantidad }}</td>
+                                    <td class="text-right">{{ item.de_precio.toFixed(2) }}</td>
+                                    <td class="text-right">{{ item.de_total.toFixed(2) }}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4">TOTAL <span class="badge badge-outline badge-success">{{
+                                        sumaTotalNotarial
+                                    }}</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </details>
+                <div style="margin-top: 5px;"></div>
+                <!-- Contenido de COTIZACIÓN REGISTRAL -->
+                <details class="collapse ">
+                    <summary class="text-md font-medium bg-blue-claro">
+                        <span class="margin-spam">
+                            <button class="btn btn-circle btn-xs btn-ghost bg-blue-claro ">
+                                <i class="pi pi-money-bill text-lg bg-blue-claro cursor-pointer"></i>
+                            </button>
+                        </span>
+                        <span style="vertical-align: text-bottom;">COTIZACIÓN REGISTRAL</span>
+                    </summary>
+                    <div class="collapse-content">
+                        <!-- Contenido de COTIZACIÓN REGISTRAL -->
+                        <table class="table table-xs">
+                            <THead>
+                                <tr>
+                                    <th>Descripcion</th>
+                                    <th>Cantidad</th>
+                                    <th>Precio</th>
+                                    <th>Monto</th>
+                                </tr>
+                            </THead>
+                            <tbody>
+                                <tr v-for="(item, key) in recordsRegisterPublics?.servicio_registral" :key="key">
+                                    <td>{{ item?.servicio?.s_nombre }}</td>
+                                    <td>{{ item.i_cantidad }}</td>
+                                    <td class="text-right">{{ item.de_precio.toFixed(2) }}</td>
+                                    <td class="text-right">{{ item.de_total.toFixed(2) }}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4">TOTAL <span class="badge badge-outline badge-success">{{
+                                        sumaTotalRegistral
+                                    }}</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </details>
+
+            </div>
+        </details>
+
+        <details class="collapse ">
+            <summary class="text-md font-medium bg-blue">
+                <span class="margin-spam">
+                    <button class="btn btn-xs btn-circle  btn-ghost"><i class="bg-blue pi pi-comments"></i></button>
+                </span>
+                <span>COMENTARIOS</span>
             </summary>
             <div class="collapse-content">
-                <table class="table table-xs">
+                <div class="flex justify-between  pt-1 pb-1 mt-1 mx-1">
+                    <button to="tramite" class="btn btn-outline custom-hover btn-sm ml-auto"
+                        @click="onOpenObservation">NUEVO
+                        COMENTARIO</button>
+                </div>
+                <Table>
                     <THead>
                         <tr>
-                            <th>Descripcion</th>
-                            <th>Cantidad</th>
-                            <th>Precio</th>
-                            <th>Monto</th>
+                            <th>Personal</th>
+                            <th>Observacion</th>
                         </tr>
                     </THead>
                     <tbody>
-                        <tr v-for="(item, key) in recordsRegisterPublics?.servicio_registral" :key="key">
-                            <td>{{ item?.servicio?.s_nombre }}</td>
-                            <td>{{ item.i_cantidad }}</td>
-                            <td class="text-right">{{ item.de_precio.toFixed(2) }}</td>
-                            <td class="text-right">{{ item.de_total.toFixed(2) }}</td>
+                        <tr v-if="allObservations && allObservations.length > 0" v-for="(item, k) in allObservations"
+                            :key="k">
+                            <td>{{ item.personal?.nombre_compuesto }} {{ item.cliente?.nombre_compuesto }} {{
+                                item.empresa?.nombre_compuesto }}</td>
+                            <td>{{ item.s_observacion }}</td>
                         </tr>
-                        <tr>
-                            <td colspan="4">TOTAL <span class="badge badge-outline badge-success">{{
-                                sumaTotalRegistral
-                            }}</span>
-                            </td>
+                        <tr v-else>
+                            <td colspan="2">Sin Información</td>
                         </tr>
                     </tbody>
-                </table>
+                </Table>
             </div>
         </details>
     </div>
-
 
     <Modal :id="idAddObservationModal">
         <button class="btn btn-xs btn-circle right-0" @click="useCloseModal()">
@@ -266,6 +291,12 @@
             <h4 class="modal-title">Detalle del Compareciente</h4>
         </div>
         <div class="modal-body">
+            <div>
+                <strong>Tipo Documento:</strong> {{ detalleCliente.tipo_documento.s_abrev }}
+            </div>
+            <div>
+                <strong>Número Documento:</strong> {{ detalleCliente.s_num_doc }}
+            </div>
             <div>
                 <strong>Nombre:</strong> {{ detalleCliente.nombre_compuesto }}
             </div>
@@ -389,7 +420,7 @@ const handleRowClick = async (codigo) => {
         );
         useOpenModal(idClienteDetalle)
         detalleCliente.value = response.data.data;
-
+        console.log('detalleCliente.value', detalleCliente.value);
         // Agrega cualquier lógica adicional que desees realizar con la respuesta.
     } catch (error) {
         // Maneja cualquier error que pueda ocurrir durante la solicitud.
@@ -588,6 +619,11 @@ async function listProcedure(kardex) {
     color: white;
 }
 
+.bg-blue-claro {
+    background-color: #007ab6;
+    color: white;
+}
+
 .margin-spam {
     margin-right: 5px;
     margin-left: 10px;
@@ -611,6 +647,10 @@ async function listProcedure(kardex) {
     text-align: center !important;
 }
 
+.color-icono {
+    color: #006aa6
+}
+
 /** Para el modal de Detalle Cliente */
 .modal-header {
     background-color: #3498db;
@@ -631,4 +671,5 @@ async function listProcedure(kardex) {
     /* Cambia el color de fondo según tus preferencias */
     border-radius: 5px;
     /* Agrega bordes redondeados */
-}</style>
+}
+</style>

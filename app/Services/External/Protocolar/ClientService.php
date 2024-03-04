@@ -37,8 +37,7 @@ class ClientService
     {
         try {
             $codigo = $request->codigo;
-            $cliente = Cliente::where('s_codigo', $codigo)->first();
-
+            $cliente = Cliente::with('tipo_documento')->where('s_codigo', $codigo)->first();
             // Verifica si el cliente fue encontrado.
             if (!$cliente) {
                 return new JsonResource(['mensaje' => 'Cliente no encontrado']);

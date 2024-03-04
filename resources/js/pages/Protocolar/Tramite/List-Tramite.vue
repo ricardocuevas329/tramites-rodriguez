@@ -400,9 +400,6 @@ const filterData = async () => {
     await listTramite();
 }
 
-
-
-
 const onVieParticipant = async (payload) => {
     idSelected.value = payload.id
     useOpenModal(idModalParticpant)
@@ -413,12 +410,8 @@ const onVieParticipant = async (payload) => {
 
 }
 
-
-
-
-const onSelectedRow = (paylaod) => {
-    idSelected.value = paylaod.id
-    filesSelecteds.value = paylaod.files
+const onSelectedRow = (item) => {
+    window.location.href = `/Tramite/detalle/${item.id}/${item.detalle_kardex.num_kardex}`;
 
 }
 
@@ -433,12 +426,10 @@ const onViewDocumentsTestimonio = (paylaod) => {
     useOpenModal(idModalDocumentTestimonio)
 }
 
-
 const onAsignationKardex = (cod: number) => {
     idSelected.value = cod
     useOpenModal(idModalAsignKardex)
 }
-
 
 const onSaveDocuments = async () => {
 

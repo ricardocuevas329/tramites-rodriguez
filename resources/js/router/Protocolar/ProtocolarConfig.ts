@@ -29,6 +29,11 @@ export const configProtocolar = {
             name: `Edit-${folder}-${pages._TRAMITE_}`,
             file: `Edit-${pages._TRAMITE_}`,
         },
+        detalle: {
+            path: `/${pages._TRAMITE_}/detalle/:id/:kardex'`,
+            name: `Detalle-${folder}-${pages._TRAMITE_}`,
+            file: `Detalle-${pages._TRAMITE_}`,
+        },
     },
 }
 

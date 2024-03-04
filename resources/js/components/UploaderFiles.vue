@@ -12,7 +12,7 @@
   <FilePond v-bind:files="myFiles" ref="pond" class="my-pond" :label-idle="label" :allow-multiple="multiple"
     accept="image/*, application/pdf, .docx, .xlsx" v-on:init="handleFilePondInit" @addfilestart="handleFilePondAddFile"
     @addfile="handleFilePondAddFileLoad" v-on:activatefile="handleSelectedFile" v-on:addfile="addFiles"
-    :maxFileSize="maxFileSize" :maxTotalFileSize="maxTotalFileSize" :maxFiles="maxFiles" :allowFileSizeValidation="true"
+    :maxFileSize="'12MB'" :maxTotalFileSize="'48MB'" :maxFiles="maxFiles" :allowFileSizeValidation="true"
     labelMaxFileSize="El tamaño máximo del archivo es {filesize}"
     labelMaxTotalFileSizeExceeded="Tamaño total máximo superado" labelMaxFileSizeExceeded="Archivo es demasiado grande"
     labelMaxTotalFileSize="El tamaño máximo permitido del archivo es {filesize}" labelInvalidField="Archivo no permitido"

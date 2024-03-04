@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Traits;
 
 use Illuminate\Support\Facades\Cache;
@@ -8,7 +9,6 @@ use Intervention\Image\ImageManagerStatic as Image;
 
 trait UploadFileStorage
 {
-
     public function generateURLSignatureTemp(string|null $file): string
     {
         if ($file) {
@@ -25,9 +25,7 @@ trait UploadFileStorage
                 $request = $client->createPresignedRequest($command, '+15 minutes');
 
                 return (string)$request->getUri();
-
             });
-
         }
         return "";
     }
@@ -47,19 +45,15 @@ trait UploadFileStorage
         $name = uniqid() . '.' . $extension;
         Storage::disk('public')->put($folder . '/' . $name, (string)$image);
         return asset("storage/$folder/" . $name);
-
     }
 
 
     public function UploadFilesS3($base64, string $folder, string $ext = '')
     {
-
-
         if ($base64) {
             if (filter_var($base64, FILTER_VALIDATE_URL)) {
                 return $base64;
             }
-
             $base64file = explode(";base64,", $base64);
             $extension = $this->getExtensionNameFromBase64($base64);
 
@@ -69,16 +63,12 @@ trait UploadFileStorage
                 $s3Url = $folder . '/' . uniqid() . '.' . $extension;
                 $s3 = Storage::disk('s3')->put($s3Url, $file_base64);
                 return Storage::disk('s3')->url($s3Url);
-
             } catch (Exception $e) {
-
             }
         }
-
-
     }
 
-
+    /*
     public function getExtensionNameFromBase64(string $base64): string|bool
     {
         preg_match('/^data:(.*);base64/', $base64, $match);
@@ -87,10 +77,17 @@ trait UploadFileStorage
         if ($extension) {
             return $extension;
         }
-
+        return false;
+    }*/
+    public function getExtensionNameFromBase64(string $base64): string|bool
+    {
+        if (preg_match('/^data:(.*);base64/', $base64, $match)) {
+            $mimeType = $match[1];
+            $extension = \Symfony\Component\Mime\MimeTypes::getDefault()->getExtensions($mimeType)[0] ?? false;
+            if ($extension) {
+                return $extension;
+            }
+        }
         return false;
     }
-
 }
-
-

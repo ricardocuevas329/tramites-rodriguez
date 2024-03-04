@@ -123,16 +123,15 @@
             <Paginate v-if="recordsClients?.length && !isLoading" :pagination="pagination" @paginate="listProcedure()" />
         </div>
         <Skeleton v-if="isLoading" :tipo="2" />
-
-
+        <!--
         <Modal :id="idModalDocumentTestimonio">
             <button class="btn btn-xs  btn-circle" @click="$router.back()">
                 <i class="pi pi-arrow-left" />
             </button>
             Testimonio Digital
-            <UploaderFiles documentType="testimonio" :key="keyUploadFile" :files="files" :multiple="true" :maxFiles="4"
-                maxFileSize="15MB" maxTotalFileSize="60MB" accept="image/* , application/pdf,.docx, .xlsx"
-                @selectFile="onSelectedFile" label="Arrastra o Agrega tus Archivos" />
+            <UploaderFiles documentType="testimonio" :key="keyUploadFile" :files="files" :multiple="true" maxFileSize="15MB"
+                maxTotalFileSize="60MB" accept="image/* , application/pdf,.docx, .xlsx" @selectFile="onSelectedFile"
+                label="Arrastra o Agrega tus Archivos" />
             <Center>
                 <BtnSave :loading="isSubmitAction" :disabled="isSubmitAction" @click="onSaveDocuments"
                     text="SUBIR ARCHIVO" />
@@ -144,9 +143,9 @@
                 <i class="pi pi-arrow-left" />
             </button>
             Adjuntar Documentos
-            <UploaderFiles documentType="varios" :key="keyUploadFile" :files="files" :multiple="true" :maxFiles="4"
-                maxFileSize="15MB" maxTotalFileSize="60MB" accept="image/* , application/pdf, ,.docx, .xlsx"
-                @selectFile="onSelectedFile" label="Arrastra o Agrega tus Archivos" />
+            <UploaderFiles documentType="varios" :key="keyUploadFile" :files="files" :multiple="true" maxFileSize="15MB"
+                maxTotalFileSize="60MB" accept="image/* , application/pdf, ,.docx, .xlsx" @selectFile="onSelectedFile"
+                label="Arrastra o Agrega tus Archivos" />
             <Center>
                 <BtnSave :loading="isSubmitAction" :disabled="isSubmitAction" @click="onSaveDocuments"
                     text="SUBIR ARCHIVO" />
@@ -321,12 +320,13 @@
         <Modal :id="idModalEstadoRegistral">
             <EstadoRegistral />
         </Modal>
+        -->
         <Galery ref="galeryComponentRef" :showItemNavigators="false" />
     </div>
 </template>
 <style></style>
 <script lang="ts" setup>
-import EstadoRegistral from "./EstadoRegistral.vue"
+//import EstadoRegistral from "./EstadoRegistral.vue"
 import { onMounted, ref, toRefs } from "vue";
 import {
     Center,
@@ -342,19 +342,19 @@ import {
     TextInputSearch,
     Options
 } from "@/components";
-import AccountGroupOutline from 'vue-material-design-icons/AccountGroupOutline.vue'
-import { useCloseModal, useGenerateKeyRandom, useOpenModal } from "@/hooks/useUtils";
-import type { HistorialTramite, ServicioNotarial } from "@/models/types";
+//import AccountGroupOutline from 'vue-material-design-icons/AccountGroupOutline.vue'
+//import { useCloseModal, useGenerateKeyRandom, useOpenModal } from "@/hooks/useUtils";
+//import type { HistorialTramite, ServicioNotarial } from "@/models/types";
 import { useClientExternalStore } from "@/store/external/client.external";
-import { useKardexExternalStore } from "@/store/external/kardex.external";
+//import { useKardexExternalStore } from "@/store/external/kardex.external";
 import { defineForm, field, isValidForm } from "vue-yup-form";
 import * as Yup from "yup";
 import { notify } from "@kyvg/vue3-notification";
 import type { IUploadFile } from "@/models/components/upload-file.interface";
 import Button from "primevue/button";
-import { useTramiteStore } from "@/store/tramite";
-import CloudUpload from "@vicons/ionicons5/CloudUpload";
-import { DocumentForm } from '../../../External/Tramite/Components'
+//import { useTramiteStore } from "@/store/tramite";
+//import CloudUpload from "@vicons/ionicons5/CloudUpload";
+//import { DocumentForm } from '../../../External/Tramite/Components'
 import { debounce } from "@/utils/debounce.js";
 import RefreshIcon from "vue-material-design-icons/Refresh.vue";
 
@@ -362,32 +362,32 @@ import RefreshIcon from "vue-material-design-icons/Refresh.vue";
 const files = ref<IUploadFile[]>([])
 const { isLoading, pagination, recordsClients, recordsRegisterPublics, search } = toRefs(useClientExternalStore())
 const { listProcedure, cleanPagination } = useClientExternalStore()
-const { isSubmitAction, participants } = toRefs(useKardexExternalStore())
-const { listParticipants, saveDocuments } = useKardexExternalStore()
-const { saveObservation, getAllObservationById } = useTramiteStore();
+//const { isSubmitAction, participants } = toRefs(useKardexExternalStore())
+//const { listParticipants, saveDocuments } = useKardexExternalStore()
+//const { saveObservation, getAllObservationById } = useTramiteStore();
 
 
-const idModalParticpant = useGenerateKeyRandom()
-const idModalServicioNotarial = useGenerateKeyRandom()
-const idModalServicioRegistral = useGenerateKeyRandom()
-const idModalDocumentTestimonio = useGenerateKeyRandom()
-const idModalUploadFileDocument = useGenerateKeyRandom()
-const idModalDocuments = useGenerateKeyRandom()
-const idModalEstadoRegistral = useGenerateKeyRandom()
+//const idModalParticpant = useGenerateKeyRandom()
+//const idModalServicioNotarial = useGenerateKeyRandom()
+//const idModalServicioRegistral = useGenerateKeyRandom()
+//const idModalDocumentTestimonio = useGenerateKeyRandom()
+//const idModalUploadFileDocument = useGenerateKeyRandom()
+//const idModalDocuments = useGenerateKeyRandom()
+//const idModalEstadoRegistral = useGenerateKeyRandom()
 
-const fileSelected = ref<IUploadFile[]>([]);
-const idSelected = ref<number>(0)
-const keyUploadFile = ref<string>('')
+//const fileSelected = ref<IUploadFile[]>([]);
+//const idSelected = ref<number>(0)
+//const keyUploadFile = ref<string>('')
 const galeryComponentRef = ref<any>(null);
-const idAddObservationModal = useGenerateKeyRandom()
-const idViewObservationModal = useGenerateKeyRandom()
-const isLoadingAllObservation = ref<boolean>(false)
-const allObservations = ref<HistorialTramite[]>([]);
-const isSaveObservation = ref<boolean>(false)
-const kardexSelected = ref<string>('')
+//const idAddObservationModal = useGenerateKeyRandom()
+//const idViewObservationModal = useGenerateKeyRandom()
+//const isLoadingAllObservation = ref<boolean>(false)
+//const allObservations = ref<HistorialTramite[]>([]);
+//const isSaveObservation = ref<boolean>(false)
+//const kardexSelected = ref<string>('')
 const emit = defineEmits(['onSelectedRow'])
-const filesSelecteds = ref<IUploadFile[]>([])
-const selectedRow = ref(null);
+//const filesSelecteds = ref<IUploadFile[]>([])
+//const selectedRow = ref(null);
 /*
 const rowClick = (item) => {
     selectedRow.value = selectedRow.value === item ? null : item;
@@ -402,36 +402,15 @@ const rowClick = (item) => {
 }
 */
 const rowClickHandler = (item) => {
-
     if (item.detalle_kardex == null) {
         notify({
             title: 'Aún no se ha asignado un kárdex.',
             type: "warn",
-        })
+        });
+    } else {
+        // Redirige a la nueva ruta
+        window.location.href = `/detalle/${item.id}/${item.detalle_kardex.num_kardex}`;
     }
-
-    // Actualiza el valor de selectedRow
-    selectedRow.value = selectedRow.value === item ? null : item;
-    console.log('selectedRow.value =>', selectedRow.value);
-    // Almacena el objeto en el almacenamiento local con el identificador único item.id
-    localStorage.setItem(`rowData_${item.id}`, JSON.stringify(selectedRow.value));
-    // Limpia la variable selectedRow en cada interacción
-    selectedRow.value = null;
-
-    // Devuelve una promesa que se resolverá después de un breve momento
-    const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-    // Espera un breve momento antes de abrir la nueva ventana
-    delay(0).then(() => {
-        // Obtiene el objeto del almacenamiento local después de esperar
-        const storedData = localStorage.getItem(`rowData_${item.id}`);
-        // Verifica si la ventana se abrió correctamente
-        if (storedData) {
-            // Redirige a la nueva ruta
-            window.location.href = `/detalle/${item.id}/${item.detalle_kardex.num_kardex}`;
-        } else {
-            console.error('No se encontraron datos en el almacenamiento local.');
-        }
-    });
 };
 
 const form_observacion = defineForm({
@@ -443,7 +422,7 @@ const form_observacion = defineForm({
             .nullable()
     ),
 });
-
+/*
 const onViewParticipant = async (payload) => {
     idSelected.value = payload.id
     useOpenModal(idModalParticpant)
@@ -516,7 +495,6 @@ const onTotalRegistral = (records: ServicioNotarial[]) => {
     return tot.toFixed(2);
 }
 
-
 const onSelectedFile = (doc) => {
     if (doc.file?.type.includes("image/")) {
         fileSelected.value = [doc.file];
@@ -544,7 +522,7 @@ const onUploadFileDocument = (payload) => {
 const onViewRegistral = () => {
     useOpenModal(idModalServicioRegistral)
 }
-
+*/
 const getStatus = (status: string) => {
     switch (status) {
         case '4':
@@ -558,6 +536,7 @@ const getStatus = (status: string) => {
 
     }
 }
+/*
 const onOpenObservation = (id: string) => {
     console.log('id', id);
     kardexSelected.value = id
@@ -627,7 +606,7 @@ const cleanDataObservation = () => {
     kardexSelected.value = ''
     form_observacion.observacion.$value = ''
 }
-
+*/
 const filter = debounce(() => {
     return filterData();
 }, 500);
