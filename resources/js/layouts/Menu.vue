@@ -12,8 +12,6 @@
             <span class="ml-3">Trámite</span>
         </RouterLink>
 
-
-
         <RouterLink
             v-if="!status"
             :to="RoutesNamesHome.login.path"
@@ -31,7 +29,6 @@
             </svg>
             <span class="ml-3">Iniciar Sesion</span>
         </RouterLink>
-
         <a
             @click.prevent="onLogout()"
             class="cursor-pointer font-normal rounded-lg flex items-center  p-2 hover:bg-primary hover:text-white group "

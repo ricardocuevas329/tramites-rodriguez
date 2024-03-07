@@ -7,8 +7,6 @@ const pages = {
     _TRAMITE_: "Tramite",
 };
 
-
-
 /**  Configuracion de todas la rutas de este modulo */
 export const configProtocolar = {
     _TRAMITE_: {
@@ -30,7 +28,7 @@ export const configProtocolar = {
             file: `Edit-${pages._TRAMITE_}`,
         },
         detalle: {
-            path: `/${pages._TRAMITE_}/detalle/:id/:kardex'`,
+            path: `/${pages._TRAMITE_}/detalle/:id/:dni/:cod_kardex'`,
             name: `Detalle-${folder}-${pages._TRAMITE_}`,
             file: `Detalle-${pages._TRAMITE_}`,
         },

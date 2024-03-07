@@ -36,7 +36,7 @@ const routerProtocolar = [
   },
   {
     ...Config._TRAMITE_.detalle,
-    path: '/tramite/detalle/:id/:kardex',
+    path: '/tramite/detalle/:id/:dni/:cod_kardex',
     props: true,
     component: () =>
       import(
@@ -45,6 +45,7 @@ const routerProtocolar = [
     meta: {
       showModal: true,
       persistent: true,
+      noLayout: true,
     },
   },
 ];

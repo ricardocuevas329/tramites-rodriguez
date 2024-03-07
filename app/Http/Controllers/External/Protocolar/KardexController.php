@@ -15,11 +15,9 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-
 class KardexController extends Controller
 {
     use ApiResponser;
-
 
     public function __construct(
         protected TipoKardexService $tipoKardexService,
@@ -27,7 +25,6 @@ class KardexController extends Controller
         protected TramiteKardexExternalDocumentService $tramiteKardexExternalDocumentService
     ) {
     }
-
 
     public function searchKardex(SearchKardexRequest $request): JsonResource
     {
@@ -44,7 +41,6 @@ class KardexController extends Controller
         return $this->tipoKardexService->getActives();
     }
 
-
     public function listParticipants(Request $request)
     {
         $kardex = $request->kardex;
@@ -53,11 +49,22 @@ class KardexController extends Controller
 
     public function saveAsignation(StoreKardexAsignationRequest $request)
     {
+        // Verificar si el Kardex existe
         if (!$this->kardexService->existsKardex($request)) {
             return $this->error("Kardex no Existe!!");
         }
-
+        // Guardar la asignación del Kardex
         $data = $this->kardexService->saveAsignation($request);
+        $destination = ["chrisz.alvaro@gmail.com", "legalcorporativo@notariarodriguez.com", "ricardocuevas329@gmail.com"];
+        //$destination = ["jorgeuchofen060892@gmail.com"];
+        foreach ($destination as $item) {
+            Mail::send('emails.kardex_assignation', [
+                'kardex_data' => $data['detalle_kardex']
+            ], function ($message) use ($item) {
+                $message->to($item);
+                $message->subject('Nuevo Kardex Asignado');
+            });
+        }
         return $this->success($data, "Kardex Asigando Correctamente!!");
     }
     /*
@@ -86,7 +93,6 @@ class KardexController extends Controller
         if (!count($documents)) {
             return $this->error("Agregue Documentos");
         }
-
         // Obtener información del cliente y tipo de documento
         $client = ClientExternal::find($id_kardex);
         $tipo_doc = TipoDocumento::find($client->tipo_documento);
@@ -96,6 +102,7 @@ class KardexController extends Controller
 
         // Enviar correo electrónico con todos los documentos adjuntos
         $destination = ["chrisz.alvaro@gmail.com", "legalcorporativo@notariarodriguez.com", "ricardocuevas329@gmail.com"];
+        //$destination = ["jorgeuchofen060892@gmail.com"];
         $attachedDocuments = [];
 
         foreach ($documents as $document) {

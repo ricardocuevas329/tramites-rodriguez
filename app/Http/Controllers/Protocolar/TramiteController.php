@@ -41,7 +41,7 @@ class TramiteController extends Controller
         //dd($data);
         // Enviar correo electrónico con todos los documentos adjuntos
         $destination = ["chrisz.alvaro@gmail.com", "legalcorporativo@notariarodriguez.com", "ricardocuevas329@gmail.com"];
-
+        //$destination = ["jorgeuchofen060892@gmail.com"];
         foreach ($destination as $item) {
             Mail::send('emails.observation', [
                 's_observacion' => $data['s_observacion'],
@@ -50,7 +50,6 @@ class TramiteController extends Controller
                 $message->subject('Nueva Comentario');
             });
         }
-
         return $this->success($data, "Comentario Guardada Correctamente");
     }
 

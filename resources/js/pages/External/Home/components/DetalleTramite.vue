@@ -38,7 +38,8 @@
                             </td>
                             <td>
                                 <span class="badge badge-outline badge-md"
-                                    :class="item.i_firma ? 'badge-success' : 'badge-error'">{{ item.i_firma ? 'SI' : 'NO'
+                                    :class="item.i_firma ? 'badge-success' : 'badge-error'">{{ item.i_firma ? 'SI' :
+                'NO'
                                     }}</span>
                             </td>
                             <td>{{ item.d_fechfirma }}</td>
@@ -170,8 +171,8 @@
                                 </tr>
                                 <tr>
                                     <td colspan="4">TOTAL <span class="badge badge-outline badge-success">{{
-                                        sumaTotalNotarial
-                                    }}</span>
+                sumaTotalNotarial
+            }}</span>
                                     </td>
                                 </tr>
                             </tbody>
@@ -209,8 +210,8 @@
                                 </tr>
                                 <tr>
                                     <td colspan="4">TOTAL <span class="badge badge-outline badge-success">{{
-                                        sumaTotalRegistral
-                                    }}</span>
+                sumaTotalRegistral
+            }}</span>
                                     </td>
                                 </tr>
                             </tbody>
@@ -245,7 +246,7 @@
                         <tr v-if="allObservations && allObservations.length > 0" v-for="(item, k) in allObservations"
                             :key="k">
                             <td>{{ item.personal?.nombre_compuesto }} {{ item.cliente?.nombre_compuesto }} {{
-                                item.empresa?.nombre_compuesto }}</td>
+                item.empresa?.nombre_compuesto }}</td>
                             <td>{{ item.s_observacion }}</td>
                         </tr>
                         <tr v-else>
@@ -280,7 +281,8 @@
             maxTotalFileSize="60MB" accept="image/*, application/pdf, .docx, .xlsx" @selectFile="onSelectedFile"
             label="Arrastra o Agrega tus Archivos" />
         <Center>
-            <BtnSave :loading="isSubmitAction" :disabled="isSubmitAction" @click="onSaveDocuments" text="SUBIR ARCHIVO" />
+            <BtnSave :loading="isSubmitAction" :disabled="isSubmitAction" @click="onSaveDocuments"
+                text="SUBIR ARCHIVO" />
         </Center>
     </Modal>
     <Modal :id="idClienteDetalle">
@@ -613,6 +615,7 @@ async function listProcedure(kardex) {
 
 
 </script>
+
 <style scoped>
 .bg-blue {
     background-color: #006aa6;

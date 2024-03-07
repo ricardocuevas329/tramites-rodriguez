@@ -2,9 +2,7 @@
     <Container>
         <div v-if="$route.name == configProtocolar._TRAMITE_.listar.name">
             <Card>
-
                 <Title>Trámite</Title>
-
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  gap-2 my-4">
                     <div class="col-span-3 md:col-span-2 lg:col-span-2 xlg:col-span-2">
                         <TextInputSearch @input="filter()" @keyup="filter()" v-model="search" placeholder="Buscar..." />
@@ -23,13 +21,11 @@
                             </ul>
                         </Options>
                     </div>
-
                 </div>
-
                 <ContainerTable v-if="!isLoading">
                     <Table>
                         <THead>
-                            <tr>
+                            <tr class="bg-blue">
                                 <th>Accion</th>
                                 <th>CODIGO</th>
                                 <th>F. INGRESO</th>
@@ -38,36 +34,39 @@
                                 <th>ACTO NOTARIAL</th>
                                 <th>KARDEX</th>
                                 <th>F. APERTURA</th>
-                                <th>COT. NOTARIAL</th>
-                                <th>COT. REGISTRAL</th>
+                                <!--<th>COT. NOTARIAL</th>-->
+                                <!--<th>COT. REGISTRAL</th>-->
                                 <th>F. ESCRITURACION</th>
                                 <th>F. ULTIMA FIRMA</th>
-                                <th>TESTIMONIO DIGITAL</th>
-                                <th>Observacion</th>
+                                <th>STATUS</th>
+                                <!--<th>TESTIMONIO DIGITAL</th>-->
+                                <!--<th>Observacion</th>-->
                             </tr>
                         </THead>
                         <tbody>
                             <tr class="cursor-pointer" :class="idSelected === item.id && 'bg-gray-400'"
                                 v-for="(item, key) in TramiteResults" :key="key" @click="onSelectedRow(item)">
                                 <td @click.stop class="flex actions">
+                                    <!--
                                     <ToolTip v-if="item?.kardex" text="Ver Participantes" position="right">
                                         <button @click="onVieParticipant(item)"
                                             class="btn btn-circle btn-xs btn-ghost text-primary ">
                                             <AccountGroupOutline />
                                         </button>
-                                    </ToolTip>
-                                    <ToolTip text="Ver Documentos" position="right">
+                                    </ToolTip>-->
+                                    <!--<ToolTip text="Ver Documentos" position="right">
                                         <button @click="onViewDocuments(item)"
                                             class="btn btn-circle btn-xs btn-ghost text-primary ">
                                             <i class="pi pi-file-import text-lg text-success cursor-pointer"></i>
                                         </button>
-                                    </ToolTip>
-                                    <ToolTip text="Ver Testimonio Digital" position="right">
+                                    </ToolTip>-->
+                                    <!--<ToolTip text="Ver Testimonio Digital" position="right">
                                         <button @click="onViewDocumentsTestimonio(item)"
                                             class="btn btn-circle btn-xs btn-ghost text-primary ">
                                             <i class="pi pi-file text-lg text-primary cursor-pointer"></i>
                                         </button>
-                                    </ToolTip>
+                                    </ToolTip>-->
+
                                     <ToolTip text="asignar kardex" position="right">
                                         <button :disabled="item?.kardex" @click="onAsignationKardex(item.id)"
                                             class="btn btn-circle btn-xs btn-ghost text-success ">
@@ -75,26 +74,29 @@
                                         </button>
                                     </ToolTip>
 
-
+                                    <!--
                                     <ToolTip text="Adjuntar Documentos" position="right">
                                         <button @click="onUploadFileDocument(item)"
                                             class="btn btn-circle btn-xs btn-ghost text-primary ">
                                             <CloudUpload class="w-8  text-primary cursor-pointer" />
                                         </button>
                                     </ToolTip>
-
+-->
                                 </td>
                                 <td class="text-center">{{ item.id }}</td>
                                 <td>{{ item.created_at }}</td>
                                 <td>{{ item.nombre_compuesto }}</td>
                                 <td>{{ item.documento }}</td>
                                 <td> {{ item?.detalle_kardex?.s_obstitulo }}</td>
-                                <td> {{ item?.detalle_kardex?.s_tipokardex }} - {{ item?.detalle_kardex?.num_kardex }}</td>
+                                <td> {{ item?.detalle_kardex?.s_tipokardex }} - {{ item?.detalle_kardex?.num_kardex }}
+                                </td>
                                 <td>{{ item?.detalle_kardex?.d_feching }}</td>
-                                <td class="text-end"> {{ onTotalNotarial(item?.servicio_notarial) }}</td>
-                                <td class="text-end"> {{ onTotalRegistral(item?.servicio_notarial) }}</td>
+                                <!--<td class="text-end"> {{ onTotalNotarial(item?.servicio_notarial) }}</td>
+                                <td class="text-end"> {{ onTotalRegistral(item?.servicio_notarial) }}</td>-->
                                 <td>{{ item?.detalle_kardex?.d_fechescritura }}</td>
                                 <td> {{ item?.is_date_mayor }}</td>
+                                <td> {{ item?.situacion_detalle?.s_nombre }}</td>
+                                <!--
                                 <Center>
                                     <ToolTip v-if="item?.kardex" text="Subir Tetimonio Digital" position="right">
                                         <button @click="onUploadFileTestimonio(item)"
@@ -102,7 +104,8 @@
                                             <CloudUpload class="w-8  text-primary cursor-pointer" />
                                         </button>
                                     </ToolTip>
-                                </Center>
+                                </Center>-->
+                                <!--
                                 <td class="actions  ">
 
                                     <div v-if="item?.kardex">
@@ -119,29 +122,26 @@
                                         </ToolTip>
 
                                     </div>
-                                </td>
+                                </td>-->
                             </tr>
                         </tbody>
                     </Table>
                     <ListEmpty v-if="TramiteResults?.length == 0" />
                 </ContainerTable>
                 <Skeleton v-if="isLoading" :tipo="2" />
-                <Paginate v-if="TramiteResults?.length && !isLoading" :pagination="pagination" @paginate="listTramite()" />
+                <Paginate v-if="TramiteResults?.length && !isLoading" :pagination="pagination"
+                    @paginate="listTramite()" />
             </Card>
-
-
-
         </div>
-
-
+        <!--
         <Modal :id="idModalUploadFileTestimonio">
             <button class="btn btn-xs  btn-circle" @click="$router.back()">
                 <i class="pi pi-arrow-left" />
             </button>
             Testimonio Digital
             <UploaderFiles documentType="testimonio" :key="keyUploadFile" :files="files" :multiple="true" :maxFiles="4"
-                maxFileSize="15MB" maxTotalFileSize="60MB" accept="image/* , application/pdf,.docx, .xlsx" @selectFile="onSelectedFile"
-                label="Arrastra o Agrega tus Archivos" />
+                maxFileSize="15MB" maxTotalFileSize="60MB" accept="image/* , application/pdf,.docx, .xlsx"
+                @selectFile="onSelectedFile" label="Arrastra o Agrega tus Archivos" />
             <Center>
                 <BtnSave :loading="isSubmitAction" :disabled="isSubmitAction" @click="onSaveDocuments"
                     text="SUBIR ARCHIVO" />
@@ -154,8 +154,8 @@
             </button>
             Adjuntar Documentos
             <UploaderFiles documentType="varios" :key="keyUploadFile" :files="files" :multiple="true" :maxFiles="4"
-                maxFileSize="15MB" maxTotalFileSize="60MB" accept="image/* , application/pdf,.docx, .xlsx" @selectFile="onSelectedFile"
-                label="Arrastra o Agrega tus Archivos" />
+                maxFileSize="15MB" maxTotalFileSize="60MB" accept="image/* , application/pdf,.docx, .xlsx"
+                @selectFile="onSelectedFile" label="Arrastra o Agrega tus Archivos" />
             <Center>
                 <BtnSave :loading="isSubmitAction" :disabled="isSubmitAction" @click="onSaveDocuments"
                     text="SUBIR ARCHIVO" />
@@ -188,8 +188,8 @@
                             <td>
                                 <span class="badge badge-outline badge-md"
                                     :class="item.i_firma ? 'badge-success' : 'badge-error'">{{
-                                        item.i_firma ? 'SI' : 'NO'
-                                    }}</span>
+            item.i_firma ? 'SI' : 'NO'
+        }}</span>
                             </td>
                             <td>{{ item.d_fechfirma }}</td>
                         </tr>
@@ -257,7 +257,7 @@
                 <DocumentForm :uploadFile="false" :documents="filesSelectedTestimonio" />
             </div>
         </Modal>
-
+-->
 
         <Galery ref="galeryComponentRef" :showItemNavigators="false" :files="fileSelected" />
 
@@ -272,14 +272,15 @@
             </h3>
             <div class="divider"></div>
             <ScrollView>
-                <span v-if="form.num_kardex.$error?.message" class="text-xs text-error">{{ form.num_kardex.$error?.message
-                }}</span>
+                <span v-if="form.num_kardex.$error?.message" class="text-xs text-error">{{
+            form.num_kardex.$error?.message
+        }}</span>
                 <div class="flex w-full">
                     <select v-model="form.cod_tramite.$value" v-if="recordsKardex?.length"
                         class="input  select input-primary">
                         <option v-for="(item, i) in recordsKardex" :key="i" :value="item.s_abre"> {{
-                            item.s_abre
-                        }}
+            item.s_abre
+        }}
                         </option>
                     </select>
                     <input v-model="form.num_kardex.$value" placeholder="N° Kardex" type="number"
@@ -293,6 +294,7 @@
 
     </Container>
 </template>
+
 <script setup lang="ts">
 import { onMounted, ref, toRefs } from "vue";
 import {
@@ -317,15 +319,15 @@ import { configProtocolar } from "@/router/Protocolar/ProtocolarConfig";
 import Button from "primevue/button";
 import { useTramiteStore } from "@/store/tramite";
 import { useCloseModal, useGenerateKeyRandom, useOpenModal } from "@/hooks/useUtils";
-import CloudUpload from "@vicons/ionicons5/CloudUpload";
-import AccountGroupOutline from "vue-material-design-icons/AccountGroupOutline.vue";
+//import CloudUpload from "@vicons/ionicons5/CloudUpload";
+//import AccountGroupOutline from "vue-material-design-icons/AccountGroupOutline.vue";
 import type { IUploadFile } from "@/models/components/upload-file.interface";
 import { notify } from "@kyvg/vue3-notification";
 import type { HistorialTramite, ServicioNotarial } from "@/models/types";
 import { useKardexExternalStore } from "@/store/external/kardex.external";
 
 
-import { DocumentForm } from '../../External/Tramite/Components'
+//import { DocumentForm } from '../../External/Tramite/Components'
 import DocumentAttachSharp from "@vicons/ionicons5/DocumentAttachSharp";
 import { defineForm, field, isValidForm } from "vue-yup-form";
 import * as Yup from "yup";
@@ -399,7 +401,7 @@ const filterData = async () => {
     cleanPagination()
     await listTramite();
 }
-
+/*
 const onVieParticipant = async (payload) => {
     idSelected.value = payload.id
     useOpenModal(idModalParticpant)
@@ -409,28 +411,38 @@ const onVieParticipant = async (payload) => {
     })
 
 }
-
+*/
 const onSelectedRow = (item) => {
-    window.location.href = `/Tramite/detalle/${item.id}/${item.detalle_kardex.num_kardex}`;
 
+    if (item.detalle_kardex == null) {
+        notify({
+            title: 'Aún no se ha asignado un kárdex.',
+            type: "warn",
+        });
+    } else {
+        //console.log(item);
+        window.location.href = `/Tramite/detalle/${item.id}/${item.documento}/${item.detalle_kardex.s_codigo}`;
+    }
 }
-
+/*
 const onViewDocuments = (paylaod) => {
+    console.log('paylaod=>', paylaod);
     filesSelecteds.value = paylaod.files
     useOpenModal(idModalDocuments)
 }
 
-
+*/
+/*
 const onViewDocumentsTestimonio = (paylaod) => {
     filesSelectedTestimonio.value = paylaod.files_testimonio
     useOpenModal(idModalDocumentTestimonio)
 }
-
+*/
 const onAsignationKardex = (cod: number) => {
     idSelected.value = cod
     useOpenModal(idModalAsignKardex)
 }
-
+/*
 const onSaveDocuments = async () => {
 
     if (files.value?.length) {
@@ -480,7 +492,6 @@ const onTotalRegistral = (records: ServicioNotarial[]) => {
     return tot.toFixed(2);
 }
 
-
 const onSelectedFile = (doc) => {
     if (doc.file?.type.includes("image/")) {
         fileSelected.value = [doc.file];
@@ -502,6 +513,9 @@ const onUploadFileDocument = (payload) => {
     idSelected.value = payload.id
     useOpenModal(idModalUploadFileDocument)
 }
+
+*/
+
 const onSaveAsignationKardex = async () => {
     if (isValidForm(form)) {
         try {
@@ -534,12 +548,13 @@ const cleanFormAssign = async () => {
     form.num_kardex.$value = null
     form.cod_tramite.$value = ""
 }
-
+/*
 const onOpenObservation = (id: string) => {
     kardexSelected.value = id
     useOpenModal(idAddObservationModal)
-}
+}*/
 
+/*
 const onOpenViewObservation = (id: string) => {
     kardexSelected.value = id
     useOpenModal(idViewObservationModal)
@@ -576,7 +591,7 @@ const onSaveObservation = async () => {
         }
     }
 }
-
+*/
 const onGetAllObservationByKardex = async () => {
 
     isLoadingAllObservation.value = true
@@ -601,9 +616,17 @@ const cleanDataObservation = () => {
 }
 
 onMounted(() => {
+    console.log('TramiteResults', TramiteResults);
     listKardexActives()
     if (!TramiteResults.value.length) {
         listTramite();
     }
 });
 </script>
+
+<style scoped>
+.bg-blue {
+    background-color: #006aa6;
+    color: white;
+}
+</style>
