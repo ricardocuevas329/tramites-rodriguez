@@ -30,7 +30,7 @@ import * as Yup from "yup";
 import {defineForm, field, isValidForm, toObject} from "vue-yup-form";
 import {RegExps} from "../../../../utils/Regexs";
 import {type PropType, ref, toRefs, watchEffect} from "vue";
-import {type Profesion} from '../../../../models/types';
+//import {type Profesion} from '../../../../models/types';
 
 const isSubmit = ref<boolean>(false)
 const props = defineProps({
