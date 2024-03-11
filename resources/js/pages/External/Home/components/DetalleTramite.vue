@@ -66,9 +66,6 @@
                         @click="onUploadFileDocument(itemId)">ADJUNTAR DOCUMENTO</button>
                 </div>
                 <DocumentFormDetalle :uploadFile="false" :documents="filesSelectedsExternal" />
-                <div v-if="!filesSelectedsExternal || filesSelectedsExternal.length === 0">
-                    Sin Información
-                </div>
             </div>
         </details>
         <details class="collapse ">
@@ -81,14 +78,11 @@
                 <span style="vertical-align: text-bottom;">DOCUMENTOS - NOTARIA</span>
             </summary>
             <div class="collapse-content">
-                <div class="flex justify-between  pt-1 pb-1 mt-1 mx-1">
+                <!--<div class="flex justify-between  pt-1 pb-1 mt-1 mx-1">
                     <button to="tramite" class="btn btn-outline custom-hover btn-sm ml-auto"
                         @click="onUploadFileDocument(itemId)">ADJUNTAR DOCUMENTO</button>
-                </div>
+                </div>-->
                 <DocumentFormDetalle :uploadFile="false" :documents="filesSelectedsNotaria" />
-                <div v-if="!filesSelectedsNotaria || filesSelectedsNotaria.length === 0">
-                    Sin Información
-                </div>
             </div>
         </details>
         <details class="collapse ">
@@ -350,8 +344,8 @@ import { useRouter } from "vue-router";
 
 const { isLoading, pagination, search } = toRefs(useClientExternalStore())
 //const { listProcedure, cleanPagination } = useClientExternalStore()
-const { listParticipants, saveDocuments } = useKardexExternalStore()
-const { saveObservation, getAllObservationById } = useTramiteStore();
+const { listParticipants, saveDocumentsExternal } = useKardexExternalStore()
+const { saveObservationExternal, getAllObservationById } = useTramiteStore();
 const files = ref<IUploadFile[]>([])
 const emit = defineEmits(['onSelectedRow'])
 
@@ -434,7 +428,7 @@ const onSaveDocuments = async () => {
     if (files.value.length) {
         try {
             isSubmitAction.value = true
-            const { status, message } = await saveDocuments(files.value, idSelected.value)
+            const { status, message } = await saveDocumentsExternal(files.value, idSelected.value)
             if (status) {
                 isSubmitAction.value = false
                 notify({
@@ -501,7 +495,7 @@ const onSaveObservation = async () => {
         isSaveObservation.value = true
         try {
 
-            const { historial_tramite, message, status } = await saveObservation({
+            const { historial_tramite, message, status } = await saveObservationExternal({
                 s_tramite: kardexSelected.value,
                 s_observacion: form_observacion.observacion.$value
             })

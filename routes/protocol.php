@@ -19,6 +19,6 @@ Route::get('/tipo-kardex/actives', [TipoKardexController::class, 'listActives'])
 
 # Tramite
 Route::get('/tramite', [TramiteController::class, 'list']);
-Route::post('/tramite/observation', [TramiteController::class, 'saveObservation']);
+Route::post('/tramite/observation-external', [TramiteController::class, 'saveObservationExternal']);
+Route::post('/tramite/observation-internal', [TramiteController::class, 'saveObservationInternal']);
 Route::get('/tramite/getAllObservationById/{id}', [TramiteController::class, 'getAllObservationById']);
-

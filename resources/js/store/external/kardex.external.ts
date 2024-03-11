@@ -1,12 +1,12 @@
 import axios from "axios";
-import {defineStore} from "pinia";
-import {ref} from "vue";
-import type {ResponseByEntity} from "@/models/extends";
-import type {Pagination} from "@/models/Pagination";
-import type {ResponseList} from "@/models/extends";
-import type {IGetParticipants, ISaveAsignationKardex} from "@/pages/External/Tramite/Interfaces/kardex.interface";
-import type {IUploadFile} from "@/models/components/upload-file.interface";
-import type {Kardex as IKardex} from "@/models/types";
+import { defineStore } from "pinia";
+import { ref } from "vue";
+import type { ResponseByEntity } from "@/models/extends";
+import type { Pagination } from "@/models/Pagination";
+import type { ResponseList } from "@/models/extends";
+import type { IGetParticipants, ISaveAsignationKardex } from "@/pages/External/Tramite/Interfaces/kardex.interface";
+import type { IUploadFile } from "@/models/components/upload-file.interface";
+import type { Kardex as IKardex } from "@/models/types";
 
 const idStore = "useKardexExternalStore";
 const apiResource = "/api/external/kardex";
@@ -20,14 +20,14 @@ export const useKardexExternalStore = defineStore(idStore, () => {
     const isSubmitAction = ref<boolean>(false);
     const participants = ref<any[]>([]);
 
-    async function listParticipants(item:IGetParticipants) {
+    async function listParticipants(item: IGetParticipants) {
         try {
 
-             const {
-                data: {data, meta},
+            const {
+                data: { data, meta },
             }: ResponseList<any> = await axios.post(
                 `${apiResource}/get/participants`,
-                 item
+                item
             );
             participants.value = data;
         } catch (error) {
@@ -41,7 +41,7 @@ export const useKardexExternalStore = defineStore(idStore, () => {
             isLoading.value = true;
             let searchFilter = search.value ?? ''
             const {
-                data: {data, meta},
+                data: { data, meta },
             }: ResponseList<IKardex> = await axios.get(
                 `${apiResource}/get/tipo-kardex/actives?search=${searchFilter}`
             );
@@ -53,21 +53,30 @@ export const useKardexExternalStore = defineStore(idStore, () => {
     }
     async function saveAsignationKardex(item: ISaveAsignationKardex) {
         const {
-            data: {data, message, status},
+            data: { data, message, status },
         }: ResponseByEntity<any> = await axios.post(`${apiResource}/save/asignation`, item);
-        return {Kardex: data, message, status};
+        return { Kardex: data, message, status };
     }
 
-    async function saveDocuments(item: IUploadFile[], id_kardex: number) {
+    async function saveDocumentsExternal(item: IUploadFile[], id_kardex: number) {
         const {
-            data: {data, message, status},
-        }: ResponseByEntity<any> = await axios.post(`${apiResource}/save/documents`, {
+            data: { data, message, status },
+        }: ResponseByEntity<any> = await axios.post(`${apiResource}/save/documents-external`, {
             documents: item,
             id_kardex
-        } );
-        return {Kardex: data, message, status};
+        });
+        return { Kardex: data, message, status };
     }
 
+    async function saveDocumentsInternal(item: IUploadFile[], id_kardex: number) {
+        const {
+            data: { data, message, status },
+        }: ResponseByEntity<any> = await axios.post(`${apiResource}/save/documents-internal`, {
+            documents: item,
+            id_kardex
+        });
+        return { Kardex: data, message, status };
+    }
 
     return {
         participants,
@@ -79,6 +88,7 @@ export const useKardexExternalStore = defineStore(idStore, () => {
         saveAsignationKardex,
         listKardexActives,
         isSubmitAction,
-        saveDocuments
+        saveDocumentsExternal,
+        saveDocumentsInternal
     };
 });

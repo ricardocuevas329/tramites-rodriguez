@@ -37,17 +37,25 @@ export const useTramiteStore = defineStore(idStore, () => {
     }
 
 
-    async function saveObservation(payload) {
+    async function saveObservationExternal(payload) {
         const {
             data: { data, message, status },
         }: ResponseByEntity<HistorialTramite> = await axios.post(
-            `${apiResource}/observation`,
+            `${apiResource}/observation-external`,
             payload
         );
         return { historial_tramite: data, message, status }
-
     }
 
+    async function saveObservationInternal(payload) {
+        const {
+            data: { data, message, status },
+        }: ResponseByEntity<HistorialTramite> = await axios.post(
+            `${apiResource}/observation-internal`,
+            payload
+        );
+        return { historial_tramite: data, message, status }
+    }
 
     async function getAllObservationById(id: string) {
         const {
@@ -79,7 +87,8 @@ export const useTramiteStore = defineStore(idStore, () => {
         isSubmit,
         listTramite,
         cleanPagination,
-        saveObservation,
+        saveObservationExternal,
+        saveObservationInternal,
         getAllObservationById
     };
 });

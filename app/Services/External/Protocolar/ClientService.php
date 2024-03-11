@@ -76,8 +76,8 @@ class ClientService
         // Guardar los documentos relacionados con el cliente
         $this->tramiteKardexExternalDocumentService->saveMany($dto->documents, $client->id);
 
-        // Destinatarios del correo electrónico
-        $destination = ["chrisz.alvaro@gmail.com", "legalcorporativo@notariarodriguez.com", "ricardocuevas329@gmail.com"];
+        // Destinatarios del correo electrónico //Corregido
+        $destination = ["legalcorporativo@notariarodriguez.com", "ricardocuevas329@gmail.com"];
 
         // Obtener la lista de documentos relacionados con el cliente
         $documents = $this->tramiteKardexExternalDocumentService->findByKardex($client->id);

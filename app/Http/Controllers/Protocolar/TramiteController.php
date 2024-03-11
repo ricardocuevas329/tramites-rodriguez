@@ -35,12 +35,32 @@ class TramiteController extends Controller
         
             return  $this->error("Ocurrió un error, Intentelo Nuevamente!");
     }*/
-    public function saveObservation(StoreObervation $request)
+    public function saveObservationExternal(StoreObervation $request)
     {
+        //dd('Guardar comentario external');
         $data = $this->service->saveObservation($request);
         //dd($data);
         // Enviar correo electrónico con todos los documentos adjuntos
-        $destination = ["chrisz.alvaro@gmail.com", "legalcorporativo@notariarodriguez.com", "ricardocuevas329@gmail.com"];
+        $destination = ["legalcorporativo@notariarodriguez.com", "ricardocuevas329@gmail.com"];
+        //$destination = ["jorgeuchofen060892@gmail.com"];
+        foreach ($destination as $item) {
+            Mail::send('emails.observation', [
+                's_observacion' => $data['s_observacion'],
+            ], function ($message) use ($item) {
+                $message->to($item);
+                $message->subject('Nueva Comentario');
+            });
+        }
+        return $this->success($data, "Comentario Guardada Correctamente");
+    }
+
+    public function saveObservationInternal(StoreObervation $request)
+    {
+        //dd('Guardar comentario internal');
+        $data = $this->service->saveObservation($request);
+        //dd($data);
+        // Enviar correo electrónico con todos los documentos adjuntos
+        $destination = ["jr@rebajatuscuentas.com", "ricardocuevas329@gmail.com"];
         //$destination = ["jorgeuchofen060892@gmail.com"];
         foreach ($destination as $item) {
             Mail::send('emails.observation', [

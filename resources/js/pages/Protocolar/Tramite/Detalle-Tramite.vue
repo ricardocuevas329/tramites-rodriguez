@@ -258,9 +258,9 @@ import { API_URL } from "@/config/enviroments";
 import { useRouter } from "vue-router";
 
 const { isSubmitAction } = toRefs(useKardexExternalStore())
-const { saveDocuments } = useKardexExternalStore()
+const { saveDocumentsInternal } = useKardexExternalStore()
 const { search, pagination, isLoading } = toRefs(useTramiteStore());
-const { cleanPagination, saveObservation, getAllObservationById } = useTramiteStore();
+const { cleanPagination, saveObservationInternal, getAllObservationById } = useTramiteStore();
 const files = ref<IUploadFile[]>([])
 const filesSelectedsExternal = ref<IUploadFile[]>([])
 const filesSelectedsNotaria = ref<IUploadFile[]>([])
@@ -322,7 +322,7 @@ const onSaveObservation = async () => {
         isSaveObservation.value = true
         try {
 
-            const { historial_tramite, message, status } = await saveObservation({
+            const { historial_tramite, message, status } = await saveObservationInternal({
                 s_tramite: kardexSelected.value,
                 s_observacion: form_observacion.observacion.$value
             })
@@ -358,7 +358,7 @@ const onSaveDocuments = async () => {
     if (files.value?.length) {
         try {
             isSubmitAction.value = true
-            const { status, message } = await saveDocuments(files.value, idSelected.value)
+            const { status, message } = await saveDocumentsInternal(files.value, idSelected.value)
             if (status) {
                 isSubmitAction.value = false
                 notify({
