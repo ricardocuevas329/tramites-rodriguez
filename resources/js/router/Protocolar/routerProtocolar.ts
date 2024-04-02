@@ -48,6 +48,20 @@ const routerProtocolar = [
       noLayout: true,
     },
   },
+  {
+    ...Config._TRAMITE_.detalleSK,
+    path: '/tramite/detalle/:id/:dni',
+    props: true,
+    component: () =>
+      import(
+        `../../pages/${Config._TRAMITE_.folder}/${Config._TRAMITE_.page}/${Config._TRAMITE_.detalleSK.file}.vue`
+      ),
+    meta: {
+      showModal: true,
+      persistent: true,
+      noLayout: true,
+    },
+  },
 ];
 
 export default routerProtocolar;

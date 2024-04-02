@@ -32,6 +32,11 @@ export const configProtocolar = {
             name: `Detalle-${folder}-${pages._TRAMITE_}`,
             file: `Detalle-${pages._TRAMITE_}`,
         },
+        detalleSK: {
+            path: `/${pages._TRAMITE_}/detalle/:id/:dni'`,
+            name: `DetalleSK-${folder}-${pages._TRAMITE_}`,
+            file: `DetalleSK-${pages._TRAMITE_}`,
+        },
     },
 }
 

@@ -73,7 +73,14 @@
                                             <DocumentAttachSharp />
                                         </button>
                                     </ToolTip>
-
+                                    <template v-if="!item?.kardex">
+                                        <ToolTip text="Ver Kardex sin Asignar" position="right">
+                                            <button @click="viewUnassignedKarkex(item)"
+                                                class="btn btn-circle btn-xs btn-ghost text-accent ">
+                                                <DocumentTextSharp />
+                                            </button>
+                                        </ToolTip>
+                                    </template>
                                     <!--
                                     <ToolTip text="Adjuntar Documentos" position="right">
                                         <button @click="onUploadFileDocument(item)"
@@ -329,6 +336,7 @@ import { useKardexExternalStore } from "@/store/external/kardex.external";
 
 //import { DocumentForm } from '../../External/Tramite/Components'
 import DocumentAttachSharp from "@vicons/ionicons5/DocumentAttachSharp";
+import DocumentTextSharp from "@vicons/ionicons5/DocumentTextSharp";
 import { defineForm, field, isValidForm } from "vue-yup-form";
 import * as Yup from "yup";
 import { validateMaxDigits } from "@/utils/Regexs";
@@ -442,6 +450,17 @@ const onAsignationKardex = (cod: number) => {
     idSelected.value = cod
     useOpenModal(idModalAsignKardex)
 }
+
+const viewUnassignedKarkex = (item) => {
+    window.location.href = `/Tramite/detalle/${item.id}/${item.documento}`;
+    //alert(cod);
+    //window.location.href = `/Tramite/detalle/${item.id}/${item.documento}/${item.detalle_kardex.s_codigo}`;
+    // No tiene este codigo ${item.detalle_kardex.s_codigo}
+    //idSelected.value = cod
+    //useOpenModal(idModalAsignKardex)
+}
+
+
 /*
 const onSaveDocuments = async () => {
 
