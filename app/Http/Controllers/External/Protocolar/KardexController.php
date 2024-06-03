@@ -122,6 +122,7 @@ class KardexController extends Controller
                 'client' => $client,
                 'tipo_doc' => $tipo_doc->s_abrev,
                 'adjuntos' => $attachedDocuments,
+                'kardex' => $client->detalle_kardex
             ], function ($message) use ($item, $attachedDocuments) {
                 $message->to($item);
                 $message->subject('Se subio un nuevo documento');
@@ -175,6 +176,7 @@ class KardexController extends Controller
                 'client' => $client,
                 'tipo_doc' => $tipo_doc->s_abrev,
                 'adjuntos' => $attachedDocuments,
+                'kardex' => $client->detalle_kardex
             ], function ($message) use ($item, $attachedDocuments) {
                 $message->to($item);
                 $message->subject('Se subio un nuevo documento');

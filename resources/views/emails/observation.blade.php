@@ -64,7 +64,7 @@
 
 <body>
     <div class="container">
-        <h2>{{ config('app.name') }} / Trámite</h2>
+        <h2>{{ config('app.name') }} / Trámite {{$kardex['s_tipokardex']}}-{{$kardex['s_kardex']}}</h2>
         <p>Nuevo Comentario día: {{ now()->format('d/m/y H:i') }}</p>
 
         <p class="highlight">{{ $s_observacion }}</p>

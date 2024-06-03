@@ -45,7 +45,7 @@
 
 <body>
     <div class="container">
-        <h2>{{ config('app.name') }} / Trámite</h2>
+        <h2>{{ config('app.name') }} / Trámite {{$kardex['s_tipokardex']}}-{{$kardex['s_kardex']}} </h2>
         <div class="notification">Nuevos Documentos Agregados</div>
         <p>Ha recibido nuevos documentos, ¡Ver Adjuntos!</p>
         <div class="footer">
