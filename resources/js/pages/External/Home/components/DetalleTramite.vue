@@ -1,312 +1,319 @@
 <template>
-    <div class="grid gap-2 my-4 border p-4">
-        <div class="flex items-center justify-between">
-            <router-link to="/home" class="btn btn-sm align-left">
-                <i class="pi pi-arrow-circle-left text-lg cursor-pointer"></i>Mis Trámites
-            </router-link>
-            <a @click.native="recargarPagina" class="btn btn-sm align-center">
-                Refrescar
-            </a>
-            <a role="button" class="btn btn-sm align-center">Trámite : {{ sTipokardex }} - {{ numKardex }}</a>
-        </div>
-        <details class="collapse">
-            <summary class="text-md font-medium bg-blue flex items-center">
-                <span class="margin-spam">
-                    <button class="btn btn-circle btn-xs btn-ghost bg-blue">
-                        <AccountGroupOutline />
-                    </button>
-                </span>
-                <span style="vertical-align: text-bottom;" class="ml-2 text-md">COMPARECIENTES</span>
-            </summary>
-            <div class="collapse-content">
-                <table class="table table-xs">
-                    <thead>
-                        <tr>
-                            <th>Nombres</th>
-                            <th>Firma</th>
-                            <th>Fecha</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="bg-base-200" v-if="participants && participants.length > 0"
-                            v-for="(item, key) in participants" :key="key">
-                            <td>
-                                <span class="icon" @click="handleRowClick(item.s_compareciente)">
-                                    <i class="pi pi-info-circle color-icono"></i>
-                                </span>
-                                {{ item.compareciente?.nombre_compuesto }}
-                            </td>
-                            <td>
-                                <span class="badge badge-outline badge-md"
-                                    :class="item.i_firma ? 'badge-success' : 'badge-error'">{{ item.i_firma ? 'SI' :
-                'NO'
-                                    }}</span>
-                            </td>
-                            <td>{{ item.d_fechfirma }}</td>
-                        </tr>
-                        <tr v-else>
-                            <td colspan="3">Sin Información</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </details>
-        <details class="collapse ">
-            <summary class="text-md font-medium bg-blue">
-                <span class="margin-spam">
-                    <button class="btn btn-circle btn-xs btn-ghost bg-blue ">
-                        <i class="pi pi-file-import text-lg bg-blue cursor-pointer"></i>
-                    </button>
-                </span>
-                <span style="vertical-align: text-bottom;">DOCUMENTOS - COORPORATIVO</span>
-            </summary>
-            <div class="collapse-content">
-                <div class="flex justify-between  pt-1 pb-1 mt-1 mx-1">
-                    <button to="tramite" class="btn btn-outline custom-hover btn-sm ml-auto"
-                        @click="onUploadFileDocument(itemId)">ADJUNTAR DOCUMENTO</button>
+    <div>
+        <div class="md:mx-5">
+            <div class="grid gap-2 my-4 border p-4">
+                <div class="flex items-center justify-between">
+                    <router-link to="/Home" class="btn btn-sm align-left">
+                        <i class="pi pi-arrow-circle-left text-lg cursor-pointer"></i>Mis Trámites
+                    </router-link>
+                    <a @click.native="recargarPagina" class="btn btn-sm align-center">
+                        Refrescar
+                    </a>
+                    <a role="button" class="btn btn-sm align-center">Trámite : {{ sTipokardex }} - {{ numKardex }}</a>
                 </div>
-                <DocumentFormDetalle :uploadFile="false" :documents="filesSelectedsExternal" />
-            </div>
-        </details>
-        <details class="collapse ">
-            <summary class="text-md font-medium bg-blue">
-                <span class="margin-spam">
-                    <button class="btn btn-circle btn-xs btn-ghost bg-blue ">
-                        <i class="pi pi-file-import text-lg bg-blue cursor-pointer"></i>
-                    </button>
-                </span>
-                <span style="vertical-align: text-bottom;">DOCUMENTOS - NOTARIA</span>
-            </summary>
-            <div class="collapse-content">
-                <!--<div class="flex justify-between  pt-1 pb-1 mt-1 mx-1">
+                <details class="collapse">
+                    <summary class="text-md font-medium bg-blue flex items-center">
+                        <span class="margin-spam">
+                            <button class="btn btn-circle btn-xs btn-ghost bg-blue">
+                                <AccountGroupOutline />
+                            </button>
+                        </span>
+                        <span style="vertical-align: text-bottom;" class="ml-2 text-md">COMPARECIENTES</span>
+                    </summary>
+                    <div class="collapse-content">
+                        <table class="table table-xs">
+                            <thead>
+                                <tr>
+                                    <th>Nombres</th>
+                                    <th>Firma</th>
+                                    <th>Fecha</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-base-200" v-if="participants && participants.length > 0"
+                                    v-for="(item, key) in participants" :key="key">
+                                    <td>
+                                        <span class="icon" @click.prevent="handleRowClick(item.s_compareciente)">
+                                            <i class="pi pi-info-circle color-icono"></i>
+                                        </span>
+                                        {{ item.compareciente?.nombre_compuesto }}
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-outline badge-md"
+                                            :class="item.i_firma ? 'badge-success' : 'badge-error'">{{ item.i_firma ?
+                        'SI' :
+                        'NO'
+                                            }}</span>
+                                    </td>
+                                    <td>{{ item.d_fechfirma }}</td>
+                                </tr>
+                                <tr v-else>
+                                    <td colspan="3">Sin Información</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </details>
+                <details class="collapse ">
+                    <summary class="text-md font-medium bg-blue">
+                        <span class="margin-spam">
+                            <button class="btn btn-circle btn-xs btn-ghost bg-blue ">
+                                <i class="pi pi-file-import text-lg bg-blue cursor-pointer"></i>
+                            </button>
+                        </span>
+                        <span style="vertical-align: text-bottom;">DOCUMENTOS - COORPORATIVO</span>
+                    </summary>
+                    <div class="collapse-content">
+                        <div class="flex justify-between  pt-1 pb-1 mt-1 mx-1">
+                            <button to="tramite" class="btn btn-outline custom-hover btn-sm ml-auto"
+                                @click="onUploadFileDocument(itemId)">ADJUNTAR DOCUMENTO</button>
+                        </div>
+                        <DocumentFormDetalle :uploadFile="false" :documents="filesSelectedsExternal" />
+                    </div>
+                </details>
+                <details class="collapse ">
+                    <summary class="text-md font-medium bg-blue">
+                        <span class="margin-spam">
+                            <button class="btn btn-circle btn-xs btn-ghost bg-blue ">
+                                <i class="pi pi-file-import text-lg bg-blue cursor-pointer"></i>
+                            </button>
+                        </span>
+                        <span style="vertical-align: text-bottom;">DOCUMENTOS - NOTARIA</span>
+                    </summary>
+                    <div class="collapse-content">
+                        <!--<div class="flex justify-between  pt-1 pb-1 mt-1 mx-1">
                     <button to="tramite" class="btn btn-outline custom-hover btn-sm ml-auto"
                         @click="onUploadFileDocument(itemId)">ADJUNTAR DOCUMENTO</button>
                 </div>-->
-                <DocumentFormDetalle :uploadFile="false" :documents="filesSelectedsNotaria" />
-            </div>
-        </details>
-        <details class="collapse ">
-            <summary class="text-md font-medium bg-blue">
-                <span class="margin-spam">
-
-                    <button class="btn btn-circle btn-xs btn-ghost bg-blue ">
-                        <i class="pi pi-file text-lg bg-blue cursor-pointer"></i>
-                    </button>
-                </span>
-                <span style="vertical-align: text-bottom;">ESTADO REGISTRAL</span>
-            </summary>
-            <div class="collapse-content">
-                <Table>
-                    <THead>
-                        <tr>
-                            <th>N° TITULO</th>
-                            <th>FECHA DE PRESENTACION</th>
-                            <th>ACTO</th>
-                            <th>ESTADO</th>
-                            <th>PARTIDA</th>
-                        </tr>
-                    </THead>
-                    <tbody>
-                        <tr v-if="recordsRegisterPublics?.registro_publico?.length"
-                            v-for="(item, k) in recordsRegisterPublics?.registro_publico" :key="k">
-                            <td>{{ item?.s_titulo }}</td>
-                            <td>{{ item?.d_fecha }}</td>
-                            <td> </td>
-                            <td> {{ item?.s_estadoR }}</td>
-                            <td> {{ item?.s_partida }}</td>
-                        </tr>
-                        <tr v-else>
-                            <td>Sin Información</td>
-                        </tr>
-                    </tbody>
-                </Table>
-            </div>
-        </details>
-
-        <details class="collapse ">
-            <summary class="text-md font-medium bg-blue">
-                <span class="margin-spam">
-                    <button class="btn btn-circle btn-xs btn-ghost bg-blue ">
-                        <i class="pi pi-money-bill text-lg bg-blue cursor-pointer"></i>
-                    </button>
-                </span>
-                <span style="vertical-align: text-bottom;">PRESUPUESTO</span>
-            </summary>
-            <div style="margin-top: 10px;"></div>
-            <div class="collapse-content">
-
-                <!-- Contenido de COTIZACIÓN NOTARIAL -->
+                        <DocumentFormDetalle :uploadFile="false" :documents="filesSelectedsNotaria" />
+                    </div>
+                </details>
                 <details class="collapse ">
-                    <summary class="text-md font-medium bg-blue-claro">
+                    <summary class="text-md font-medium bg-blue">
                         <span class="margin-spam">
-                            <button class="btn btn-circle btn-xs btn-ghost bg-blue-claro ">
-                                <i class="pi pi-money-bill text-lg bg-blue-claro cursor-pointer"></i>
+
+                            <button class="btn btn-circle btn-xs btn-ghost bg-blue ">
+                                <i class="pi pi-file text-lg bg-blue cursor-pointer"></i>
                             </button>
                         </span>
-                        <span style="vertical-align: text-bottom;">COTIZACIÓN NOTARIAL</span>
+                        <span style="vertical-align: text-bottom;">ESTADO REGISTRAL</span>
                     </summary>
                     <div class="collapse-content">
+                        <Table>
+                            <THead>
+                                <tr>
+                                    <th>N° TITULO</th>
+                                    <th>FECHA DE PRESENTACION</th>
+                                    <th>ACTO</th>
+                                    <th>ESTADO</th>
+                                    <th>PARTIDA</th>
+                                </tr>
+                            </THead>
+                            <tbody>
+                                <tr v-if="recordsRegisterPublics?.registro_publico?.length"
+                                    v-for="(item, k) in recordsRegisterPublics?.registro_publico" :key="k">
+                                    <td>{{ item?.s_titulo }}</td>
+                                    <td>{{ item?.d_fecha }}</td>
+                                    <td> </td>
+                                    <td> {{ item?.s_estadoR }}</td>
+                                    <td> {{ item?.s_partida }}</td>
+                                </tr>
+                                <tr v-else>
+                                    <td>Sin Información</td>
+                                </tr>
+                            </tbody>
+                        </Table>
+                    </div>
+                </details>
+
+                <details class="collapse ">
+                    <summary class="text-md font-medium bg-blue">
+                        <span class="margin-spam">
+                            <button class="btn btn-circle btn-xs btn-ghost bg-blue ">
+                                <i class="pi pi-money-bill text-lg bg-blue cursor-pointer"></i>
+                            </button>
+                        </span>
+                        <span style="vertical-align: text-bottom;">PRESUPUESTO</span>
+                    </summary>
+                    <div style="margin-top: 10px;"></div>
+                    <div class="collapse-content">
+
                         <!-- Contenido de COTIZACIÓN NOTARIAL -->
-                        <table class="table table-xs">
-                            <THead>
-                                <tr>
-                                    <th>Descripcion</th>
-                                    <th>Cantidad</th>
-                                    <th>Precio</th>
-                                    <th>Monto</th>
-                                </tr>
-                            </THead>
-                            <tbody>
-                                <tr v-for="(item, key) in recordsRegisterPublics?.servicio_notarial" :key="key">
-                                    <td>{{ item?.servicio?.s_nombre }}</td>
-                                    <td>{{ item.i_cantidad }}</td>
-                                    <td class="text-right">{{ item.de_precio.toFixed(2) }}</td>
-                                    <td class="text-right">{{ item.de_total.toFixed(2) }}</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="4">TOTAL <span class="badge badge-outline badge-success">{{
-                sumaTotalNotarial
-            }}</span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <details class="collapse ">
+                            <summary class="text-md font-medium bg-blue-claro">
+                                <span class="margin-spam">
+                                    <button class="btn btn-circle btn-xs btn-ghost bg-blue-claro ">
+                                        <i class="pi pi-money-bill text-lg bg-blue-claro cursor-pointer"></i>
+                                    </button>
+                                </span>
+                                <span style="vertical-align: text-bottom;">COTIZACIÓN NOTARIAL</span>
+                            </summary>
+                            <div class="collapse-content">
+                                <!-- Contenido de COTIZACIÓN NOTARIAL -->
+                                <table class="table table-xs">
+                                    <THead>
+                                        <tr>
+                                            <th>Descripcion</th>
+                                            <th>Cantidad</th>
+                                            <th>Precio</th>
+                                            <th>Monto</th>
+                                        </tr>
+                                    </THead>
+                                    <tbody>
+                                        <tr v-for="(item, key) in recordsRegisterPublics?.servicio_notarial" :key="key">
+                                            <td>{{ item?.servicio?.s_nombre }}</td>
+                                            <td>{{ item.i_cantidad }}</td>
+                                            <td class="text-right">{{ item.de_precio.toFixed(2) }}</td>
+                                            <td class="text-right">{{ item.de_total.toFixed(2) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4">TOTAL <span class="badge badge-outline badge-success">{{
+                        sumaTotalNotarial
+                    }}</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </details>
+                        <div style="margin-top: 5px;"></div>
+                        <!-- Contenido de COTIZACIÓN REGISTRAL -->
+                        <details class="collapse ">
+                            <summary class="text-md font-medium bg-blue-claro">
+                                <span class="margin-spam">
+                                    <button class="btn btn-circle btn-xs btn-ghost bg-blue-claro ">
+                                        <i class="pi pi-money-bill text-lg bg-blue-claro cursor-pointer"></i>
+                                    </button>
+                                </span>
+                                <span style="vertical-align: text-bottom;">COTIZACIÓN REGISTRAL</span>
+                            </summary>
+                            <div class="collapse-content">
+                                <!-- Contenido de COTIZACIÓN REGISTRAL -->
+                                <table class="table table-xs">
+                                    <THead>
+                                        <tr>
+                                            <th>Descripcion</th>
+                                            <th>Cantidad</th>
+                                            <th>Precio</th>
+                                            <th>Monto</th>
+                                        </tr>
+                                    </THead>
+                                    <tbody>
+                                        <tr v-for="(item, key) in recordsRegisterPublics?.servicio_registral"
+                                            :key="key">
+                                            <td>{{ item?.servicio?.s_nombre }}</td>
+                                            <td>{{ item.i_cantidad }}</td>
+                                            <td class="text-right">{{ item.de_precio.toFixed(2) }}</td>
+                                            <td class="text-right">{{ item.de_total.toFixed(2) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4">TOTAL <span class="badge badge-outline badge-success">{{
+                        sumaTotalRegistral
+                    }}</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </details>
+
                     </div>
                 </details>
-                <div style="margin-top: 5px;"></div>
-                <!-- Contenido de COTIZACIÓN REGISTRAL -->
+
                 <details class="collapse ">
-                    <summary class="text-md font-medium bg-blue-claro">
+                    <summary class="text-md font-medium bg-blue">
                         <span class="margin-spam">
-                            <button class="btn btn-circle btn-xs btn-ghost bg-blue-claro ">
-                                <i class="pi pi-money-bill text-lg bg-blue-claro cursor-pointer"></i>
-                            </button>
+                            <button class="btn btn-xs btn-circle  btn-ghost"><i
+                                    class="bg-blue pi pi-comments"></i></button>
                         </span>
-                        <span style="vertical-align: text-bottom;">COTIZACIÓN REGISTRAL</span>
+                        <span>COMENTARIOS</span>
                     </summary>
                     <div class="collapse-content">
-                        <!-- Contenido de COTIZACIÓN REGISTRAL -->
-                        <table class="table table-xs">
+                        <div class="flex justify-between  pt-1 pb-1 mt-1 mx-1">
+                            <button to="tramite" class="btn btn-outline custom-hover btn-sm ml-auto"
+                                @click="onOpenObservation">NUEVO
+                                COMENTARIO</button>
+                        </div>
+                        <Table>
                             <THead>
                                 <tr>
-                                    <th>Descripcion</th>
-                                    <th>Cantidad</th>
-                                    <th>Precio</th>
-                                    <th>Monto</th>
+                                    <th>Personal</th>
+                                    <th>Observacion</th>
                                 </tr>
                             </THead>
                             <tbody>
-                                <tr v-for="(item, key) in recordsRegisterPublics?.servicio_registral" :key="key">
-                                    <td>{{ item?.servicio?.s_nombre }}</td>
-                                    <td>{{ item.i_cantidad }}</td>
-                                    <td class="text-right">{{ item.de_precio.toFixed(2) }}</td>
-                                    <td class="text-right">{{ item.de_total.toFixed(2) }}</td>
+                                <tr v-if="allObservations && allObservations.length > 0"
+                                    v-for="(item, k) in allObservations" :key="k">
+                                    <td>{{ item.personal?.nombre_compuesto }} {{ item.cliente?.nombre_compuesto }} {{
+                        item.empresa?.nombre_compuesto }}</td>
+                                    <td>{{ item.s_observacion }}</td>
                                 </tr>
-                                <tr>
-                                    <td colspan="4">TOTAL <span class="badge badge-outline badge-success">{{
-                sumaTotalRegistral
-            }}</span>
-                                    </td>
+                                <tr v-else>
+                                    <td colspan="2">Sin Información</td>
                                 </tr>
                             </tbody>
-                        </table>
+                        </Table>
                     </div>
                 </details>
-
             </div>
-        </details>
-
-        <details class="collapse ">
-            <summary class="text-md font-medium bg-blue">
-                <span class="margin-spam">
-                    <button class="btn btn-xs btn-circle  btn-ghost"><i class="bg-blue pi pi-comments"></i></button>
-                </span>
-                <span>COMENTARIOS</span>
-            </summary>
-            <div class="collapse-content">
-                <div class="flex justify-between  pt-1 pb-1 mt-1 mx-1">
-                    <button to="tramite" class="btn btn-outline custom-hover btn-sm ml-auto"
-                        @click="onOpenObservation">NUEVO
-                        COMENTARIO</button>
+            <Modal :id="idAddObservationModal">
+                <button class="btn btn-xs btn-circle right-0" @click="useCloseModal()">
+                    <i class="pi pi-arrow-left"></i>
+                </button>
+                Agregar Observacion
+                <div>
+                    <TextArea v-model="form_observacion.observacion.$value"
+                        :error-message="form_observacion.observacion.$error?.message" label="Observacion" />
                 </div>
-                <Table>
-                    <THead>
-                        <tr>
-                            <th>Personal</th>
-                            <th>Observacion</th>
-                        </tr>
-                    </THead>
-                    <tbody>
-                        <tr v-if="allObservations && allObservations.length > 0" v-for="(item, k) in allObservations"
-                            :key="k">
-                            <td>{{ item.personal?.nombre_compuesto }} {{ item.cliente?.nombre_compuesto }} {{
-                item.empresa?.nombre_compuesto }}</td>
-                            <td>{{ item.s_observacion }}</td>
-                        </tr>
-                        <tr v-else>
-                            <td colspan="2">Sin Información</td>
-                        </tr>
-                    </tbody>
-                </Table>
-            </div>
-        </details>
+                <Center>
+                    <BtnSave @click="onSaveObservation()" :loading="isSaveObservation"
+                        :disabled="isSaveObservation || !isValidForm(form_observacion)" text="Grabar" />
+                </Center>
+            </Modal>
+            <Modal :id="idModalUploadFileDocument">
+                <button class="btn btn-xs  btn-circle" @click="$router.back()">
+                    <i class="pi pi-arrow-left" />
+                </button>
+                Adjuntar Documentos
+                <UploaderFiles documentType="varios" :key="keyUploadFile" :files="files" :multiple="true"
+                    maxFileSize="15MB" maxTotalFileSize="60MB" accept="image/*, application/pdf, .docx, .xlsx"
+                    @selectFile="onSelectedFile" label="Arrastra o Agrega tus Archivos" />
+                <Center>
+                    <BtnSave :loading="isSubmitAction" :disabled="isSubmitAction" @click="onSaveDocuments"
+                        text="SUBIR ARCHIVO" />
+                </Center>
+            </Modal>
+            <Modal :id="idClienteDetalle">
+                <div class="modal-header">
+                    <button class="btn btn-xs btn-circle" @click="$router.back()">
+                        <i class="pi pi-arrow-left" />
+                    </button>
+                    <h4 class="modal-title">Detalle del Compareciente</h4>
+                </div>
+                <div v-if="numKardex" class="modal-body">
+                    <div>
+                        <strong>Tipo Documento:</strong> {{ detalleCliente?.tipo_documento?.s_abrev }}
+                    </div>
+                    <div>
+                        <strong>Número Documento:</strong> {{ detalleCliente?.s_num_doc }}
+                    </div>
+                    <div>
+                        <strong>Nombre:</strong> {{ detalleCliente?.nombre_compuesto }}
+                    </div>
+                    <div>
+                        <strong>Estado Civil:</strong> {{ detalleCliente?.s_estado_civil }}
+                    </div>
+                    <div>
+                        <strong>Sexo:</strong> {{ detalleCliente?.s_sexo }}
+                    </div>
+                    <div>
+                        <strong>Edad:</strong> {{ detalleCliente?.edad }}
+                    </div>
+                </div>
+            </Modal>
+        </div>
+        <router-view></router-view>
     </div>
-
-    <Modal :id="idAddObservationModal">
-        <button class="btn btn-xs btn-circle right-0" @click="useCloseModal()">
-            <i class="pi pi-arrow-left"></i>
-        </button>
-        Agregar Observacion
-        <div>
-            <TextArea v-model="form_observacion.observacion.$value"
-                :error-message="form_observacion.observacion.$error?.message" label="Observacion" />
-        </div>
-        <Center>
-            <BtnSave @click="onSaveObservation()" :loading="isSaveObservation"
-                :disabled="isSaveObservation || !isValidForm(form_observacion)" text="Grabar" />
-        </Center>
-    </Modal>
-    <Modal :id="idModalUploadFileDocument">
-        <button class="btn btn-xs  btn-circle" @click="$router.back()">
-            <i class="pi pi-arrow-left" />
-        </button>
-        Adjuntar Documentos
-        <UploaderFiles documentType="varios" :key="keyUploadFile" :files="files" :multiple="true" maxFileSize="15MB"
-            maxTotalFileSize="60MB" accept="image/*, application/pdf, .docx, .xlsx" @selectFile="onSelectedFile"
-            label="Arrastra o Agrega tus Archivos" />
-        <Center>
-            <BtnSave :loading="isSubmitAction" :disabled="isSubmitAction" @click="onSaveDocuments"
-                text="SUBIR ARCHIVO" />
-        </Center>
-    </Modal>
-    <Modal :id="idClienteDetalle">
-        <div class="modal-header">
-            <button class="btn btn-xs btn-circle" @click="$router.back()">
-                <i class="pi pi-arrow-left" />
-            </button>
-            <h4 class="modal-title">Detalle del Compareciente</h4>
-        </div>
-        <div class="modal-body">
-            <div>
-                <strong>Tipo Documento:</strong> {{ detalleCliente.tipo_documento.s_abrev }}
-            </div>
-            <div>
-                <strong>Número Documento:</strong> {{ detalleCliente.s_num_doc }}
-            </div>
-            <div>
-                <strong>Nombre:</strong> {{ detalleCliente.nombre_compuesto }}
-            </div>
-            <div>
-                <strong>Estado Civil:</strong> {{ detalleCliente.s_estado_civil }}
-            </div>
-            <div>
-                <strong>Sexo:</strong> {{ detalleCliente.s_sexo }}
-            </div>
-            <div>
-                <strong>Edad:</strong> {{ detalleCliente.edad }}
-            </div>
-        </div>
-    </Modal>
 </template>
 
 <script lang="ts" setup>
@@ -315,35 +322,29 @@ import {
     BtnSave,
     Table,
     THead,
-    Paginate,
-    Skeleton,
-    ToolTip,
-    UploaderFiles, Galery,
+    UploaderFiles,
     Modal,
     TextArea,
-    TextInputSearch,
-    Options
 } from "@/components";
 import { useCloseModal, useGenerateKeyRandom, useOpenModal } from "@/hooks/useUtils";
 
 import AccountGroupOutline from 'vue-material-design-icons/AccountGroupOutline.vue'
 import { useKardexExternalStore } from "@/store/external/kardex.external";
 import type { IUploadFile } from "@/models/components/upload-file.interface";
-import { onMounted, ref, toRefs, defineProps, defineEmits } from "vue";
+import { watch, onMounted, ref, toRefs, defineEmits } from "vue";
 import { notify } from "@kyvg/vue3-notification";
 import { useClientExternalStore } from "@/store/external/client.external";
 import { useTramiteStore } from "@/store/tramite";
 import { DocumentFormDetalle } from '../../../External/Tramite/Components';
-import type { HistorialTramite, ServicioNotarial } from "@/models/types";
-import { defineComponent } from "vue";
+import type { HistorialTramite } from "@/models/types";
 import type { ResponseList } from "@/models/extends";
 import * as Yup from "yup";
 import { defineForm, field, isValidForm } from "vue-yup-form";
 import axios from "axios";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
-const { isLoading, pagination, search } = toRefs(useClientExternalStore())
-//const { listProcedure, cleanPagination } = useClientExternalStore()
+const { isLoading, details } = toRefs(useClientExternalStore())
+const { listProcedureDetail } = useClientExternalStore()
 const { listParticipants, saveDocumentsExternal } = useKardexExternalStore()
 const { saveObservationExternal, getAllObservationById } = useTramiteStore();
 const files = ref<IUploadFile[]>([])
@@ -369,13 +370,13 @@ const idAddObservationModal = useGenerateKeyRandom()
 const fileSelected = ref<IUploadFile[]>([]);
 const galeryComponentRef = ref<any>(null);
 const itemId = ref<string>('')
-const kardexValue = ref<string>('')
 const router = useRouter()
-const recordsClients = ref<any>();
 const sumaTotalNotarial = ref<any>();
 const sumaTotalRegistral = ref<any>();
 const detalleCliente = ref<any>();
-
+const route = useRoute();
+const id = ref<string>('');
+const kardex_num = ref<string>('');
 
 
 const onViewParticipant = async (payload) => {
@@ -409,15 +410,15 @@ const onUploadFileDocument = (id) => {
     useOpenModal(idModalUploadFileDocument)
 }
 const handleRowClick = async (codigo) => {
+    if (!numKardex.value) return
     try {
-        // Realiza una solicitud get a la API utilizando axios.
-        const response = await axios.get(
+        const { data, status } = await axios.get(
             `${apiResource}/list-cliente/${codigo}`
         );
-        useOpenModal(idClienteDetalle)
-        detalleCliente.value = response.data.data;
-        console.log('detalleCliente.value', detalleCliente.value);
-        // Agrega cualquier lógica adicional que desees realizar con la respuesta.
+        if (status === 200) {
+            useOpenModal(idClienteDetalle)
+            detalleCliente.value = data.data;
+        }
     } catch (error) {
         // Maneja cualquier error que pueda ocurrir durante la solicitud.
         console.error('Error al realizar la solicitud GET:', error);
@@ -438,8 +439,6 @@ const onSaveDocuments = async () => {
                 keyUploadFile.value = useGenerateKeyRandom()
                 files.value = []
                 useCloseModal()
-                // Redirige a la página deseada después de cerrar el modal
-                //router.push('/home');
                 router.go(0);
             }
         } catch (e) {
@@ -486,8 +485,6 @@ const onViewDocumentsNotaria = (paylaod) => {
     filesSelectedsNotaria.value = paylaod.files_notaria
 }
 const onOpenObservation = () => {
-    //console.log('kardexSelected', kardexSelected);
-    //kardexSelected.value = 'OS0000054786'
     useOpenModal(idAddObservationModal)
 }
 const onSaveObservation = async () => {
@@ -560,52 +557,44 @@ async function listRegisterPublic(id: number) {
     }
 }
 
-onMounted(async () => {
-    itemId.value = window.location.pathname.split('/')[2];
-    kardexValue.value = window.location.pathname.split('/')[3];
 
-    try {
-        await listProcedure(kardexValue.value);  // Espera a que listProcedure se complete
-        const rowData = recordsClients.value[0];
-        console.log('rowData', rowData);
+const onGetDetail = async (id: string) => {
+    await listProcedureDetail(id);
+    const rowData = details.value;
+    sTipokardex.value = rowData.detalle_kardex.s_tipokardex;
+    numKardex.value = rowData.detalle_kardex.num_kardex;
+    onViewParticipant(rowData);
+    onViewDocumentsExternal(rowData);
+    onViewDocumentsNotaria(rowData);
+    onOpenViewObservation(rowData.kardex);
+    listRegisterPublic(rowData.id);
 
-        // Resto de tu código usando rowData...
-        sTipokardex.value = rowData.detalle_kardex.s_tipokardex;
-        numKardex.value = rowData.detalle_kardex.num_kardex;
-        onViewParticipant(rowData);
-        onViewDocumentsExternal(rowData);
-        onViewDocumentsNotaria(rowData);
-        onOpenViewObservation(rowData.kardex);
-        listRegisterPublic(rowData.id);
-        //onSelectedRowNotarial(rowData.id);
-        console.log('participants', participants);
-    } catch (error) {
-        // Manejar errores de manera apropiada
-    }
-});
-
-async function listProcedure(kardex) {
-    try {
-        isLoading.value = true;
-        let current_page = pagination.value?.current_page;
-        let page = current_page ? current_page : 1;
-        let searchFilter = kardex;
-        const {
-            data: { data, meta },
-        }: ResponseList<any> = await axios.get(
-            `${apiResource}?page=${page.toString()}&search=${searchFilter}`
-        );
-        console.log('url de listProcedure', `${apiResource}?page=${page.toString()}&search=${searchFilter}`);
-
-        recordsClients.value = data;
-        console.log('recordsClients.value', recordsClients.value);
-        pagination.value = meta;
-    } catch (error) {
-        // Handle errors appropriately
-    } finally {
-        isLoading.value = false;
-    }
 }
+
+onMounted(() => {
+
+    kardex_num.value = route.params?.kardex?.toString()
+    onGetDetail(kardex_num.value)
+    watch(
+        () => route.params.id,
+        async (newId, oldId) => {
+            console.log(newId)
+            if (newId && newId != oldId) {
+                itemId.value = route.params?.id?.toString()
+                kardex_num.value = route.params?.kardex?.toString()
+                await onGetDetail(kardex_num.value)
+                try {
+
+                } catch (error) {
+
+                }
+            }
+        });
+})
+
+
+
+
 
 
 </script>

@@ -29,6 +29,14 @@ class ClientController extends Controller
         return $this->service->get($request);
     }
 
+    public function getById(string $id): JsonResponse
+    {
+        $payload = $this->service->getById($id);
+        return $this->success($payload);
+    }
+
+    
+
     public function listCLiente(Request $request): JsonResource
     {
         return $this->service->getCliente($request);

@@ -99,6 +99,17 @@ class ClientExternal extends Model
         }
     }
 
+    public function scopeFilterByNumKardex($query, $value)
+    {
+        if ($value) {
+            return $query->WhereHas('detalle_kardex', function ($qr) use ($value) {
+                    return $qr->Where('s_kardex', (int) $value);
+                });
+        }
+    }
+
+
+
     public function scopeNombreCompuesto($query, $search)
     {
         if ($search) {

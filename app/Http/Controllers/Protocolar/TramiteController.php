@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Protocolar;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Protocolar\Tramite\StoreObervation;
+use App\Models\External\Protocolar\ClientExternal;
+use App\Models\Mantenimiento\TipoDocumento;
 use App\Services\Protocolar\TramiteService;
 use App\Traits\ApiResponser;
 use App\Traits\MiddlewarePermission;
@@ -37,15 +39,22 @@ class TramiteController extends Controller
     }*/
     public function saveObservationExternal(StoreObervation $request)
     {
-        //dd('Guardar comentario external');
+        $id_kardex =   $request->s_tramite;
         $data = $this->service->saveObservation($request);
-        //dd($data);
+        
+        $client = ClientExternal::where('kardex',$id_kardex)->first();
+        $tipo_doc = TipoDocumento::find($client->tipo_documento);
+
+
         // Enviar correo electrónico con todos los documentos adjuntos
         $destination = ["legalcorporativo@notariarodriguez.com", "ricardocuevas329@gmail.com"];
         //$destination = ["jorgeuchofen060892@gmail.com"];
         foreach ($destination as $item) {
             Mail::send('emails.observation', [
                 's_observacion' => $data['s_observacion'],
+                'client' => $client,
+                'tipo_doc' => $tipo_doc->s_abrev,
+                'kardex' => $client->detalle_kardex
             ], function ($message) use ($item) {
                 $message->to($item);
                 $message->subject('Nueva Comentario');
@@ -56,15 +65,19 @@ class TramiteController extends Controller
 
     public function saveObservationInternal(StoreObervation $request)
     {
-        //dd('Guardar comentario internal');
+        $id_kardex =   $request->s_tramite;
         $data = $this->service->saveObservation($request);
-        //dd($data);
+        $client = ClientExternal::where('kardex',$id_kardex)->first();
+        $tipo_doc = TipoDocumento::find($client->tipo_documento);
         // Enviar correo electrónico con todos los documentos adjuntos
         $destination = ["jr@rebajatuscuentas.com", "ricardocuevas329@gmail.com"];
         //$destination = ["jorgeuchofen060892@gmail.com"];
         foreach ($destination as $item) {
             Mail::send('emails.observation', [
                 's_observacion' => $data['s_observacion'],
+                'client' => $client,
+                'tipo_doc' => $tipo_doc->s_abrev,
+                'kardex' => $client->detalle_kardex
             ], function ($message) use ($item) {
                 $message->to($item);
                 $message->subject('Nueva Comentario');

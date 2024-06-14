@@ -64,7 +64,15 @@
 
 <body>
     <div class="container">
-        <h2>{{ config('app.name') }} / Trámite {{$kardex['s_tipokardex']}}-{{$kardex['s_kardex']}}</h2>
+        @isset($kardex['s_tipokardex'], $kardex['s_kardex'])
+        @if(!empty($kardex['s_tipokardex']) && !empty($kardex['s_kardex']))
+        <h2>{{ config('app.name') }} / Trámite {{ $kardex['s_tipokardex'] }}-{{ $kardex['s_kardex'] }}</h2>
+        @else
+        <h2> {{ config('app.name') }} </h2>
+        @endif
+        @else
+        <h2> {{ config('app.name') }} </h2>
+        @endisset
         <p>Nuevo Comentario día: {{ now()->format('d/m/y H:i') }}</p>
 
         <p class="highlight">{{ $s_observacion }}</p>

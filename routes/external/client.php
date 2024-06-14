@@ -7,3 +7,4 @@ Route::get('/client/list-cliente/{codigo}', [ClientController::class, 'listClien
 Route::post('/client', [ClientController::class, 'store']);
 Route::post('/client/get/register-public', [ClientController::class, 'listRegisterPublics']);
 Route::post('/client/get/estado-clic', [ClientController::class, 'estadoClic']);
+Route::get('/client/get/byId/{id}', [ClientController::class, 'getById']);

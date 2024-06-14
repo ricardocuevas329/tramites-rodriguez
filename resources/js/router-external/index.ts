@@ -4,7 +4,7 @@ import { routerPermisoViaje } from "./PermisoViaje/PermisoViajeRouter";
 import { checkAuth } from "@/utils/RouterUtilsExternal";
 import { routerTramite } from "@/router-external/Tramite/TramiteRouter";
 import { routerConsultaTramite } from "@/router-external/ConsultaTramite/ConsultaTramiteRouter";
-import DetalleComponent from "@/pages/External/Home/components/DetalleTramite.vue";
+ 
 
 export const routerExternal = createRouter({
     linkActiveClass: 'active',
@@ -18,22 +18,30 @@ export const routerExternal = createRouter({
         {
             beforeEnter: checkAuth,
             path: '/',
-            redirect: '/home'
+            redirect: '/Home'
         },
         {
             beforeEnter: checkAuth,
             path: '/Home',
             name: 'Home',
-            component: () => import('@/pages/External/Home/Home.vue'),
+            props: true,
+            component: () => import('@/pages/External/Home/components/Tramites.vue'),
             children: [
-                ...routerTramite
+                ...routerTramite,
             ]
         },
+           
         {
             path: '/detalle/:id/:kardex',
             name: 'Detalle',
-            component: DetalleComponent,
-            beforeEnter: checkAuth
+            props: true,
+            component: () => import('@/pages/External/Home/components/DetalleTramite.vue'),
+            beforeEnter: checkAuth,
+            meta: {
+                showModal: true,
+                persistent: true,
+            },
+    
         },
         ...routerAuth,
         ...routerPermisoViaje,

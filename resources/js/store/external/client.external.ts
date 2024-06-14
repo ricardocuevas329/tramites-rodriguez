@@ -5,7 +5,6 @@ import type { Kardex as IKardex, Participante as IParticipante } from "@/models/
 import type { ResponseByEntity } from "@/models/extends";
 import type { Pagination } from "@/models/Pagination";
 import type { ResponseList } from "@/models/extends";
-import type { IFilterSearchKardex } from "@/pages/External/ConsultaTramite/Interfaces/filters.consulta-tramite.interface";
 
 const idStore = "useClientExternalStore";
 const apiResource = "/api/external/client";
@@ -19,7 +18,8 @@ export const useClientExternalStore = defineStore(idStore, () => {
     const search = ref<string>('');
     const recordsRegisterPublics = ref<any>();
     const recordsKardex = ref<IKardex[]>([]);
-
+    const details = ref<any>();
+    
     async function listRegisterPublic(id: number) {
         try {
             recordsRegisterPublics.value = {}
@@ -37,6 +37,25 @@ export const useClientExternalStore = defineStore(idStore, () => {
 
         }
     }
+
+
+    async function listProcedureDetail(id: string) {
+        try {
+            recordsRegisterPublics.value = {}
+            const {
+                data: { data },
+            }: ResponseByEntity<any> = await axios.get(
+                `${apiResource}/get/byId/${id}`
+            );
+            details.value = data;
+
+        } catch (error) {
+        } finally {
+
+        }
+    }
+    
+
 
     async function listProcedure() {
         try {
@@ -69,14 +88,12 @@ export const useClientExternalStore = defineStore(idStore, () => {
                         // Asignar el nuevo objeto a "detalle_kardex_conex"
                         obj.detalle_kardex_conex = detalleKardexConexPlain;
 
-                        // Imprimir el resultado
-                        console.log("s_kardexconex:", s_kardexconex_valor);
-                        console.log("detalle_kardex_conex:", detalleKardexConexPlain);
+                      
                     } else {
-                        console.log("El valor 's_kardexconex' es nulo en 'detalle_kardex'");
+                        
                     }
                 } else {
-                    console.log("La clave 'detalle_kardex' no está presente en el objeto");
+                  
                 }
             }
             recordsClients.value = data;
@@ -131,6 +148,8 @@ export const useClientExternalStore = defineStore(idStore, () => {
         listProcedure,
         listRegisterPublic,
         recordsRegisterPublics,
-        cleanPagination
+        cleanPagination,
+        details,
+        listProcedureDetail
     };
 });
