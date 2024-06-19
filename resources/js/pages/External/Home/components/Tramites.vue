@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="md:mx-5">
+        <div v-show="$route.name=='Home'" class="md:mx-5">
             <div class="flex justify-between pt-4 pb-4 mt-4 mx-2">
                 <div>
                     <a role="button" class="btn btn-sm">Mis Trámites</a>

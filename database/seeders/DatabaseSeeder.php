@@ -13,14 +13,27 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
+
     public function run()
     {
-        $this->call(RoleSeeder::class);
-        $this->call(UserSeeder::class);
-        $this->call(PermissionSeeder::class);
-        $this->call(PermissionSeederCartaDiligencia::class);
-        $this->call(PermissionSeederRegistroFirmasCopiasCertificadas::class);
-        $this->call(PermissionSeederRegistroDeposito::class);
-        $this->call(PermissionSeederKardexRegistroVenta::class);
+        $seeders = [
+            RoleSeeder::class,
+            UserSeeder::class,
+            PermissionSeeder::class,
+            PermissionSeederCartaDiligencia::class,
+            PermissionSeederRegistroFirmasCopiasCertificadas::class,
+            PermissionSeederRegistroDeposito::class,
+            PermissionSeederKardexRegistroVenta::class,
+        ];
+
+        foreach ($seeders as $seeder) {
+            try {
+                $this->call($seeder);
+            } catch (\Exception $e) {
+                echo 'Error al ejecutar ' . $seeder . ': ' . $e->getMessage() . "\n";
+            }
+        }
     }
+
+
 }

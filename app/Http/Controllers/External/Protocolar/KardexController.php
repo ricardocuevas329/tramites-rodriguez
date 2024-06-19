@@ -49,14 +49,14 @@ class KardexController extends Controller
 
     public function saveAsignation(StoreKardexAsignationRequest $request)
     {
-        // Verificar si el Kardex existe
+
         if (!$this->kardexService->existsKardex($request)) {
             return $this->error("Kardex no Existe!!");
         }
-        // Guardar la asignación del Kardex
+
         $data = $this->kardexService->saveAsignation($request);
         $destination = ["jr@rebajatuscuentas.com", "ricardocuevas329@gmail.com"];
-        //$destination = ["jorgeuchofen060892@gmail.com"];
+
         foreach ($destination as $item) {
             Mail::send('emails.kardex_assignation', [
                 'kardex_data' => $data['detalle_kardex']
@@ -67,47 +67,27 @@ class KardexController extends Controller
         }
         return $this->success($data, "Kardex Asigando Correctamente!!");
     }
-    /*
-    public function saveDocument(Request $request)
-    {
-        //Aqui llegan los documentos
-        $documents = $request->documents;
-        $id_kardex = (int) $request->id_kardex;
 
-        if (!count($documents)) {
-            return $this->error("Agregue Documentos");
-        }
-
-        $data = $this->tramiteKardexExternalDocumentService->saveMany($documents, $id_kardex);
-        if($data){
-            return $this->success($data, "Documento Guardado Correctamente!!");
-        }
-        return $this->error($data, "Ocurrió algo , Intentelo Nuevamente!!");
-    }*/
     public function saveDocumentExternal(Request $request)
     {
-        //dd('Cuando guardo Documentos- Externo');
-        // Obtener documentos de la solicitud
+
         $documents = $request->documents;
         $id_kardex = (int) $request->id_kardex;
 
         if (!count($documents)) {
             return $this->error("Agregue Documentos");
         }
-        // Obtener información del cliente y tipo de documento
-        $client = ClientExternal::find($id_kardex);
+
+        $client = ClientExternal::where('id',$id_kardex)->first();
         $tipo_doc = TipoDocumento::find($client->tipo_documento);
 
-        // Guardar documentos utilizando tu servicio
+
         $this->tramiteKardexExternalDocumentService->saveMany($documents, $client->id);
 
-        // Enviar correo electrónico con todos los documentos adjuntos
         $destination = ["legalcorporativo@notariarodriguez.com", "ricardocuevas329@gmail.com"];
-        //$destination = ["jorgeuchofen060892@gmail.com"];
         $attachedDocuments = [];
 
         foreach ($documents as $document) {
-            // Verificar si las claves correctas están presentes en el documento
             if (isset($document['base64']) && isset($document['name']) && isset($document['type'])) {
                 $attachedDocuments[] = [
                     'name' => $document['name'],
@@ -140,28 +120,25 @@ class KardexController extends Controller
 
     public function saveDocumentInternal(Request $request)
     {
-        //dd('Cuando guardo Documentos- Interno');
-        // Obtener documentos de la solicitud
+
         $documents = $request->documents;
         $id_kardex = (int) $request->id_kardex;
 
         if (!count($documents)) {
             return $this->error("Agregue Documentos");
         }
-        // Obtener información del cliente y tipo de documento
+
         $client = ClientExternal::find($id_kardex);
         $tipo_doc = TipoDocumento::find($client->tipo_documento);
 
-        // Guardar documentos utilizando tu servicio
+
         $this->tramiteKardexExternalDocumentService->saveMany($documents, $client->id);
 
-        // Enviar correo electrónico con todos los documentos adjuntos
         $destination = ["jr@rebajatuscuentas.com", "ricardocuevas329@gmail.com"];
-        //$destination = ["jorgeuchofen060892@gmail.com"];
         $attachedDocuments = [];
 
         foreach ($documents as $document) {
-            // Verificar si las claves correctas están presentes en el documento
+
             if (isset($document['base64']) && isset($document['name']) && isset($document['type'])) {
                 $attachedDocuments[] = [
                     'name' => $document['name'],
@@ -181,7 +158,6 @@ class KardexController extends Controller
                 $message->to($item);
                 $message->subject('Se subio un nuevo documento');
 
-                // Adjuntar todos los documentos al correo electrónico
                 foreach ($attachedDocuments as $adjunto) {
                     $message->attachData(base64_decode($adjunto['file']), $adjunto['name'], [
                         'mime' => $adjunto['type'],

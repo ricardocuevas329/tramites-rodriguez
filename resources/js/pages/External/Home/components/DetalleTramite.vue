@@ -348,7 +348,6 @@ const { listProcedureDetail } = useClientExternalStore()
 const { listParticipants, saveDocumentsExternal } = useKardexExternalStore()
 const { saveObservationExternal, getAllObservationById } = useTramiteStore();
 const files = ref<IUploadFile[]>([])
-const emit = defineEmits(['onSelectedRow'])
 
 const { isSubmitAction, participants } = toRefs(useKardexExternalStore())
 const idModalUploadFileDocument = useGenerateKeyRandom()
@@ -375,9 +374,8 @@ const sumaTotalNotarial = ref<any>();
 const sumaTotalRegistral = ref<any>();
 const detalleCliente = ref<any>();
 const route = useRoute();
-const id = ref<string>('');
 const kardex_num = ref<string>('');
-
+const kardex_id = ref<number>(0);
 
 const onViewParticipant = async (payload) => {
     idSelected.value = payload.id
@@ -429,7 +427,7 @@ const onSaveDocuments = async () => {
     if (files.value.length) {
         try {
             isSubmitAction.value = true
-            const { status, message } = await saveDocumentsExternal(files.value, idSelected.value)
+            const { status, message } = await saveDocumentsExternal(files.value, kardex_id.value)
             if (status) {
                 isSubmitAction.value = false
                 notify({
@@ -476,12 +474,10 @@ const onGetAllObservationByKardex = async () => {
 }
 
 const onViewDocumentsExternal = (paylaod) => {
-    console.log('paylaod', paylaod);
     filesSelectedsExternal.value = paylaod.files
 }
 
 const onViewDocumentsNotaria = (paylaod) => {
-    console.log('paylaod', paylaod);
     filesSelectedsNotaria.value = paylaod.files_notaria
 }
 const onOpenObservation = () => {
@@ -505,7 +501,7 @@ const onSaveObservation = async () => {
                 })
                 useCloseModal()
                 cleanDataObservation()
-                router.go(0);
+                onGetAllObservationByKardex()
             }
 
         } catch (error) {
@@ -519,7 +515,6 @@ const onSaveObservation = async () => {
 }
 
 const cleanDataObservation = () => {
-    kardexSelected.value = ''
     form_observacion.observacion.$value = ''
 }
 const recargarPagina = () => {
@@ -535,7 +530,7 @@ const onTotalNotarial = (recordsRegisterPublics) => {
 const onTotalRegistral = (recordsRegisterPublics) => {
     const sumaTotalRegistralOne = recordsRegisterPublics.servicio_registral.reduce((total, item) => total + item.de_precio, 0);
     sumaTotalRegistral.value = sumaTotalRegistralOne.toFixed(2)
-    console.log('sumaTotalNotarialNuevo', sumaTotalRegistralOne.toFixed(2));
+
 }
 async function listRegisterPublic(id: number) {
     try {
@@ -572,24 +567,11 @@ const onGetDetail = async (id: string) => {
 }
 
 onMounted(() => {
-
-    kardex_num.value = route.params?.kardex?.toString()
+    if(route.params.id){
+        kardex_id.value = parseInt(route.params?.id?.toString())
+        kardex_num.value = route.params?.kardex?.toString()
+    }
     onGetDetail(kardex_num.value)
-    watch(
-        () => route.params.id,
-        async (newId, oldId) => {
-            console.log(newId)
-            if (newId && newId != oldId) {
-                itemId.value = route.params?.id?.toString()
-                kardex_num.value = route.params?.kardex?.toString()
-                await onGetDetail(kardex_num.value)
-                try {
-
-                } catch (error) {
-
-                }
-            }
-        });
 })
 
 

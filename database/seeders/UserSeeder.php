@@ -32,7 +32,7 @@ class UserSeeder extends Seeder
             's_pass' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'i_estado' => 1,
         ])->assignRole('superadmin');*/
-      $user =   User::find("PE000035")->assignRole('superadmin');
+      $user = User::where('s_user', 'jcuevas')->first()->assignRole('superadmin');
       $user->s_pass = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';
       $user->save();
     }

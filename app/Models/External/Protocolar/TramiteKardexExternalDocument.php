@@ -29,7 +29,8 @@ class TramiteKardexExternalDocument extends Model
         'type',
         'tipo_archivo',
         'personal',
-        'cod_personal'
+        'cod_personal',
+        'estado_clic'
     ];
 
 

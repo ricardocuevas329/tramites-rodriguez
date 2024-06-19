@@ -22,3 +22,4 @@ Route::get('/tramite', [TramiteController::class, 'list']);
 Route::post('/tramite/observation-external', [TramiteController::class, 'saveObservationExternal']);
 Route::post('/tramite/observation-internal', [TramiteController::class, 'saveObservationInternal']);
 Route::get('/tramite/getAllObservationById/{id}', [TramiteController::class, 'getAllObservationById']);
+Route::get('/tramite/get/byId/{id}', [TramiteController::class, 'getById']);

@@ -2,7 +2,7 @@ import axios from "axios";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import type { Pagination } from "@/models/Pagination";
-import type { HistorialTramite, Kardex } from "@/models/types";
+import type { HistorialTramite, ClientExternal } from "@/models/types";
 import type { ResponseByEntity, ResponseList } from "@/models/extends";
 import { useDownloadFile } from "@/hooks/useUtils";
 import { API_URL } from "@/config/enviroments";
@@ -11,11 +11,13 @@ const idStore = "useTramiteStore";
 const apiResource = API_URL + "/api/tramite";
 
 export const useTramiteStore = defineStore(idStore, () => {
-    const TramiteResults = ref<Kardex[]>([]);
+    const TramiteResults = ref<ClientExternal[]>([]);
     const isLoading = ref<boolean>(false);
     const pagination = ref<Pagination>();
     const search = ref<string>('');
     const isSubmit = ref<boolean>(false);
+    const detailTramite = ref<ClientExternal>();
+    const isLoadingDetail = ref<boolean>(false);
 
     async function listTramite() {
         try {
@@ -25,7 +27,7 @@ export const useTramiteStore = defineStore(idStore, () => {
             let searchFilter = search.value ?? ''
             const {
                 data: { data, meta },
-            }: ResponseList<Kardex> = await axios.get(
+            }: ResponseList<ClientExternal> = await axios.get(
                 `${apiResource}?page=${page.toString()}&search=${searchFilter}`
             );
             TramiteResults.value = data;
@@ -66,6 +68,22 @@ export const useTramiteStore = defineStore(idStore, () => {
 
     }
 
+    async function getDetail(id: string) {
+        try {
+            isLoadingDetail.value = true
+            const {
+                data: { data },
+            }: ResponseByEntity<ClientExternal> = await axios.get(
+                `${apiResource}/get/byId/${id}`
+            );
+            detailTramite.value = data;
+
+        } catch (error) {
+            isLoadingDetail.value = false
+        } finally {
+            isLoadingDetail.value = false
+        }
+    }
 
 
     function cleanPagination() {
@@ -89,6 +107,9 @@ export const useTramiteStore = defineStore(idStore, () => {
         cleanPagination,
         saveObservationExternal,
         saveObservationInternal,
-        getAllObservationById
+        getAllObservationById,
+        getDetail,
+        detailTramite,
+        isLoadingDetail
     };
 });

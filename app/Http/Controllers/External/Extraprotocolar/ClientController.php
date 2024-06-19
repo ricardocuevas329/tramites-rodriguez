@@ -35,7 +35,7 @@ class ClientController extends Controller
         return $this->success($payload);
     }
 
-    
+
 
     public function listCLiente(Request $request): JsonResource
     {

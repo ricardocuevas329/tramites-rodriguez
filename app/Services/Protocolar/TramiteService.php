@@ -29,27 +29,25 @@ class TramiteService
             ->with(['detalle_kardex', 'servicio_notarial', 'files', 'files_notaria', 'files_testimonio'])
             ->paginate(10);
 
-        // Obtener todos los i_codigo de la colección Situacion
         $iCodigosSituacion = Situacion::pluck('i_codigo')->toArray();
 
-        // Alternativamente, puedes recorrer todos los elementos en los datos paginados
         foreach ($data->items() as $item) {
-            // Verificar si detalle_kardex no es nulo
             if (!is_null($item->detalle_kardex)) {
                 $i_estadonota = intval($item->detalle_kardex->i_estadonota);
 
-                // Verificar si el valor de i_estadonota está presente en Situacion::all()
                 if (in_array($i_estadonota, $iCodigosSituacion)) {
-                    // Encontrar el objeto Situacion correspondiente
                     $situacionDetalle = Situacion::where('i_codigo', $i_estadonota)->first();
-
-                    // Asignar el objeto situacion_detalle al array general $data
                     $item->situacion_detalle = $situacionDetalle;
                 }
             }
         }
 
         return CollectionResource::collection($data);
+    }
+
+    public function getById(string $id): \Illuminate\Database\Eloquent\Builder|array|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
+    {
+        return ClientExternal::with(['detalle_kardex', 'servicio_notarial', 'files', 'files_notaria'])->find($id);
     }
 
     public function saveObservation(StoreObervation $request): HistorialTramite

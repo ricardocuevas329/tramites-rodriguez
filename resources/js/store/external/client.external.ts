@@ -1,7 +1,7 @@
 import axios from "axios";
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import type { Kardex as IKardex, Participante as IParticipante } from "@/models/types";
+import type {Kardex as IKardex, ClientExternal, RegistroPublico} from "@/models/types";
 import type { ResponseByEntity } from "@/models/extends";
 import type { Pagination } from "@/models/Pagination";
 import type { ResponseList } from "@/models/extends";
@@ -12,20 +12,20 @@ const apiResourceTwo = "/api/external/kardex-consulta";
 
 export const useClientExternalStore = defineStore(idStore, () => {
 
-    const recordsClients = ref<any>();
+    const recordsClients = ref<ClientExternal[]>([]);
     const isLoading = ref<boolean>(false);
     const pagination = ref<Pagination>();
     const search = ref<string>('');
-    const recordsRegisterPublics = ref<any>();
+    const recordsRegisterPublics = ref<RegistroPublico[]>([]);
     const recordsKardex = ref<IKardex[]>([]);
-    const details = ref<any>();
-    
+    const details = ref<ClientExternal>();
+
     async function listRegisterPublic(id: number) {
         try {
-            recordsRegisterPublics.value = {}
+            recordsRegisterPublics.value = []
             const {
                 data: { data },
-            }: ResponseList<any> = await axios.post(
+            }: ResponseList<RegistroPublico> = await axios.post(
                 `${apiResource}/get/register-public`, {
                 id
             }
@@ -41,7 +41,6 @@ export const useClientExternalStore = defineStore(idStore, () => {
 
     async function listProcedureDetail(id: string) {
         try {
-            recordsRegisterPublics.value = {}
             const {
                 data: { data },
             }: ResponseByEntity<any> = await axios.get(
@@ -54,7 +53,7 @@ export const useClientExternalStore = defineStore(idStore, () => {
 
         }
     }
-    
+
 
 
     async function listProcedure() {
@@ -68,7 +67,7 @@ export const useClientExternalStore = defineStore(idStore, () => {
             }: ResponseList<any> = await axios.get(
                 `${apiResource}?page=${page.toString()}&search=${searchFilter}`
             );
-            
+
             // Recorrer cada objeto en la lista
             for (const obj of data) {
                 // Verificar si la clave "detalle_kardex" está presente en el objeto
@@ -88,12 +87,12 @@ export const useClientExternalStore = defineStore(idStore, () => {
                         // Asignar el nuevo objeto a "detalle_kardex_conex"
                         obj.detalle_kardex_conex = detalleKardexConexPlain;
 
-                      
+
                     } else {
-                        
+
                     }
                 } else {
-                  
+
                 }
             }
             recordsClients.value = data;
