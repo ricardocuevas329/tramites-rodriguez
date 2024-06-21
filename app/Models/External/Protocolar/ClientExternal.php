@@ -46,14 +46,16 @@ class ClientExternal extends Model
 
     protected function getisDateMayorAttribute()
     {
-      /*  $dateSignature = $this->detalle_kardex?->participantes_firmados?->where(function ($query) {
+        $dateSignatures = $this->detalle_kardex?->participantes_firmados?->where(function ($query) {
             return $query->whereDate('d_fechfirma', '>=', now());
         })->pluck('d_fechfirma');
 
-        if ($dateSignature) {
-            //$fechaFormateada = Carbon::parse($dateSignature)->format('d/m/Y');
-            //return $fechaFormateada;
-        }*/
+        if ($dateSignatures && $dateSignatures->isNotEmpty()) {
+            $dateFormat = Carbon::parse($dateSignatures->first())->format('d/m/Y');
+            return $dateFormat;
+        }
+
+        return null;
     }
 
     public function nombreCompuesto(): Attribute

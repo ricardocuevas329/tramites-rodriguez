@@ -230,6 +230,7 @@ class Kardex extends Model
     {
         return $this->HasMany(Interviniente::class, 's_kardex', 's_codigo')
             ->where('i_firma', 1)
+            ->where('s_compareciente', 'like', 'CL%')
             ->whereNotNull('d_fechfirma')
             ->orderBy('d_fechfirma', 'desc');
     }

@@ -23,8 +23,6 @@ class ClientService
     public function get(Request $request): JsonResource
     {
         $filtro = $request->search;
-        $from = $request->from;
-        $to = $request->to;
         $data = ClientExternal::MyRecords()
             ->orderBy('id', 'desc')
             ->where(fn (Builder $query) => $query->Filtros($filtro))
