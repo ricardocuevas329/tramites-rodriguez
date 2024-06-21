@@ -540,8 +540,8 @@ const sumTotalRegistral = computed(() => {
 const onGetDetail = async (id: string) => {
   await listProcedureDetail(id);
   const rowData = details.value;
-  sTipokardex.value = rowData.detalle_kardex.s_tipokardex;
-  numKardex.value = rowData.detalle_kardex.num_kardex;
+  sTipokardex.value = rowData.detalle_kardex?.s_tipokardex;
+  numKardex.value = rowData.detalle_kardex?.num_kardex;
   onViewParticipant(rowData);
   onViewDocumentsExternal(rowData);
   onViewDocumentsNotaria(rowData);

@@ -113,19 +113,14 @@ const galeryComponentRef = ref<any>(null);
 const router = useRouter()
 
 const rowClickHandler = async (item) => {
-  if (item.detalle_kardex == null) {
-    notify({
-      title: 'Aún no se ha asignado un kárdex.',
-      type: "warn",
-    });
-  } else {
+
     await router.push({
       name: 'Detalle',
       params: {
         id: item.id
       }
     })
-  }
+
 };
 
 
