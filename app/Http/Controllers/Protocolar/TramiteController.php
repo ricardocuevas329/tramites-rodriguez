@@ -41,7 +41,7 @@ class TramiteController extends Controller
         $id_kardex =   $request->s_tramite;
         $data = $this->service->saveObservation($request);
 
-        $client = ClientExternal::where('kardex',$id_kardex)->first();
+        $client = ClientExternal::where('id',$id_kardex)->first();
         $tipo_doc = TipoDocumento::find($client->tipo_documento);
 
 
@@ -58,14 +58,14 @@ class TramiteController extends Controller
                 $message->subject('Nueva Comentario');
             });
         }
-        return $this->success($data, "Comentario Guardada Correctamente");
+        return $this->success($data, "Comentario Guardado Correctamente");
     }
 
     public function saveObservationInternal(StoreObervation $request)
     {
         $id_kardex =   $request->s_tramite;
         $data = $this->service->saveObservation($request);
-        $client = ClientExternal::where('kardex',$id_kardex)->first();
+        $client = ClientExternal::where('id',$id_kardex)->first();
         $tipo_doc = TipoDocumento::find($client->tipo_documento);
         $destination = ["jr@rebajatuscuentas.com", "ricardocuevas329@gmail.com"];
 
@@ -80,7 +80,7 @@ class TramiteController extends Controller
                 $message->subject('Nueva Comentario');
             });
         }
-        return $this->success($data, "Comentario Guardada Correctamente");
+        return $this->success($data, "Comentario Guardado Correctamente");
     }
 
     public function getAllObservationById(string $id)

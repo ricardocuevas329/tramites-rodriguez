@@ -16,31 +16,13 @@ export const useClientExternalStore = defineStore(idStore, () => {
     const isLoading = ref<boolean>(false);
     const pagination = ref<Pagination>();
     const search = ref<string>('');
-    const recordsRegisterPublics = ref<RegistroPublico[]>([]);
     const recordsKardex = ref<IKardex[]>([]);
     const details = ref<ClientExternal>();
-
-    async function listRegisterPublic(id: number) {
-        try {
-            recordsRegisterPublics.value = []
-            const {
-                data: { data },
-            }: ResponseList<RegistroPublico> = await axios.post(
-                `${apiResource}/get/register-public`, {
-                id
-            }
-            );
-            recordsRegisterPublics.value = data;
-
-        } catch (error) {
-        } finally {
-
-        }
-    }
-
+    const isLoadingDetail = ref<boolean>(false);
 
     async function listProcedureDetail(id: string) {
         try {
+            isLoadingDetail.value = true
             const {
                 data: { data },
             }: ResponseByEntity<any> = await axios.get(
@@ -49,8 +31,9 @@ export const useClientExternalStore = defineStore(idStore, () => {
             details.value = data;
 
         } catch (error) {
+            isLoadingDetail.value = false
         } finally {
-
+            isLoadingDetail.value = false
         }
     }
 
@@ -145,10 +128,9 @@ export const useClientExternalStore = defineStore(idStore, () => {
         isLoading,
         saveClient,
         listProcedure,
-        listRegisterPublic,
-        recordsRegisterPublics,
         cleanPagination,
         details,
-        listProcedureDetail
+        listProcedureDetail,
+        isLoadingDetail
     };
 });

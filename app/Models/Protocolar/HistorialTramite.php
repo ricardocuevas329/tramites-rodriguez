@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class HistorialTramite
@@ -24,8 +25,18 @@ class HistorialTramite extends Model
 {
     use HasFactory, SoftDeletes;
     protected $table = 'historial_tramite';
+    protected $casts = [
+         'created_at' => 'datetime:d/m/Y H:i a'
+    ];
 
-
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($client) {
+            $client->i_tipo = 0;
+            $client->s_personal = Auth::user()?->s_codigo;
+        });
+    }
 
     public function personal(): HasOne
     {

@@ -12,7 +12,8 @@
           <a @click.native="recargarPagina" class="btn btn-sm align-center">
             Refrescar
           </a>
-          <a role="button" class="btn btn-sm align-center">Trámite : {{ detailTramite?.detalle_kardex?.s_tipokardex }} -
+          <a role="button" class="btn btn-sm align-center">Trámite :
+            {{ detailTramite?.detalle_kardex?.s_tipokardex }} -
             {{ detailTramite?.detalle_kardex?.num_kardex }}</a>
         </div>
         <div style="margin-top: 5px;"></div>
@@ -103,6 +104,7 @@
               <tr>
                 <th>Personal</th>
                 <th>Observacion</th>
+                <th>Fecha</th>
               </tr>
               </THead>
               <tbody>
@@ -113,6 +115,7 @@
                   }}
                 </td>
                 <td>{{ item.s_observacion }}</td>
+                <td>{{ item.created_at }}</td>
               </tr>
               <tr v-else>
                 <td colspan="2">Sin Información</td>
@@ -122,45 +125,86 @@
           </div>
         </details>
         <div style="margin-top: 5px;"></div>
-        <details class="collapse">
-          <summary class="text-md font-medium bg-blue">
-                    <span class="margin-spam">
 
-                        <button class="btn btn-circle btn-xs btn-ghost bg-blue ">
-                            <i class="pi pi-file text-lg bg-blue cursor-pointer"></i>
-                        </button>
-                    </span>
-            <span style="vertical-align: text-bottom;" class="ml-2 text-md">COT. NOTARIAL</span>
+        <!-- Contenido de COTIZACIÓN NOTARIAL -->
+        <details class="collapse ">
+          <summary class="text-md font-medium bg-blue">
+                                <span class="margin-spam">
+                                    <button class="btn btn-circle btn-xs btn-ghost bg-blue-claro ">
+                                        <i class="pi pi-money-bill text-lg bg-blue-claro cursor-pointer"></i>
+                                    </button>
+                                </span>
+            <span style="vertical-align: text-bottom;">COTIZACIÓN NOTARIAL</span>
           </summary>
           <div class="collapse-content">
-            <tr>
-              <td><span class="badge badge-outline badge-success">{{
-                  sumaTotalNotarial
-                }}</span>
-              </td>
-            </tr>
+            <!-- Contenido de COTIZACIÓN NOTARIAL -->
+            <Table>
+              <THead>
+              <tr class="text-left">
+                <th>Descripcion</th>
+                <th>Cantidad</th>
+                <th>Precio</th>
+                <th>Monto</th>
+              </tr>
+              </THead>
+              <tbody>
+              <tr v-for="(item, key) in detailTramite?.servicio_notarial" :key="key">
+                <td>{{ item?.servicio?.s_nombre }}</td>
+                <td>{{ item.i_cantidad }}</td>
+                <td>{{ item.de_precio.toFixed(2) }}</td>
+                <td>{{ item.de_total.toFixed(2) }}</td>
+              </tr>
+              <tr>
+                <td colspan="4">TOTAL <span class="badge badge-outline badge-success">{{
+                    sumTotalNotarial
+                  }}</span>
+                </td>
+              </tr>
+              </tbody>
+            </Table>
           </div>
         </details>
         <div style="margin-top: 5px;"></div>
-        <details class="collapse">
+        <!-- Contenido de COTIZACIÓN REGISTRAL -->
+        <details class="collapse ">
           <summary class="text-md font-medium bg-blue">
-                    <span class="margin-spam">
-
-                        <button class="btn btn-circle btn-xs btn-ghost bg-blue ">
-                            <i class="pi pi-file text-lg bg-blue cursor-pointer"></i>
-                        </button>
-                    </span>
-            <span style="vertical-align: text-bottom;" class="ml-2 text-md">COT. REGISTRAL</span>
+                                <span class="margin-spam">
+                                    <button class="btn btn-circle btn-xs btn-ghost bg-blue-claro ">
+                                        <i class="pi pi-money-bill text-lg bg-blue-claro cursor-pointer"></i>
+                                    </button>
+                                </span>
+            <span style="vertical-align: text-bottom;">COTIZACIÓN REGISTRAL</span>
           </summary>
           <div class="collapse-content">
-            <tr>
-              <td><span class="badge badge-outline badge-success">{{
-                  sumaTotalRegistral
-                }}</span>
-              </td>
-            </tr>
+            <!-- Contenido de COTIZACIÓN REGISTRAL -->
+            <Table>
+              <THead>
+              <tr class="text-left">
+                <th>Descripcion</th>
+                <th>Cantidad</th>
+                <th>Precio</th>
+                <th>Monto</th>
+              </tr>
+              </THead>
+              <tbody>
+              <tr v-for="(item, key) in detailTramite?.servicio_registral"
+                  :key="key">
+                <td>{{ item?.servicio?.s_nombre }}</td>
+                <td>{{ item.i_cantidad }}</td>
+                <td>{{ item.de_precio.toFixed(2) }}</td>
+                <td>{{ item.de_total.toFixed(2) }}</td>
+              </tr>
+              <tr>
+                <td colspan="4">TOTAL <span class="badge badge-outline badge-success">{{
+                    sumTotalRegistral
+                  }}</span>
+                </td>
+              </tr>
+              </tbody>
+            </Table>
           </div>
         </details>
+
 
         <Modal :id="idModalUploadFileDocument">
           <button class="btn btn-xs  btn-circle" @click="$router.back()">
@@ -168,7 +212,8 @@
           </button>
           Adjuntar Documentos
           <UploaderFiles documentType="varios" :key="keyUploadFile" :files="files" :multiple="true"
-                         maxFileSize="15MB" maxTotalFileSize="60MB" accept="image/* , application/pdf,.docx, .xlsx"
+                         maxFileSize="15MB" maxTotalFileSize="60MB"
+                         accept="image/* , application/pdf,.docx, .xlsx"
                          @selectFile="onSelectedFile" label="Arrastra o Agrega tus Archivos"/>
           <Center>
             <BtnSave :loading="isSubmitAction" :disabled="isSubmitAction" @click="onSaveDocuments"
@@ -211,7 +256,7 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, ref, toRefs} from "vue";
+import {computed, onMounted, ref, toRefs} from "vue";
 import {
   Card,
   Container,
@@ -261,8 +306,6 @@ const participants = ref<any[]>([]);
 const router = useRouter()
 const apiResource = "/api/external/kardex";
 
-const sumaTotalNotarial = ref<any>();
-const sumaTotalRegistral = ref<any>();
 
 const form_observacion = defineForm({
   observacion: field<string>(
@@ -293,7 +336,7 @@ const onSaveObservation = async () => {
     try {
 
       const {historial_tramite, message, status} = await saveObservationInternal({
-        s_tramite: detailTramite.value?.kardex,
+        s_tramite: detailTramite.value?.id,
         s_observacion: form_observacion.observacion.$value
       })
 
@@ -374,13 +417,11 @@ const onSelectedFile = (doc) => {
 }
 
 
-
-
 const onGetAllObservationByKardex = async () => {
 
   isLoadingAllObservation.value = true
   try {
-    const {historial_tramites} = await getAllObservationById(detailTramite.value?.kardex)
+    const {historial_tramites} = await getAllObservationById(detailTramite.value?.id)
     if (historial_tramites) {
       allObservations.value = historial_tramites
     }
@@ -395,42 +436,30 @@ const onGetAllObservationByKardex = async () => {
 }
 
 
-const onTotalNotarial = () => {
+const sumTotalNotarial = computed(() => {
+  const sumaTotalNotarialOne = detailTramite.value?.servicio_notarial?.reduce((total, item) => total + item.de_precio, 0);
+  return sumaTotalNotarialOne ? sumaTotalNotarialOne.toFixed(2) : '0.00';
+});
 
-  const serviciosNotarialesTipo0 = detailTramite.value?.servicio_notarial?.filter(item => item.s_tipo_servicio === 0);
-  const sumaTotalNotarialOne = serviciosNotarialesTipo0.reduce((total, item) => total + item.de_precio, 0);
-  sumaTotalNotarial.value = sumaTotalNotarialOne.toFixed(2)
+const sumTotalRegistral = computed(() => {
+  const sumaTotalRegistralOne = detailTramite.value?.servicio_registral?.reduce((total, item) => total + item.de_precio, 0);
+  return sumaTotalRegistralOne ? sumaTotalRegistralOne.toFixed(2) : '0.00';
+});
 
-}
-
-const onTotalRegistral = () => {
-
-  const serviciosRegistralesTipo1 = detailTramite.value?.servicio_notarial?.filter(item => item.s_tipo_servicio === 1);
-  const sumaTotalRegistralTwo = serviciosRegistralesTipo1.reduce((total, item) => total + item.de_precio, 0);
-  sumaTotalRegistral.value = sumaTotalRegistralTwo.toFixed(2)
-
-}
 
 onMounted(async () => {
-  if (route.params.id) {
+  if (route.params?.id) {
     tramite_id.value = route.params?.id?.toString()
+    await getDetail(tramite_id.value)
+    const items = {
+      "kardex": detailTramite.value?.kardex,
+      "id": tramite_id.value
+    };
+
+    await listParticipants(items);
+    await onGetAllObservationByKardex();
   }
-  await getDetail(tramite_id.value).then(() => {
-    if (detailTramite.value?.id){
-      onTotalNotarial()
-      onTotalRegistral()
-    }
 
-  });
-
-
-  const items = {
-    "kardex": detailTramite.value?.kardex,
-    "id": tramite_id.value
-  };
-
-  await listParticipants(items);
-  onGetAllObservationByKardex();
 
 });
 </script>

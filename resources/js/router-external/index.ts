@@ -29,7 +29,7 @@ export const routerExternal = createRouter({
             children: [
                 ...routerTramite,
                 {
-                    path: '/detalle/:id/:kardex',
+                    path: '/detalle/:id',
                     name: 'Detalle',
                     props: true,
                     component: () => import('@/pages/External/Home/components/DetalleTramite.vue'),

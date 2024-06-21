@@ -8,7 +8,7 @@
     <link href="{{env('APP_URL_EXTERNAL')}}/libraries/daisy.full.min.css" rel="stylesheet" type="text/css" />
 </head>
 
-<body>
+<body class="antialiased h-screen bg-base-200 " >
 <div id="app"></div>
 </body>
 </html>

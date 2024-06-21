@@ -35,13 +35,11 @@ class ClientService
 
     public function getById(string $id): ClientExternal|null
     {
-        
         return ClientExternal::MyRecords()
-            ->FilterByNumKardex($id)
-            ->with(['detalle_kardex', 'servicio_notarial', 'files', 'files_notaria'])
-            ->first();
+            ->with(['detalle_kardex', 'servicio_notarial', 'servicio_registral','files', 'files_notaria', 'registro_publico'])
+            ->find($id);
     }
-    
+
 
     public function getCliente(Request $request): JsonResource
     {

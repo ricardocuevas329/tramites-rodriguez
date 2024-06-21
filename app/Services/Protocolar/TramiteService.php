@@ -47,18 +47,15 @@ class TramiteService
 
     public function getById(string $id): \Illuminate\Database\Eloquent\Builder|array|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
     {
-        return ClientExternal::with(['detalle_kardex', 'servicio_notarial', 'files', 'files_notaria'])->find($id);
+        return ClientExternal::with(['detalle_kardex', 'servicio_notarial', 'servicio_registral', 'files', 'files_notaria','registro_publico'])->find($id);
     }
 
     public function saveObservation(StoreObervation $request): HistorialTramite
     {
-
         $tramite = $request->s_tramite;
         $observacion = $request->s_observacion;
         $data = new HistorialTramite();
         $data->s_tramite  = $tramite;
-        $data->i_tipo =  0;
-        $data->s_personal = Auth::user()->s_codigo;
         $data->s_observacion =  $observacion;
         $data->save();
         return $data;
@@ -67,7 +64,9 @@ class TramiteService
 
     public function getAllObservationById(string $id): JsonResource
     {
-        $data = HistorialTramite::where('s_tramite', $id)->with(['personal', 'cliente', 'empresa'])->paginate(50);
+        $data = HistorialTramite::where('s_tramite', $id)->with(['personal', 'cliente', 'empresa'])
+            ->orderBy('id','desc')
+            ->paginate(100);
         return CollectionResource::collection($data);
     }
 }

@@ -58,7 +58,7 @@ export const useKardexExternalStore = defineStore(idStore, () => {
         return { Kardex: data, message, status };
     }
 
-    async function saveDocumentsExternal(item: IUploadFile[], id_kardex: number) {
+    async function saveDocumentsExternal(item: IUploadFile[], id_kardex: string) {
         const {
             data: { data, message, status },
         }: ResponseByEntity<any> = await axios.post(`${apiResource}/save/documents-external`, {

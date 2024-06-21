@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from "vue-router";
 import { checkAuth, checkAuthHome } from "@/utils/RoutersUtils";
 import routerProtocolar from './Protocolar/routerProtocolar';
+import {configProtocolar} from "@/router/Protocolar/ProtocolarConfig";
 
 const pages = {
     dashboard: "Dashboard",
@@ -57,6 +58,7 @@ export const router = createRouter({
         {
             beforeEnter: checkAuth,
             ...RoutesNamesHome.dashboard,
+            redirect: configProtocolar._TRAMITE_.listar.path,
             component: () =>
                 import(`../pages/${RoutesNamesHome.dashboard.name}.vue`),
 
