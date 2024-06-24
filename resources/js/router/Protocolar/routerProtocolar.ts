@@ -52,7 +52,7 @@ const routerProtocolar = [
 
     {
         ...Config._TRAMITE_.detalleSK,
-        path: '/tramite/detalle/:id/:dni',
+        path: '/tramite/view/doc/:id',
         props: true,
         component: () =>
             import(

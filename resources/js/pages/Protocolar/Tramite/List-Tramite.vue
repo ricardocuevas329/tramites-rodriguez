@@ -221,9 +221,13 @@ const onAsignationKardex = (cod: number) => {
   useOpenModal(idModalAsignKardex)
 }
 
-const viewUnassignedKarkex = (item) => {
-  window.location.href = `/Tramite/detalle/${item.id}/${item.documento}`;
-
+const viewUnassignedKarkex = async(item) => {
+    await router.push({
+        name: configProtocolar._TRAMITE_.detalleSK.name,
+        params: {
+            id: item.id,
+        }
+    })
 }
 
 
