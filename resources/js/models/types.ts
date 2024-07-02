@@ -1108,6 +1108,23 @@ export interface PersonalAccessToken {
     updated_at: string|null
 }
 
+export interface DetallePresencia {
+    // columns
+    s_codigo: string
+    s_referencia: string|null
+    s_actonotarial: string|null
+    s_descripcion: string|null
+    s_hora_inicio: string|null
+    s_hora_fin: string|null
+    d_fechapresen: string|null
+    s_lugar: string|null
+    s_asitente: string|null
+    s_observacion: string|null
+    i_cantidad: number|null
+    de_precio: number|null
+    i_estado: number|null
+}
+
 export interface HistorialTramite {
     // columns
     id: number
@@ -1236,6 +1253,29 @@ export interface Kardex {
     empresa: Empresa
     asesor: User
     estado: Estado
+}
+
+export interface Presencia {
+    // columns
+    s_codigo: string
+    s_contacto: string|null
+    s_referente: string|null
+    s_facturado: string|null
+    d_fecha_registro: string|null
+    s_hora_registro: string|null
+    s_atendido: string|null
+    i_tipopago: number|null
+    s_observacion: string|null
+    i_estado: number|null
+    // relations
+    contacto_cliente: Cliente
+    contacto_empresa: Empresa
+    facturado_cliente: Cliente
+    facturado_empresa: Empresa
+    referente_cliente: Cliente
+    referente_empresa: Empresa
+    atendido: User
+    detalle: DetallePresencium[]
 }
 
 export interface RegistroPublico {

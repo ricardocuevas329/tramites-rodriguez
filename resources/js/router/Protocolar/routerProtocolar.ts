@@ -64,6 +64,54 @@ const routerProtocolar = [
             noLayout: true,
         },
     },
+    {
+        ...Config._PRESENCIA_NOTARIALES_.listar,
+        component: () =>
+            import(
+                `../../pages/${Config._PRESENCIA_NOTARIALES_.folder}/${Config._PRESENCIA_NOTARIALES_.page}/${Config._PRESENCIA_NOTARIALES_.listar.file}.vue`
+                ),
+        children: [
+            {
+                ...Config._PRESENCIA_NOTARIALES_.add,
+                props: true,
+                component: () =>
+                    import(
+                        `../../pages/${Config._PRESENCIA_NOTARIALES_.folder}/${Config._PRESENCIA_NOTARIALES_.page}/${Config._PRESENCIA_NOTARIALES_.add.file}.vue`
+                        ),
+                meta: {
+                    showModal: true,
+                    persistent: true,
+                    noLayout: true,
+                },
+            },
+            {
+                ...Config._PRESENCIA_NOTARIALES_.detail,
+                props: true,
+                component: () =>
+                    import(
+                        `../../pages/${Config._PRESENCIA_NOTARIALES_.folder}/${Config._PRESENCIA_NOTARIALES_.page}/${Config._PRESENCIA_NOTARIALES_.detail.file}.vue`
+                        ),
+                meta: {
+                    showModal: true,
+                    persistent: true,
+                    noLayout: true,
+                },
+            },
+            {
+                ...Config._PRESENCIA_NOTARIALES_.update,
+                props: true,
+                component: () =>
+                    import(
+                        `../../pages/${Config._PRESENCIA_NOTARIALES_.folder}/${Config._PRESENCIA_NOTARIALES_.page}/${Config._PRESENCIA_NOTARIALES_.update.file}.vue`
+                        ),
+                meta: {
+                    showModal: true,
+                    persistent: true,
+                    noLayout: true,
+                },
+            },
+        ]
+    },
 ];
 
 export default routerProtocolar;

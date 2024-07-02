@@ -43,15 +43,31 @@
                         />
                     </RouterLink>
 
-
-
-
-
                 </div>
+
                 <div class="flex items-center">
-                    <button class=" btn btn-ghost hidden md:block"> {{ user?.nombre_compuesto }}</button>
+                  <button class=" btn btn-xs  hidden md:block"> <i class="pi pi-user"></i> {{ user?.nombre_compuesto }}</button>
+                  <div class="navbar-start">
+                    <div class="dropdown">
+                      <label tabindex="0" class="btn btn-ghost btn-circle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                             stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h7"/>
+                        </svg>
+                      </label>
+                      <ul tabindex="0"
+                          class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                        <li>
+                          <router-link :to="configProtocolar._PRESENCIA_NOTARIALES_.listar.path">Presencia Notariales</router-link>
+                        </li>
+                        <li>
+                          <router-link :to="configProtocolar._TRAMITE_.listar.path">Trámites</router-link>
+                        </li>
 
-
+                      </ul>
+                    </div>
+                  </div>
                     <Options :default-style="true" :text="user?.s_user?.toString()">
                         <MenuItem v-slot="{ active }" @click="onLogout()">
                             <Item :active="active"> Cerrar Sesion</Item>
@@ -71,6 +87,7 @@ import {useSidebarStore} from "../store/sidebar";
 import {Item, Options} from "@/components";
 import {MenuItem} from "@headlessui/vue";
 import {usePermisoViajeStore} from "@/store/permiso-viaje";
+import {configProtocolar} from "@/router/Protocolar/ProtocolarConfig";
 
 const {configuracion} = toRefs(useConfiguracionStore());
 
@@ -78,7 +95,6 @@ const {user} = toRefs(useSesionStore());
 const {openSidebar} = toRefs(useSidebarStore());
 const {onLogout} = useSesionStore();
 const {togleSideBar} = useSidebarStore();
-const {PermisoViajesExternal} = toRefs(usePermisoViajeStore());
 const {listarPermisoViajeExternal} = usePermisoViajeStore();
 
 onMounted(() => {

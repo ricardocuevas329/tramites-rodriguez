@@ -2,8 +2,8 @@
   <ScrollView>
     <UploaderFiles :key="keyDocumentForm" :files="form.files.$value"
                    endPointDelete="/api/signature/document/" :maxFiles="MAX_TOTAL_FILES"
-                   maxFileSize="15MB"
-                   maxTotalFileSize="60MB" @deleteFile="onDeleteFile" @selectFile="onSelectFile" @getFiles="onGetFiles"
+                   maxFileSize="50MB"
+                   maxTotalFileSize="200MB" @deleteFile="onDeleteFile" @selectFile="onSelectFile" @getFiles="onGetFiles"
                    accept="image/* , application/pdf"
                    label="Arrastra o Agrega Documentos"/>
     <InputSelect

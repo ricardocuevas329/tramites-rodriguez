@@ -152,20 +152,4 @@ onMounted(() => {
 })
 </script>
 
-<style scoped>
-.bg-blue {
-  background-color: #006aa6;
-  color: white;
-}
 
-.custom-hover:hover {
-  background-color: #006aa6 !important;
-  color: white !important;
-}
-
-.custom-hover {
-  border-color: #66a3d2;
-  color: #66a3d2;
-}
-
-</style>

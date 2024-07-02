@@ -165,10 +165,10 @@ class Kardex extends Model
     protected static function boot()
     {
         parent::boot();
-        static::creating(function ($kardex) {
+        static::creating(function ($payload) {
             $cod = (new Kardex())->generateCode((new Kardex())->table, 's_codigo', 12, 'OS');
-            $kardex->s_codigo = $cod;
-            $kardex->i_estado = 1;
+            $payload->s_codigo = $cod;
+            $payload->i_estado = 1;
         });
 
     }

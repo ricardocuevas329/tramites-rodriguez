@@ -9,8 +9,8 @@
 
       <UploaderFiles :files="files"  :key="keyRandom"  :multiple="false"
                      endPointDelete="/api/signature/delete-photo/" :maxFiles="MAX_TOTAL_FILES"
-                     maxFileSize="15MB" @getFiles="onGetFiles"
-                     maxTotalFileSize="60MB" @deleteFile="onDeleteFile"
+                     maxFileSize="50MB"
+                     maxTotalFileSize="200MB" @getFiles="onGetFiles" @deleteFile="onDeleteFile"
                      accept="image/* , application/pdf"
                      label="Arrastra o Agrega la Firma en PDF/Image"/>
     </ScrollView>

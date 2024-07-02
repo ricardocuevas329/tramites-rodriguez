@@ -40,7 +40,7 @@
             </tr>
             </THead>
             <tbody>
-            <tr class="cursor-pointer" :class="idSelected === item.id && 'bg-gray-400'"
+            <tr class="cursor-pointer hover:bg-gray-200" :class="idSelected === item.id && 'bg-gray-400'"
                 v-for="(item, key) in TramiteResults" :key="key" @click="onSelectedRow(item)">
               <td @click.stop class="flex actions">
 
@@ -273,9 +273,4 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
-.bg-blue {
-  background-color: #006aa6;
-  color: white;
-}
-</style>
+

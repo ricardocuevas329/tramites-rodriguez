@@ -228,8 +228,8 @@
                         />
 
 
-                        <UploaderFiles :files="[]" :key="form.rol.$value?.toString()" :maxFiles="2" maxFileSize="15MB"
-                                       maxTotalFileSize="30MB" @getFiles="getFiles" accept="image/* , application/pdf"
+                        <UploaderFiles :files="[]" :key="form.rol.$value?.toString()" :maxFiles="2"   maxFileSize="50MB"
+                                       maxTotalFileSize="200MB" @getFiles="getFiles" accept="image/* , application/pdf"
                                        :label="`ARRASTRA O AGREGA DNI ${participantLabel}`"/>
 
 

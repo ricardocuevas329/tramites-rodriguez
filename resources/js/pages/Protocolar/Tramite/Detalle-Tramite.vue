@@ -212,7 +212,8 @@
           </button>
           Adjuntar Documentos
           <UploaderFiles documentType="varios" :key="keyUploadFile" :files="files" :multiple="true"
-                         maxFileSize="15MB" maxTotalFileSize="60MB"
+                         maxFileSize="50MB"
+                         maxTotalFileSize="200MB"
                          accept="image/* , application/pdf,.docx, .xlsx"
                          @selectFile="onSelectedFile" label="Arrastra o Agrega tus Archivos"/>
           <Center>
@@ -226,7 +227,8 @@
           </button>
           Testimonio Digital
           <UploaderFiles documentType="testimonio" :key="keyUploadFile" :files="files" :multiple="true"
-                         :maxFiles="4" maxFileSize="15MB" maxTotalFileSize="60MB"
+                         :maxFiles="4"   maxFileSize="50MB"
+                         maxTotalFileSize="200MB"
                          accept="image/* , application/pdf,.docx, .xlsx" @selectFile="onSelectedFile"
                          label="Arrastra o Agrega tus Archivos"/>
           <Center>

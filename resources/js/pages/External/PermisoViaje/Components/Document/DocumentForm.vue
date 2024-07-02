@@ -1,8 +1,8 @@
 <template>
 
   <ScrollView>
-    <UploaderFiles :files="formValues.files" endPointDelete="/api/permiso-viaje/document/" :maxFiles="4" maxFileSize="15MB"
-                   maxTotalFileSize="60MB" @getFiles="getFiles" accept="image/* , application/pdf"
+    <UploaderFiles :files="formValues.files" endPointDelete="/api/permiso-viaje/document/" :maxFiles="4"   maxFileSize="50MB"
+                   maxTotalFileSize="200MB" @getFiles="getFiles" accept="image/* , application/pdf"
                    label="Arrastra o Agrega DNI/Partida/Pago de Multas/etc"/>
   </ScrollView>
 </template>

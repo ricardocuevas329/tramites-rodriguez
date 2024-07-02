@@ -283,7 +283,8 @@
           </button>
           Adjuntar Documentos
           <UploaderFiles documentType="varios" :key="keyUploadFile" :files="files" :multiple="true"
-                         maxFileSize="15MB" maxTotalFileSize="60MB"
+                         maxFileSize="50MB"
+                         maxTotalFileSize="200MB"
                          accept="image/*, application/pdf, .docx, .xlsx"
                          @selectFile="onSelectedFile" label="Arrastra o Agrega tus Archivos"/>
           <Center>

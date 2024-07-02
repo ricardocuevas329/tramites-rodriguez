@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Protocolar\{KardexController, TipoKardexController, TramiteController};
+use App\Http\Controllers\Protocolar\{KardexController, TipoKardexController, TramiteController, PresenciaNotarialController};
 
 # Kardex
 
@@ -23,3 +23,10 @@ Route::post('/tramite/observation-external', [TramiteController::class, 'saveObs
 Route::post('/tramite/observation-internal', [TramiteController::class, 'saveObservationInternal']);
 Route::get('/tramite/getAllObservationById/{id}', [TramiteController::class, 'getAllObservationById']);
 Route::get('/tramite/get/byId/{id}', [TramiteController::class, 'getById']);
+
+# Presencia Notarial
+Route::get('/presencia-notarial', [PresenciaNotarialController::class, 'list']);
+Route::get('/presencia-notarial/{id}', [PresenciaNotarialController::class, 'findById']);
+Route::post('/presencia-notarial', [PresenciaNotarialController::class, 'store']);
+Route::put('/presencia-notarial/{id}', [PresenciaNotarialController::class, 'update']);
+

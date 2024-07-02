@@ -51,8 +51,8 @@
       </div>
       <UploaderFiles :files="fotos"
                      endPointDelete="/api/register-deposit/document/" :maxFiles="MAXFILES"
-                     maxFileSize="15MB"
-                     maxTotalFileSize="60MB"
+                     maxFileSize="50MB"
+                     maxTotalFileSize="200MB"
                      accept="image/*" @getFiles="onGetFiles"
                      label="Arrastra o Agrega tus Imagenes"
                      :key="keyUploaderFiles"
