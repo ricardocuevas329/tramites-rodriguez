@@ -27,7 +27,6 @@ class CompanyController extends Controller
 
     public function list(Request $request)
     {
-        $this->verifyPermission($this->permissions, 'Listar Empresa');
         return $this->service->get($request);
     }
 
