@@ -36,14 +36,14 @@ export const usePresenciaNotarialStore = defineStore(idStore, () => {
     }
 
 
-    async function savePresenciaNotarial(item: Presencia) {
+    async function savePresenciaNotarial(item) {
         const {
             data: {data, message, status},
         }: ResponseByEntity<Presencia> = await axios.post(`${apiResource}`, item);
         return {presencial_notarial: data, message, status};
     }
 
-    async function updatePresenciaNotarial(id: String, item: Presencia) {
+    async function updatePresenciaNotarial(id: String, item) {
         const {
             data: {data, message, status},
         }: ResponseByEntity<Presencia> = await axios.put(

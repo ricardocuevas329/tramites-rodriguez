@@ -2,7 +2,7 @@
 
 namespace App\Services\Protocolar;
 
-use App\Dtos\Kardex\StoreKardexDto;
+use App\Dtos\DetallePresencias\StoreDetallePresenciaDto;
 use App\Dtos\Presencias\StorePresenciaDto;
 use App\Dtos\Presencias\UpdatePresenciaDto;
 use App\Http\Resources\CollectionResource;
@@ -15,7 +15,9 @@ class PresenciaNotarialService
 {
 
 
-    public function __construct()
+    public function __construct(
+        protected DetallePresenciaNotarialService $detallePresenciaNotarialService
+    )
     {
     }
 
@@ -34,8 +36,22 @@ class PresenciaNotarialService
 
     public function store(StorePresenciaDto $dto): Presencia
     {
+
+        $details = $dto->details;
         $payload = new Presencia($dto->toArray());
         $payload->save();
+        foreach ($details as $k => $item) {
+            $this->detallePresenciaNotarialService->store(
+                new StoreDetallePresenciaDto(
+                    s_referencia: $payload->s_codigo
+                    , s_actonotarial: $item['servicio']
+                    , s_descripcion: $item['servicio_name']
+                    , s_hora_inicio: $item['hora_inicio']
+                    , s_hora_fin: $item['hora_fin'], d_fechapresen: $item['fecha'], s_asitente: $item['procurador']
+                    , s_observacion: $item['descripcion']
+                )
+            );
+        }
         return $payload;
     }
 

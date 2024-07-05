@@ -26,6 +26,20 @@ class ServicioService
     }
 
 
+    public function getActivesAllFast(Request $request)
+    {
+        $filtro = $request->search;
+        $data = Servicio::orderBy('s_nombre', 'asc')
+            ->Filtros($filtro)
+            ->active()
+            ->fast()
+            ->limit(5)
+            ->get();
+
+        return CollectionResource::collection($data);
+    }
+
+
     public function store(ServicioDto $dto): Servicio
     {
         $tableName = (new Servicio())->getTable();

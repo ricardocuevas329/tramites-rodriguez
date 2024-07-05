@@ -15,11 +15,10 @@ class StorePresenciaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'i_tipopago' => 'required',
-            's_contacto' => 'required',
-            's_facturado' => 'required',
-            's_observacion' => 'required',
-            's_referente' => 'required',
+            'solicitante' => 'required',
+            'empresa' => 'required',
+            'contacto' => 'required',
+            'details' => 'array',
         ];
     }
 }

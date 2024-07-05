@@ -28,10 +28,18 @@ class ServicieController extends Controller
     }
 
 
+
+
+
     public function list(Request $request)
     {
         $this->verifyPermission($this->permissions, 'Activar Servicio');
         return $this->service->get($request);
+    }
+
+    public function listAllFast(Request $request)
+    {
+        return $this->service->getActivesAllFast($request);
     }
 
     public function store(StoreServicioRequest $request)

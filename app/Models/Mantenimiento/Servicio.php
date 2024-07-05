@@ -36,6 +36,16 @@ class Servicio extends Model
 		'i_estado'
 	];
 
+    public function scopeActive($query)
+    {
+         return $query->where('i_estado', 1);
+    }
+
+    public function scopeFast($query)
+    {
+        return $query->where('i_rapidos', 1);
+    }
+
     public function scopeNombre($query, $value)
     {
           if($value){
@@ -46,8 +56,7 @@ class Servicio extends Model
     public function scopeFiltros(Builder $query, $search)
     {
         if ($search) {
-            return $query->Where('s_codigo', 'LIKE', '%' . $search . '%')
-                ->orWhere('s_nombre', 'LIKE', '%' . $search . '%')
+            return $query->Where('s_nombre', 'LIKE', '%' . $search . '%')
                 ->orWhere('s_descripcion', 'LIKE', '%' . $search . '%')
                 ->orWhere('s_generico', 'LIKE', '%' . $search . '%');
         }

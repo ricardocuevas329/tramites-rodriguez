@@ -5,6 +5,7 @@ namespace App\Models\Protocolar;
 use App\Models\Entidad\Cliente;
 use App\Models\Entidad\Empresa;
 use App\Models\User;
+use App\Traits\GenerateCode;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\{HasOne, HasMany};
@@ -28,6 +29,7 @@ use Illuminate\Support\Facades\Auth;
  */
 class Presencia extends Model
 {
+    use GenerateCode;
     protected $table = 'presencias';
     protected $primaryKey = 's_codigo';
     public $incrementing = false;

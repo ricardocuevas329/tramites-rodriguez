@@ -4,6 +4,7 @@
 namespace App\Models\Protocolar;
 
 use App\Models\User;
+use App\Traits\GenerateCode;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -30,6 +31,7 @@ use Illuminate\Support\Facades\Auth;
  */
 class DetallePresencia extends Model
 {
+    use GenerateCode;
     protected $table = 'detalle_presencias';
     protected $primaryKey = 's_codigo';
     public $incrementing = false;
@@ -65,7 +67,7 @@ class DetallePresencia extends Model
             $payload->s_codigo = $cod;
             $payload->i_estado = 1;
             $payload->d_fechapresen = date('Y-m-d');
-            $payload->s_asitente = Auth::user()->s_codigo;
+            //$payload->s_asitente = Auth::user()->s_codigo;
         });
 
     }

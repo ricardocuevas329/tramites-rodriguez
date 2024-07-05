@@ -12,6 +12,8 @@ export const useServicioStore = defineStore(idStore, () => {
     const Servicios = ref<Servicio[]>([]);
     const isLoading = ref<boolean>(false);
     const pagination = ref<Pagination>();
+    const ServicesResults = ref<Servicio[]>([]);
+
     async function listarServicio(search: string = "") {
         try {
             isLoading.value = true;
@@ -75,7 +77,23 @@ export const useServicioStore = defineStore(idStore, () => {
         return { Servicio: data, message, status };
     }
 
+    async function searchServicesActivesAllFast(search: string = '') {
+        try {
+            isLoading.value = true;
+            const {
+                data: { data, meta },
+            }: ResponseList<Servicio> = await axios.get(
+                `${apiResource}/list/actives/all/fast?search=${search}`
+            );
+            ServicesResults.value = data;
+        } catch (error) {
+        } finally {
+            isLoading.value = false;
+        }
+    }
     return {
+        searchServicesActivesAllFast,
+        ServicesResults,
         Servicios,
         pagination,
         isLoading,

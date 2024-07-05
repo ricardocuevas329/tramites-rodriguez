@@ -66,6 +66,8 @@ Route::put('/service/{service} ', [ServicieController::class, 'update']);
 Route::get('/service/{service} ', [ServicieController::class, 'findById']);
 Route::put('/service/disabled/{service} ', [ServicieController::class, 'disabled']);
 Route::put('/service/enabled/{service} ', [ServicieController::class, 'enabled']);
+Route::get('/service/list/actives/all/fast ', [ServicieController::class, 'listAllFast']);
+
 
 # Banco Deposito
 Route::get('/banco-deposito', [BankDepositController::class, 'listar']);
