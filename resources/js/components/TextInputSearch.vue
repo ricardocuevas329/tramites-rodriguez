@@ -1,5 +1,5 @@
 <template>
-    <div class="relative mx-2">
+    <div class="flex">
         <SearchIcon />
         <input
             v-bind="$attrs"
