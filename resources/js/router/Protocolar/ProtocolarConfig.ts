@@ -6,6 +6,7 @@ const folder = "Protocolar";
 const pages = {
     _TRAMITE_: "Tramite",
     _PRESENCIA_NOTARIALES_: "PresenciaNotarial",
+    _PROCURADORES_: "Procurador",
 };
 
 /**  Configuracion de todas la rutas de este modulo */
@@ -63,5 +64,20 @@ export const configProtocolar = {
             file: `Edit-${pages._PRESENCIA_NOTARIALES_}`,
         },
     },
+    _PROCURADORES_: {
+        folder: folder,
+        page: pages._PROCURADORES_,
+        listar: {
+            path: `/${pages._PROCURADORES_}`,
+            name: `List-${folder}-${pages._PROCURADORES_}`,
+            file: `List-${pages._PROCURADORES_}`,
+        },
+        detail: {
+            path: `/${pages._PROCURADORES_}/detail/:id`,
+            name: `Detail-${folder}-${pages._PROCURADORES_}`,
+            file: `Detail-${pages._PROCURADORES_}`,
+        },
+    },
+
 }
 

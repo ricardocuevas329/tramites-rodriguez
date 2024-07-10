@@ -45,7 +45,8 @@
               <th>Fecha</th>
               <th>Hora Inicio</th>
               <th>Hora Fin</th>
-              <th>Procurador Direc</th>
+              <th>Procurador</th>
+              <th>Direcccion</th>
               <th>Distrito</th>
               <th>Observacion</th>
             </tr>

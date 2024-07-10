@@ -64,7 +64,9 @@
                         <li>
                           <router-link :to="configProtocolar._TRAMITE_.listar.path">Trámites</router-link>
                         </li>
-
+                          <li>
+                              <router-link :to="configProtocolar._PROCURADORES_.listar.path">Procuradores</router-link>
+                          </li>
                       </ul>
                     </div>
                   </div>

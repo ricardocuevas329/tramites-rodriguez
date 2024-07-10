@@ -14,17 +14,16 @@ class StoreParticipanteRequest extends FormRequest
      */
     public function rules(): array
     {
-        ParticipantItems::REPRESENTANTE;
         return [
-            'i_condicion' => 'required', 
-            'i_firma' => 'required',  
-            'i_permiso' => 'nullable',  
-            's_edad' => 'required',  
-            's_observacion' => 'nullable',  
-            's_participante' => 'nullable',  
+            'i_condicion' => 'required',
+            'i_firma' => 'required',
+            'i_permiso' => 'nullable',
+            's_edad' => 'required',
+            's_observacion' => 'nullable',
+            's_participante' => 'nullable',
             's_partida' => 'required_if:i_condicion,6',
             's_sede_reg' => 'required_if:i_condicion,6',
-            'cliente' => 'nullable',      
+            'cliente' => 'nullable',
         ];
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Protocolar\{KardexController, TipoKardexController, TramiteController, PresenciaNotarialController};
+use App\Http\Controllers\Protocolar\{ProcuradorController, KardexController, TipoKardexController, TramiteController, PresenciaNotarialController};
 
 # Kardex
 
@@ -30,3 +30,10 @@ Route::get('/presencia-notarial/{id}', [PresenciaNotarialController::class, 'fin
 Route::post('/presencia-notarial', [PresenciaNotarialController::class, 'store']);
 Route::put('/presencia-notarial/{id}', [PresenciaNotarialController::class, 'update']);
 
+# Procuradores
+Route::get('/procurador', [ProcuradorController::class, 'list']);
+Route::get('/procurador/{id}', [ProcuradorController::class, 'findById']);
+Route::post('/procurador/save/documents/init/{id}', [ProcuradorController::class, 'initUploadDocuments']);
+Route::post('/procurador/save/documents/finish/{id}', [ProcuradorController::class, 'finishUploadDocuments']);
+Route::put('/procurador/save/init/{id}', [ProcuradorController::class, 'saveInit']);
+Route::put('/procurador/save/finish/{id}', [ProcuradorController::class, 'saveFinish']);

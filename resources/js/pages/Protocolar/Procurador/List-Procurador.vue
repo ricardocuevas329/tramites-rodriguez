@@ -1,8 +1,8 @@
 <template>
   <Container>
-    <div v-if="$route.name == configProtocolar._PRESENCIA_NOTARIALES_.listar.name">
+    <div v-if="$route.name == configProtocolar._PROCURADORES_.listar.name">
       <Card>
-        <Title>Presencias Notariales</Title>
+        <Title>Procuradores</Title>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  gap-2 my-4">
           <div class="col-span-3 md:col-span-2 lg:col-span-2 xlg:col-span-2">
             <TextInputSearch @input="filter()" @keyup="filter()" v-model="search" placeholder="Buscar..."/>
@@ -20,7 +20,6 @@
                 </li>
               </ul>
             </Options>
-            <button @click="onAdd()" class="btn  btn-md">NUEVO</button>
           </div>
         </div>
         <ContainerTable v-if="!isLoading">
@@ -36,7 +35,7 @@
             </THead>
             <tbody>
             <tr class="cursor-pointer hover:bg-gray-200" :class="idSelected === item.s_codigo && 'bg-gray-400'"
-              v-if="presenciaNotariales?.length"  v-for="(item, key) in presenciaNotariales" :key="key" @click="onViewDetail(item.s_codigo)">
+              v-if="procuradores?.length"  v-for="(item, key) in procuradores" :key="key" @click="onViewDetail(item.s_codigo)">
               <td>{{ item.d_fecha_registro }}</td>
               <td class="actions">{{ item.facturado_cliente?.nombre_compuesto }}{{ item.facturado_empresa?.nombre_compuesto }}</td>
               <td class="actions">{{ item.referente_cliente?.nombre_compuesto }}{{ item.referente_empresa?.nombre_compuesto }}</td>
@@ -50,11 +49,11 @@
             </tr>
             </tbody>
           </Table>
-          <ListEmpty v-if="presenciaNotariales?.length == 0"/>
+          <ListEmpty v-if="procuradores?.length == 0"/>
         </ContainerTable>
         <Skeleton v-if="isLoading" :tipo="2"/>
-        <Paginate v-if="presenciaNotariales?.length && !isLoading" :pagination="pagination"
-                  @paginate="listarPresenciaNotarial()"/>
+        <Paginate v-if="procuradores?.length && !isLoading" :pagination="pagination"
+                  @paginate="listarProcuradores()"/>
       </Card>
     </div>
 
@@ -82,11 +81,11 @@ import RefreshIcon from "vue-material-design-icons/Refresh.vue";
 import {configProtocolar} from "@/router/Protocolar/ProtocolarConfig";
 import {useKardexExternalStore} from "@/store/external/kardex.external";
 import {useRouter} from "vue-router";
-import {usePresenciaNotarialStore} from "@/store/presencia-notarial";
+import {useProcuradorStore} from "@/store/procurador";
 
 const {listKardexActives} = useKardexExternalStore()
-const {search, pagination, isLoading, presenciaNotariales} = toRefs(usePresenciaNotarialStore());
-const {listarPresenciaNotarial, cleanPagination} = usePresenciaNotarialStore();
+const {search, pagination, isLoading, procuradores} = toRefs(useProcuradorStore());
+const {listarProcuradores, cleanPagination} = useProcuradorStore();
 const idSelected = ref<string>('')
 const router = useRouter()
 
@@ -96,20 +95,15 @@ const filter = debounce(() => {
 
 const filterData = async () => {
   cleanPagination()
-  await listarPresenciaNotarial();
+  await listarProcuradores();
 }
 
-const onAdd = async() => {
-    await router.push({
-      name: configProtocolar._PRESENCIA_NOTARIALES_.add.name,
-    })
 
-}
 
 const onViewDetail = async(cod: string) => {
   idSelected.value = cod
   await router.push({
-    name: configProtocolar._PRESENCIA_NOTARIALES_.detail.name,
+    name: configProtocolar._PROCURADORES_.detail.name,
     params: {
       id: cod,
     }
@@ -121,8 +115,8 @@ const onViewDetail = async(cod: string) => {
 
 onMounted(() => {
   listKardexActives()
-  if (!presenciaNotariales.value.length) {
-    listarPresenciaNotarial();
+  if (!procuradores.value.length) {
+    listarProcuradores();
   }
 });
 </script>

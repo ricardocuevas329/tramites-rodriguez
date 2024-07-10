@@ -6,7 +6,7 @@
                    maxFileSize="50MB"
                    maxTotalFileSize="200MB" @deleteFile="onDeleteFile" @getFiles="onGetFiles"
                    accept="image/* , application/pdf"
-                   label="Arrastra so Agrega Documentos"/>
+                   label="Arrastra o Agrega Documentos"/>
   </ScrollView>
 </template>
 <script setup lang="ts">

@@ -112,6 +112,29 @@ const routerProtocolar = [
             },
         ]
     },
+    {
+        ...Config._PROCURADORES_.listar,
+        component: () =>
+            import(
+                `../../pages/${Config._PROCURADORES_.folder}/${Config._PROCURADORES_.page}/${Config._PROCURADORES_.listar.file}.vue`
+                ),
+        children: [
+            {
+                ...Config._PROCURADORES_.detail,
+                props: true,
+                component: () =>
+                    import(
+                        `../../pages/${Config._PROCURADORES_.folder}/${Config._PROCURADORES_.page}/${Config._PROCURADORES_.detail.file}.vue`
+                        ),
+                meta: {
+                    showModal: true,
+                    persistent: true,
+                    noLayout: true,
+                },
+            },
+        ]
+    },
+
 ];
 
 export default routerProtocolar;

@@ -1123,6 +1123,43 @@ export interface DetallePresencia {
     i_cantidad: number|null
     de_precio: number|null
     i_estado: number|null
+    // relations
+    asistente: User
+}
+
+export interface DetalleProcurador {
+    // columns
+    id: number
+    s_presencia: string|null
+    s_procurador: string|null
+    s_date_inicio: string|null
+    s_date_fin: string|null
+    s_anotacion: string|null
+    i_estado: boolean
+    created_at: string|null
+    updated_at: string|null
+    deleted_at: string|null
+    // relations
+    documentos_init: DetalleProcuradorDocument[]
+    documentos_finish: DetalleProcuradorDocument[]
+}
+
+export interface DetalleProcuradorDocument {
+    // columns
+    id: number
+    id_detalle_procurador: number|null
+    s_personal: string|null
+    file: string|null
+    name: string
+    type: string|null
+    size: number|null
+    i_estado: boolean
+    created_at: string|null
+    updated_at: string|null
+    deleted_at: string|null
+    tipo_doc: string|null
+    // relations
+    personal: User
 }
 
 export interface HistorialTramite {
@@ -1276,6 +1313,7 @@ export interface Presencia {
     referente_empresa: Empresa
     atendido: User
     detalle: DetallePresencium[]
+    detalle_procurador: DetalleProcurador
 }
 
 export interface RegistroPublico {

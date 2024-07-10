@@ -111,15 +111,21 @@ class Empresa extends Model
        return $query->where('i_estado', 1);
     }
 
-
+    public function scopeFilterNames($query, $value)
+    {
+        if ($value) {
+            return $query->where('s_nombre', 'LIKE', '%' . $value . '%')
+                ->orWhere('s_num_doc',  $value );
+        }
+    }
 
     public function scopeFilters($query, $value)
     {
         if ($value) {
             return $query->where('s_nombre', 'LIKE', '%' . $value . '%')
-                ->orWhere('s_num_doc', 'LIKE', '%' . $value . '%')
+                ->orWhere('s_num_doc',  $value )
 				->orWhere('s_direccion', 'LIKE', '%' . $value . '%')
-				->orWhere('s_celular', 'LIKE', '%' . $value . '%')
+				->orWhere('s_celular', $value )
 				->orWhere('s_email', 'LIKE', '%' . $value . '%');
         }
     }
