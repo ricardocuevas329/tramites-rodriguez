@@ -5,6 +5,7 @@ namespace App\Services\Protocolar;
 use App\Http\Requests\Protocolar\Tramite\StoreObervation;
 use App\Http\Resources\CollectionResource;
 use App\Models\External\Protocolar\ClientExternal;
+use App\Models\External\Protocolar\TramiteKardexExternalDocument;
 use App\Models\Protocolar\HistorialTramite;
 use App\Models\Mantenimiento\Situacion;
 use Illuminate\Http\Request;
@@ -69,4 +70,17 @@ class TramiteService
             ->paginate(100);
         return CollectionResource::collection($data);
     }
+
+    public function deleteDocumentById(string $id): TramiteKardexExternalDocument
+    {
+        $doc = TramiteKardexExternalDocument::findOrFail($id);
+        $doc->delete();
+        return $doc;
+    }
+
+    
+
+
+    
+
 }

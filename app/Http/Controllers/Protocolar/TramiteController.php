@@ -87,4 +87,14 @@ class TramiteController extends Controller
     {
         return $this->service->getAllObservationById($id);
     }
+
+
+    public function deleteDocumentById(string $id)
+    {
+
+        $doc = $this->service->deleteDocumentById($id);
+        return $this->success($doc, "Archivo Eliminado Correctamente");
+    }
+
+    
 }

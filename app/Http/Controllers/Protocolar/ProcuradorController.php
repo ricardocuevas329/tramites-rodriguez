@@ -7,7 +7,6 @@ use App\Dtos\DetalleProcurador\StoreDetalleProcuradorDto;
 use App\Dtos\DetalleProcurador\UpdateDetalleProcuradorDto;
 use App\Dtos\Presencias\StorePresenciaDto;
 use App\Dtos\Presencias\UpdatePresenciaDto;
-use App\Enums\ProcuradorDocumentsTypes;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Protocolar\Presencia\StorePresenciaRequest;
 use App\Http\Requests\Protocolar\Presencia\UpdatePresenciaRequest;
@@ -118,7 +117,7 @@ class ProcuradorController extends Controller
         if (count($documents)) {
             $dp = $this->detalleProcuradorService->finByIdPresencia($id);
             if ($dp) {
-                $data = $this->detalleProcuradorDocumentService->saveMany($documents, $dp->id, ProcuradorDocumentsTypes::INIT->value);
+                $data = $this->detalleProcuradorDocumentService->saveMany($documents, $dp->id);
                 if ($data) {
                     return $this->success($this->service->findById($id), "Documento Guardado Correctamente!");
                 }
@@ -133,28 +132,6 @@ class ProcuradorController extends Controller
         return $this->error("Intentelo Nuevamente!");
     }
 
-    public function finishUploadDocuments(string $id, Request $request): JsonResponse
-    {
-
-        $documents = (array) $request->documents;
-        if (count($documents)) {
-            $dp = $this->detalleProcuradorService->finByIdPresencia($id);
-            if ($dp) {
-                $data = $this->detalleProcuradorDocumentService->saveMany($documents, $dp->id, ProcuradorDocumentsTypes::FINISH->value);
-                if ($data) {
-                    return $this->success($this->service->findById($id), "Documento Guardado Correctamente!");
-                }
-            } else {
-                return $this->error("Primero dale en Iniciar");
-            }
-
-        } else {
-            return $this->error("Agregue Archivos!");
-        }
-
-        return $this->error("Intentelo Nuevamente!");
-
-    }
 
 
 }

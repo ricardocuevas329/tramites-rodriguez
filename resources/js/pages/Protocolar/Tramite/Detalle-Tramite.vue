@@ -80,7 +80,7 @@
                       @click="onUploadFileDocument()">ADJUNTAR DOCUMENTO
               </button>
             </div>
-            <DocumentFormDetalle :uploadFile="false" :documents="detailTramite?.files_notaria"/>
+            <DocumentFormDetalle :uploadFile="false" deleteFromServer :documents="detailTramite?.files_notaria"/>
           </div>
         </details>
 
@@ -268,7 +268,6 @@ import {
   Modal,
   TextArea, Center, UploaderFiles, BtnSave
 } from "@/components";
-import {debounce} from "../../../utils/debounce.js";
 import Button from "primevue/button";
 import {useTramiteStore} from "@/store/tramite";
 import {useCloseModal, useGenerateKeyRandom, useOpenModal} from "@/hooks/useUtils";

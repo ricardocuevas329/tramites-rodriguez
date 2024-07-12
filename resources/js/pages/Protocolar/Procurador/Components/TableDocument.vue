@@ -1,5 +1,5 @@
 <template>
-  <Table>
+  <Table :height="height">
     <THead>
     <tr>
       <th>Id</th>
@@ -28,8 +28,12 @@ const props = defineProps({
      default: [],
      type: Object as PropType<DetalleProcuradorDocument[]>,
      required: true
+   },
+   height: {
+     default: '',
+     type: String,
    }
 })
 
-const { data } = toRefs(props)
+const { data, height } = toRefs(props)
 </script>

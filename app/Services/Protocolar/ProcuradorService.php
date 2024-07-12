@@ -64,7 +64,7 @@ class ProcuradorService
 
     public function findById(string $id): Presencia|array
     {
-        return Presencia::with(['detalle_procurador.documentos_init','detalle_procurador.documentos_finish','contacto_cliente', 'contacto_empresa', 'facturado_cliente', 'facturado_empresa', 'referente_cliente', 'referente_empresa', 'detalle.asistente'])->findOrFail($id);
+        return Presencia::with(['detalle_procurador.documentos','contacto_cliente', 'contacto_empresa', 'facturado_cliente', 'facturado_empresa', 'referente_cliente', 'referente_empresa', 'detalle.asistente'])->findOrFail($id);
     }
 
 }

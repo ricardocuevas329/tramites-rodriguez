@@ -23,6 +23,9 @@ Route::post('/tramite/observation-external', [TramiteController::class, 'saveObs
 Route::post('/tramite/observation-internal', [TramiteController::class, 'saveObservationInternal']);
 Route::get('/tramite/getAllObservationById/{id}', [TramiteController::class, 'getAllObservationById']);
 Route::get('/tramite/get/byId/{id}', [TramiteController::class, 'getById']);
+Route::delete('/tramite/delete/document/{id}', [TramiteController::class, 'deleteDocumentById']);
+
+
 
 # Presencia Notarial
 Route::get('/presencia-notarial', [PresenciaNotarialController::class, 'list']);
@@ -34,6 +37,5 @@ Route::put('/presencia-notarial/{id}', [PresenciaNotarialController::class, 'upd
 Route::get('/procurador', [ProcuradorController::class, 'list']);
 Route::get('/procurador/{id}', [ProcuradorController::class, 'findById']);
 Route::post('/procurador/save/documents/init/{id}', [ProcuradorController::class, 'initUploadDocuments']);
-Route::post('/procurador/save/documents/finish/{id}', [ProcuradorController::class, 'finishUploadDocuments']);
 Route::put('/procurador/save/init/{id}', [ProcuradorController::class, 'saveInit']);
 Route::put('/procurador/save/finish/{id}', [ProcuradorController::class, 'saveFinish']);

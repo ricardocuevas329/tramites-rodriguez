@@ -86,6 +86,17 @@ export const useTramiteStore = defineStore(idStore, () => {
     }
 
 
+
+    async function deleteDocumentById(id: string) {
+        const {
+            data: { data, message,  status }, 
+        }: ResponseByEntity<any> = await axios.delete(
+            `${apiResource}/delete/document/${id}`);
+        return { file: data, message, status }
+
+    }
+
+
     function cleanPagination() {
         pagination.value = {
             current_page: 0,
@@ -110,6 +121,7 @@ export const useTramiteStore = defineStore(idStore, () => {
         getAllObservationById,
         getDetail,
         detailTramite,
-        isLoadingDetail
+        isLoadingDetail,
+        deleteDocumentById
     };
 });

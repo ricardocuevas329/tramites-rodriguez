@@ -53,16 +53,11 @@ class DetalleProcurador extends Model
 
     }
 
-    public function documentos_init(): hasMany
+    public function documentos(): hasMany
     {
-        return $this->hasMany(DetalleProcuradorDocument::class, 'id_detalle_procurador', 'id')
-            ->where('tipo_doc', ProcuradorDocumentsTypes::INIT->value)->orderBy('id','desc');
+        return $this->hasMany(DetalleProcuradorDocument::class, 'id_detalle_procurador', 'id')->orderBy('id','desc');
     }
-    public function documentos_finish(): hasMany
-    {
-        return $this->hasMany(DetalleProcuradorDocument::class, 'id_detalle_procurador', 'id')
-            ->where('tipo_doc', ProcuradorDocumentsTypes::FINISH->value)->orderBy('id','desc');
-    }
+ 
 
 
 }

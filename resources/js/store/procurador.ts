@@ -89,15 +89,7 @@ export const useProcuradorStore = defineStore(idStore, () => {
         return {procurador: data, message, status};
     }
 
-    async function saveFinishUpload(id: string, payload) {
-        const {
-            data: {data, message, status},
-        }: ResponseByEntity<Presencia> = await axios.post(
-            `${apiResource}/save/documents/finish/${id}`,
-            payload
-        );
-        return {procurador: data, message, status};
-    }
+ 
 
     function cleanPagination() {
         pagination.value = {
@@ -123,7 +115,6 @@ export const useProcuradorStore = defineStore(idStore, () => {
         cleanPagination,
         saveFinish,
         saveInit,
-        saveInitUpload,
-        saveFinishUpload
+        saveInitUpload
     };
 });

@@ -18,18 +18,16 @@ class DetalleProcuradorDocumentService
     }
 
 
-    public function store(StoreProcuradorDocumentoDto $dto, int $id_detalle_procurado, string $type): DetalleProcuradorDocument
+    public function store(StoreProcuradorDocumentoDto $dto, int $id_detalle_procurado): DetalleProcuradorDocument
     {
         $payload = new DetalleProcuradorDocument([
-            'id_detalle_procurador' => $id_detalle_procurado,
-            'tipo_doc' => $type
-            , ...$dto->toArray()
+            'id_detalle_procurador' => $id_detalle_procurado, ...$dto->toArray()
         ]);
         $payload->save();
         return $payload;
     }
 
-    public function saveMany(array|null $documents, int $id_detalle_procurado, string $type): bool
+    public function saveMany(array|null $documents, int $id_detalle_procurado): bool
     {
         $folder = 'procuradores-documents';
         if ($documents && count($documents)) {
@@ -43,7 +41,6 @@ class DetalleProcuradorDocumentService
                             type: $item['type'],
                         ),
                         $id_detalle_procurado,
-                        $type
                     );
                     $payload->save();
                 }
@@ -53,7 +50,6 @@ class DetalleProcuradorDocumentService
         }
 
         return false;
-
     }
 
 
@@ -67,6 +63,4 @@ class DetalleProcuradorDocumentService
     {
         return DetalleProcuradorDocument::find($id);
     }
-
-
 }

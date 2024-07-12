@@ -49,10 +49,9 @@
               <span v-else>
                 <i class="pi pi-eye-slash custom-hover eye-slash-icon mr-1 "></i>
               </span>
-              <a @click="showFileViewed(file)" target="_blank" class="btn custom-hover btn-outline btn-xs"
-                :href="file?.file">
+              <button @click="showFileViewed(file, index)" class="btn custom-hover btn-outline btn-xs">
                 VER<i class="pi pi-file"></i>
-              </a>
+              </button>
             </div>
           </div>
         </td>
@@ -65,9 +64,15 @@
         </td>
 
         <td>
-          <div v-if="uploadFile" class="card-actions justify-end">
+          <div v-if="uploadFile && !file?.id" class="card-actions justify-end">
             <div title="eliminar archivo">
-              <button @click="deleteFile(file, index)" class="btn btn-circle text-error btn-xs  btn-ghost"><i
+              <button @click="deleteFile(file, index)" class="btn btn-circle text-white btn-xs  btn-error"><i
+                  class="pi pi-times"></i></button>
+            </div>
+          </div>
+          <div v-if="deleteFromServer && file?.id" class="card-actions justify-end">
+            <div title="eliminar archivo">
+              <button :disabled="isLoadingDelete" @click="deleteFileFromServer(file, index)" class="btn btn-circle text-white btn-xs  btn-primary"><i
                   class="pi pi-times"></i></button>
             </div>
           </div>
@@ -91,7 +96,11 @@ import { Table, THead, VirtualScrollForm } from "@/components";
 import type { IUploadFile } from "@/models/components/upload-file.interface";
 import { type PropType } from "vue";
 import { useRouter } from "vue-router";
+import { useTramiteStore } from "@/store/tramite";
+import { notify } from "@kyvg/vue3-notification";
 
+
+const { deleteDocumentById  } = useTramiteStore()
 const props = defineProps({
   documents: {
     default: {},
@@ -102,32 +111,71 @@ const props = defineProps({
     default: true,
     require: false,
     type: Boolean,
+  },
+  deleteFromServer: {
+    default: false,
+    require: false,
+    type: Boolean,
   }
 });
-const { documents } = toRefs(props)
+const { documents, deleteFromServer, uploadFile } = toRefs(props)
 const fileInput = ref<any>(null);
 const files = ref<IUploadFile[]>([]);
 const apiResource = "/api/external/client";
 const router = useRouter()
+const isLoadingDelete = ref<boolean>(false);
 
 const deleteFile = async (file, index) => {
+    if (!confirm("Estas completamente seguro(a)?")) {
+      return false;
+    }
+  files.value.splice(index, 1)
+}
+
+const deleteFileFromServer = async (file, index) => {
   if (file.id) {
     if (!confirm("Estas completamente seguro(a)?")) {
       return false;
     }
-    /* const {status} = await axios.delete('/api/permission-travel/document/' + file.id)
-     if (status !== 200) return*/
+   
+    isLoadingDelete.value = true
+    try {
+      const {status , message} = await   deleteDocumentById(file.id)
+     if (status) {
+      files.value.splice(index, 1)
+      notify({
+        type: 'success',
+        title: 'Bien Hecho',
+        text: message
+      })
+    
+     }
+    } catch (error) {
+      isLoadingDelete.value = false
+    } finally{
+      setTimeout(() => {
+        isLoadingDelete.value = false
+      }, 1200);
+    }
+
+
   }
-  files.value.splice(index, 1)
+
 }
 
-const showFileViewed = (file) => {
+
+
+
+const showFileViewed = (file, index: number) => {
   try {
+    window.open(file.file, "")
     axios.post(`${apiResource}/get/estado-clic`, {
       id: file.id
     })
       .then(() => {
-        router.go(0);
+        if(!file?.estado_clic){
+          files.value[index].estado_clic = 1 
+        }
       })
       .catch((error) => {
         console.error('Error en la solicitud POST:', error);
